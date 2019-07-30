@@ -1,0 +1,37 @@
+{
+  "token": {
+    "is_domain": false,
+    "methods": ["password"],
+    "roles": [{
+      "id": "58d0cb3beb0c4247a25f0c6907c749bb",
+      "name": "admin"
+    }, {
+      "id": "af0e06a2e66646d3ae715c5cf8869856",
+      "name": "member"
+    }, {
+      "id": "b4571e50540f40d9bc27cc4e4801378f",
+      "name": "reader"
+    }
+    ],
+    "expires_at": "2019-07-26T21:10:24.000000Z",
+    "project": {
+      "domain": {
+        "id": "default",
+        "name": "Default"
+      },
+      "id": "151051e1adf745b5ad55d20e4db559ab",
+      "name": "admin"
+    },
+    "user": {
+      "password_expires_at": null,
+      "domain": {
+        "id": "default",
+        "name": "Default"
+      },
+      "id": "c711eb4e127d49618f7f156ae3abb6ae",
+      "name": "admin"
+    },
+    "audit_ids": ["yOSiwuCxQ-ehKUTO-SmAIA"],
+    "issued_at": "2019-07-26T20:10:24.000000Z"
+  }
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+<header th:fragment="header">
+    <div class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="navbar-collapse" id="navbarSupportedContent">
+            <div class="navbar-brand">Instance controller</div>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-link">
+                    Dashboard
+                </li>
+                <li class="nav-link">
+                    Inventory
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="os-dropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        OS Settings
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="os-dropdown">
+                        <a class="dropdown-item" href="#">Credentials</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Newtron</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Keystone</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Compute</a>
+                    </div>
+                </li>
+                <li class="nav-link">
+                    Inventory
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="endp-configs" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Endpoints configuration
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="endp-configs">
+                        <a class="dropdown-item" href="#">Notification</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">SSH configuration</a>
+                    </div>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0" id="global-search-form">
+                <input class="form-control mr-sm-2" type="search" placeholder="Put something to search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</header>
+</body>
+</html>
