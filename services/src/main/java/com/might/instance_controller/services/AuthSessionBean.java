@@ -13,6 +13,7 @@ public class AuthSessionBean {
     private String timeout;
 
     public AuthSessionBean() {
+        this.isConnected = false;
     }
 
     public String getToken() {

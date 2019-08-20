@@ -1,9 +1,10 @@
 package com.might.instance_controller.controllers;
 
+import com.might.instance_controller.annotations.RequireConnection;
 import com.might.instance_controller.services.ComputeService;
 import com.might.instance_controller.services.KeystoneServise;
 import com.might.instance_controller.services.OSProperties;
-import com.might.instance_controller.services.transport.Impl.RestResponse;
+import com.might.instance_controller.services.transport.impl.RestResponse;
 import com.might.instance_controller.services.transport.RESTService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,6 @@ import static com.might.instance_controller.services.OSProperties.TIMEOUT;
 import static com.might.instance_controller.services.OSProperties.TOKEN;
 
 import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
 
 @RestController
 @RequestMapping("login")
@@ -54,8 +54,11 @@ public class LoginController {
         return restResponse.getStringEntity();
     }
 
+    @RequireConnection
+    @GetMapping("/getServerList")
     public Object getServices(HttpServletResponse response) {
         RestResponse restResponse = (RestResponse) computeService.getListInstance();
+        return restResponse.getStringEntity();
     }
 
     @GetMapping

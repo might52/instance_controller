@@ -1,4 +1,4 @@
-package com.might.instance_controller.services.transport.Impl;
+package com.might.instance_controller.services.transport.impl;
 
 import com.sun.jersey.api.client.ClientResponse;
 
@@ -52,6 +52,7 @@ public class RestResponse implements Serializable {
     public String getStringEntity() {
         return stringEntity;
     }
+
     public ClientResponse getClientResponse() {
         return clientResponse;
     }

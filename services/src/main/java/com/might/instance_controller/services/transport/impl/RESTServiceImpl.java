@@ -1,4 +1,4 @@
-package com.might.instance_controller.services.transport.Impl;
+package com.might.instance_controller.services.transport.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,8 +14,10 @@ import org.springframework.stereotype.Service;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.ServiceUnavailableException;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -37,28 +39,32 @@ public class RESTServiceImpl implements RESTService, Serializable {
     /**
      * Perform get request to the destination endpoint.
      * @param endpointUrl - target url endpoint.
-     * @param objects - map of object for request.
+     * @param headers - headers for request.
      * @param <T> - hz wtf eto.
      * @return -
      */
     @Override
-    public <T> Object get(String endpointUrl, Map objects) {
+    public <T> Object get(String endpointUrl, MultivaluedMap<String, String> headers) {
+        ClientResponse clientResponse;
         RestResponse restResponse;
         try {
             WebResource webResource = this
                     .restClient
                     .resource(endpointUrl);
-            restResponse = webResource
+            WebResource.Builder builder = webResource.getRequestBuilder();
+            addHeaders(builder, headers);
+            LOGGER.info(String.format("Request url: %s", webResource.getURI()));
+            clientResponse = builder
                     .accept(MediaType.APPLICATION_JSON_TYPE)
-                    .get(RestResponse.class);
+                    .get(ClientResponse.class);
+            restResponse = new RestResponse(clientResponse);
             checkResponseStatus(restResponse);
         } catch (Exception ex) {
-            LOGGER.error(String.format("Headers: %s", ex));
+            LOGGER.error(String.format("Error: %s", ex));
             throw ex;
         }
         return restResponse;
     }
-
 
     /**
      * Perform post request to the destination endpoint.
@@ -72,13 +78,15 @@ public class RESTServiceImpl implements RESTService, Serializable {
         Map<String, Object> object = new HashMap<>();
         try {
             String body = getEntityString(objects);
-            LOGGER.info(String.format("Request body: %s", body));
             WebResource webResource = restClient.resource(endpointUrl);
+            LOGGER.info(String.format("Request url: %s", webResource.getURI()));
+            LOGGER.info(String.format("Request body: %s", body));
             clientResponse = webResource
                     .accept(MediaType.APPLICATION_JSON)
                     .entity(body, MediaType.APPLICATION_JSON)
                     .post(ClientResponse.class);
         } catch (Exception ex) {
+            LOGGER.error(String.format("Error: %s", ex));
             throw ex;
         }
         return new RestResponse(clientResponse);
@@ -160,4 +168,22 @@ public class RESTServiceImpl implements RESTService, Serializable {
                         responseStatus.value(), restResponse.toString()), null);
         }
     }
+
+    /**
+     * Add headers to the response.
+      * @param builder - builder of the request.
+     * @param headers - map of headers.
+     * @return - builder with headers.
+     */
+    private WebResource.Builder addHeaders(WebResource.Builder builder, MultivaluedMap<String, String> headers) {
+        LOGGER.debug("Headers: {}", headers);
+        for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
+            for (String value : entry.getValue()) {
+                builder.header(entry.getKey(), value);
+            }
+        }
+
+        return builder;
+    }
 }
+

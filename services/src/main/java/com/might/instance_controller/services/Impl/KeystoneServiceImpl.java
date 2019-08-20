@@ -4,7 +4,7 @@ import com.might.instance_controller.models.auth.request.*;
 import com.might.instance_controller.services.AuthSessionBean;
 import com.might.instance_controller.services.KeystoneServise;
 import com.might.instance_controller.services.OSProperties;
-import com.might.instance_controller.services.transport.Impl.RestResponse;
+import com.might.instance_controller.services.transport.impl.RestResponse;
 import com.might.instance_controller.services.transport.RESTService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +62,7 @@ public class KeystoneServiceImpl implements KeystoneServise {
      * @param restResponse - response after call.
      */
     private void setAuthDate(RestResponse restResponse){
-        if (StringUtils.isEmpty(restResponse.getHeaders().getFirst(TOKEN))){
+        if (!StringUtils.isEmpty(restResponse.getHeaders().getFirst("X-Subject-Token"))){
             authSessionBean.setConnected(true);
             authSessionBean.setToken(restResponse.getHeaders().getFirst(TOKEN));
             authSessionBean.setTimeout(restResponse.getHeaders().getFirst(TIMEOUT));
