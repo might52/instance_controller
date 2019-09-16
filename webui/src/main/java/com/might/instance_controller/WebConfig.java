@@ -1,7 +1,7 @@
 package com.might.instance_controller;
 
 import com.might.instance_controller.annotations.impl.RequireConnectionHandlerInterceptorAdapter;
-import com.might.instance_controller.services.AuthSessionBean;
+import com.might.instance_controller.utils.AuthSessionBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

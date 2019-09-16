@@ -1,9 +1,9 @@
 package com.might.instance_controller.services.Impl;
 
 import com.might.instance_controller.models.auth.request.*;
-import com.might.instance_controller.services.AuthSessionBean;
+import com.might.instance_controller.utils.AuthSessionBean;
 import com.might.instance_controller.services.KeystoneServise;
-import com.might.instance_controller.services.OSProperties;
+import com.might.instance_controller.utils.OSProperties;
 import com.might.instance_controller.services.transport.impl.RestResponse;
 import com.might.instance_controller.services.transport.RESTService;
 import org.slf4j.Logger;
@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import static com.might.instance_controller.services.OSProperties.TIMEOUT;
-import static com.might.instance_controller.services.OSProperties.TOKEN;
+import static com.might.instance_controller.utils.OSProperties.TIMEOUT;
+import static com.might.instance_controller.utils.OSProperties.TOKEN;
 
 import java.util.ArrayList;
 import java.util.HashMap;

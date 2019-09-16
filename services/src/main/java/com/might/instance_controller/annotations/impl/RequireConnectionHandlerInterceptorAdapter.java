@@ -2,12 +2,10 @@ package com.might.instance_controller.annotations.impl;
 
 
 import com.might.instance_controller.annotations.RequireConnection;
-import com.might.instance_controller.services.AuthSessionBean;
-import org.apache.tomcat.websocket.AuthenticationException;
+import com.might.instance_controller.utils.AuthSessionBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;

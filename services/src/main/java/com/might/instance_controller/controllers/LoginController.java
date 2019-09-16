@@ -3,7 +3,7 @@ package com.might.instance_controller.controllers;
 import com.might.instance_controller.annotations.RequireConnection;
 import com.might.instance_controller.services.ComputeService;
 import com.might.instance_controller.services.KeystoneServise;
-import com.might.instance_controller.services.OSProperties;
+import com.might.instance_controller.utils.OSProperties;
 import com.might.instance_controller.services.transport.impl.RestResponse;
 import com.might.instance_controller.services.transport.RESTService;
 import org.slf4j.Logger;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.might.instance_controller.services.OSProperties.TIMEOUT;
-import static com.might.instance_controller.services.OSProperties.TOKEN;
+import static com.might.instance_controller.utils.OSProperties.TIMEOUT;
+import static com.might.instance_controller.utils.OSProperties.TOKEN;
 
 import javax.servlet.http.HttpServletResponse;
 

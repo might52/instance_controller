@@ -1,8 +1,8 @@
 package com.might.instance_controller.services.Impl;
 
-import com.might.instance_controller.services.AuthSessionBean;
+import com.might.instance_controller.utils.AuthSessionBean;
 import com.might.instance_controller.services.ComputeService;
-import com.might.instance_controller.services.OSProperties;
+import com.might.instance_controller.utils.OSProperties;
 import com.might.instance_controller.services.transport.impl.RestResponse;
 import com.might.instance_controller.services.transport.RESTService;
 import org.slf4j.Logger;

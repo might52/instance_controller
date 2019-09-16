@@ -1,4 +1,4 @@
-package com.might.instance_controller.services;
+package com.might.instance_controller.utils;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;

@@ -1,4 +1,4 @@
-package com.might.instance_controller.services;
+package com.might.instance_controller.utils;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
