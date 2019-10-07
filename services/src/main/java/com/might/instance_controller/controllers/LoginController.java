@@ -2,7 +2,7 @@ package com.might.instance_controller.controllers;
 
 import com.might.instance_controller.annotations.RequireConnection;
 import com.might.instance_controller.services.ComputeService;
-import com.might.instance_controller.services.KeystoneServise;
+import com.might.instance_controller.services.KeystoneService;
 import com.might.instance_controller.utils.OSProperties;
 import com.might.instance_controller.services.transport.impl.RestResponse;
 import com.might.instance_controller.services.transport.RESTService;
@@ -28,17 +28,17 @@ public class LoginController {
 
     private RESTService restService;
     private OSProperties osProperties;
-    private KeystoneServise keystoneServise;
+    private KeystoneService keystoneService;
     private ComputeService computeService;
 
     @Autowired
     public LoginController(RESTService restService,
                            OSProperties osProperties,
-                           KeystoneServise keystoneServise,
+                           KeystoneService keystoneService,
                            ComputeService computeService) {
         this.restService = restService;
         this.osProperties = osProperties;
-        this.keystoneServise = keystoneServise;
+        this.keystoneService = keystoneService;
         this.computeService = computeService;
     }
 
@@ -48,7 +48,7 @@ public class LoginController {
 
     @GetMapping("/getToken")
     public Object auth(HttpServletResponse response){
-        RestResponse restResponse = (RestResponse) keystoneServise.authenticate();
+        RestResponse restResponse = (RestResponse) keystoneService.authenticate();
         response.addHeader(TOKEN, restResponse.getHeaders().getFirst(TOKEN));
         response.addHeader(TIMEOUT, restResponse.getHeaders().getFirst(TIMEOUT));
         return restResponse.getStringEntity();

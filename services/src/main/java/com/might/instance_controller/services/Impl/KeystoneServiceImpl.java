@@ -1,8 +1,7 @@
 package com.might.instance_controller.services.Impl;
-
-import com.might.instance_controller.models.auth.request.*;
+import com.might.instance_controller.models.auth.*;
 import com.might.instance_controller.utils.AuthSessionBean;
-import com.might.instance_controller.services.KeystoneServise;
+import com.might.instance_controller.services.KeystoneService;
 import com.might.instance_controller.utils.OSProperties;
 import com.might.instance_controller.services.transport.impl.RestResponse;
 import com.might.instance_controller.services.transport.RESTService;
@@ -20,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class KeystoneServiceImpl implements KeystoneServise {
+public class KeystoneServiceImpl implements KeystoneService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KeystoneServiceImpl.class);
 

@@ -34,6 +34,7 @@ public class ComputeServiceImpl implements ComputeService {
         MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         headers.putSingle(OSProperties.TONKEN_NAME, authSessionBean.getToken());
         RestResponse restResponse = (RestResponse) restService.get(osProperties.OS_COMPUTE_URL, headers);
+        LOGGER.info(restResponse.getStringEntity());
         return restResponse;
     }
 }

@@ -26,7 +26,7 @@ public class RestResponse implements Serializable {
         this(clientResponse, null);
     }
 
-    public RestResponse(ClientResponse clientResponse, String encoding){
+    public RestResponse(ClientResponse clientResponse, String encoding) {
         this.clientResponse = clientResponse;
         this.stringEntity = null;
         try {

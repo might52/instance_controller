@@ -63,6 +63,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
             LOGGER.error(String.format("Error: %s", ex));
             throw ex;
         }
+
         return restResponse;
     }
 
@@ -75,7 +76,6 @@ public class RESTServiceImpl implements RESTService, Serializable {
      */
     public <T> Object post(String endpointUrl, Map objects) {
         ClientResponse clientResponse;
-        Map<String, Object> object = new HashMap<>();
         try {
             String body = getEntityString(objects);
             WebResource webResource = restClient.resource(endpointUrl);
@@ -89,6 +89,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
             LOGGER.error(String.format("Error: %s", ex));
             throw ex;
         }
+
         return new RestResponse(clientResponse);
     }
 

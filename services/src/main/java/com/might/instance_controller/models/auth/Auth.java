@@ -1,4 +1,4 @@
-package com.might.instance_controller.models.auth.request;
+package com.might.instance_controller.models.auth;
 
 import javax.ws.rs.Produces;
 import java.io.Serializable;
