@@ -37,7 +37,7 @@ public class KeystoneServiceImpl implements KeystoneService {
     }
 
     /**
-     *
+     * Provide the state of the connection.
      * @return state of connection to the Keystone.
      */
     public Boolean isConnected() {
@@ -49,9 +49,7 @@ public class KeystoneServiceImpl implements KeystoneService {
      * @return RestResponse object;
      */
     public Object authenticate() {
-        Map<String, Object>  authMap = new HashMap<>();
-        authMap.put("auth", getAuthModel());
-        RestResponse response = (RestResponse) restService.post(osProperties.OS_AUTH_URL, authMap);
+        RestResponse response = (RestResponse) restService.post(osProperties.OS_AUTH_URL, getAuthModel());
         setAuthDate(response);
         return response;
     }

@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface RESTService  {
     <T> Object get(String endpointUrl, MultivaluedMap<String, String> headers);
-    <T> Object post(String endpointUrl, Map objects);
-    <T> T update(String endpointUrl, Map objects);
-    <T> T delete(String endpointUrl, Map objects);
+    <T> Object post(String endpointUrl, Object object);
+    <T> T update(String endpointUrl, Object object);
+    <T> T delete(String endpointUrl, Object object);
 }

@@ -27,30 +27,28 @@
             <artifactId>spring-security-crypto</artifactId>
             <version>3.1.0.RELEASE</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-client -->
-        <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client -->
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-client</artifactId>
             <version>1.19.4</version>
         </dependency>
-<!--        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-json-jackson</artifactId>
-            <version>2.29</version>
-        </dependency>-->
 
+        <!--
+        FIXME: Should be checked and removed
+        https://mvnrepository.com/artifact/com.sun.jersey/jersey-client
+        https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client
+
+        <dependency>
+                    <groupId>com.fasterxml.jackson.jaxrs</groupId>
+                    <artifactId>jackson-jaxrs-json-provider</artifactId>
+                    <version>2.3.0</version>
+        </dependency>
+        -->
         <dependency>
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
             <version>2.29</version>
         </dependency>
-
-<!--        <dependency>
-            <groupId>com.fasterxml.jackson.jaxrs</groupId>
-            <artifactId>jackson-jaxrs-json-provider</artifactId>
-            <version>2.3.0</version>
-        </dependency>-->
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -65,22 +63,11 @@
         </dependency>
 -->
 
-<!--        <dependency>
+        <!--
+        <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-json</artifactId>
             <version>1.19.4</version>
         </dependency>-->
-<!--        <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>2.29</version>
-        </dependency>-->
-
-<!--        <dependency>
-            <groupId>org.glassfish.jersey.connectors</groupId>
-            <artifactId>jersey-jetty-connector</artifactId>
-            <version>2.29</version>
-        </dependency>
-        -->
     </dependencies>
 </project>

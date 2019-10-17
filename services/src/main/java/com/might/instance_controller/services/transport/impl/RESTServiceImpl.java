@@ -70,14 +70,14 @@ public class RESTServiceImpl implements RESTService, Serializable {
     /**
      * Perform post request to the destination endpoint.
      * @param endpointUrl - target url source.
-     * @param objects - object for.
+     * @param object - object for.
      * @param <T> - hz wtf eto.
      * @return entity object of response.
      */
-    public <T> Object post(String endpointUrl, Map objects) {
+    public <T> Object post(String endpointUrl, Object object) {
         ClientResponse clientResponse;
         try {
-            String body = getEntityString(objects);
+            String body = getEntityString(object);
             WebResource webResource = restClient.resource(endpointUrl);
             LOGGER.info(String.format("Request url: %s", webResource.getURI()));
             LOGGER.info(String.format("Request body: %s", body));
@@ -89,15 +89,14 @@ public class RESTServiceImpl implements RESTService, Serializable {
             LOGGER.error(String.format("Error: %s", ex));
             throw ex;
         }
-
         return new RestResponse(clientResponse);
     }
 
-    public <T> T update(String endpointUrl, Map objects) {
+    public <T> T update(String endpointUrl, Object object) {
         return null;
     }
 
-    public <T> T delete(String endpointUrl, Map objects) {
+    public <T> T delete(String endpointUrl, Object object) {
         return null;
     }
 
@@ -106,10 +105,12 @@ public class RESTServiceImpl implements RESTService, Serializable {
      * @param params
      * @return string representation of object.
      */
-    private String getEntityString(Map params){
+    private String getEntityString(Object params){
         String result = "";
         try {
-            result = jsonSerializer.writeValueAsString(params);
+            Map<String, Object> map = new HashMap<>();
+            map.put(params.getClass().getSimpleName().toLowerCase(), params);
+            result = jsonSerializer.writeValueAsString(map);
         } catch (JsonProcessingException ex) {
 
         }
