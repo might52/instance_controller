@@ -2,6 +2,7 @@ package com.might.instance_controller.services.transport.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.might.instance_controller.services.transport.RESTService;
 import com.sun.jersey.api.client.*;
 import org.slf4j.Logger;
@@ -16,7 +17,6 @@ import javax.ws.rs.ServiceUnavailableException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -108,9 +108,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
     private String getEntityString(Object params){
         String result = "";
         try {
-            Map<String, Object> map = new HashMap<>();
-            map.put(params.getClass().getSimpleName().toLowerCase(), params);
-            result = jsonSerializer.writeValueAsString(map);
+            result = jsonSerializer.writeValueAsString(params);
         } catch (JsonProcessingException ex) {
 
         }
@@ -126,6 +124,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
      */
     private void initSerializer() {
         this.jsonSerializer = new ObjectMapper();
+        this.jsonSerializer.enable(SerializationFeature.WRAP_ROOT_VALUE);
     }
 
     /**

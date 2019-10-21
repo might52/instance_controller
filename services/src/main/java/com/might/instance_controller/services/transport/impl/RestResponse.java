@@ -1,18 +1,16 @@
 package com.might.instance_controller.services.transport.impl;
 
 import com.sun.jersey.api.client.ClientResponse;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.NewCookie;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.util.List;
 
 
 public class RestResponse implements Serializable {
@@ -22,7 +20,7 @@ public class RestResponse implements Serializable {
     private ClientResponse clientResponse;
     private String stringEntity;
 
-    public RestResponse(ClientResponse clientResponse){
+    public RestResponse(ClientResponse clientResponse) {
         this(clientResponse, null);
     }
 

@@ -1,9 +1,12 @@
 package com.might.instance_controller.models.auth;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import javax.ws.rs.Produces;
 import java.io.Serializable;
 
 @Produces
+@JsonRootName(value = "auth")
 public class Auth implements Serializable {
     private Identity identity;
     private Scope scope;
