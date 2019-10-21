@@ -1,22 +1,21 @@
 package com.might.instance_controller.services.Impl;
+
 import com.might.instance_controller.models.auth.*;
-import com.might.instance_controller.utils.AuthSessionBean;
 import com.might.instance_controller.services.KeystoneService;
-import com.might.instance_controller.utils.OSProperties;
-import com.might.instance_controller.services.transport.impl.RestResponse;
 import com.might.instance_controller.services.transport.RESTService;
+import com.might.instance_controller.services.transport.impl.RestResponse;
+import com.might.instance_controller.utils.AuthSessionBean;
+import com.might.instance_controller.utils.OSProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
+
 import static com.might.instance_controller.utils.OSProperties.TIMEOUT;
 import static com.might.instance_controller.utils.OSProperties.TOKEN;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class KeystoneServiceImpl implements KeystoneService {
@@ -38,6 +37,7 @@ public class KeystoneServiceImpl implements KeystoneService {
 
     /**
      * Provide the state of the connection.
+     *
      * @return state of connection to the Keystone.
      */
     public Boolean isConnected() {
@@ -46,6 +46,7 @@ public class KeystoneServiceImpl implements KeystoneService {
 
     /**
      * Authenticate customer to the OS.
+     *
      * @return RestResponse object;
      */
     public Object authenticate() {
@@ -56,10 +57,11 @@ public class KeystoneServiceImpl implements KeystoneService {
 
     /**
      * Set authData during the current session.
+     *
      * @param restResponse - response after call.
      */
-    private void setAuthDate(RestResponse restResponse){
-        if (!StringUtils.isEmpty(restResponse.getHeaders().getFirst("X-Subject-Token"))){
+    private void setAuthDate(RestResponse restResponse) {
+        if (!StringUtils.isEmpty(restResponse.getHeaders().getFirst("X-Subject-Token"))) {
             authSessionBean.setConnected(true);
             authSessionBean.setToken(restResponse.getHeaders().getFirst(TOKEN));
             authSessionBean.setTimeout(restResponse.getHeaders().getFirst(TIMEOUT));
@@ -72,9 +74,10 @@ public class KeystoneServiceImpl implements KeystoneService {
 
     /**
      * Generate the Auth model body.
+     *
      * @return the Auth model.
      */
-    private Auth getAuthModel(){
+    private Auth getAuthModel() {
         Auth auth = new Auth();
         Domain domain = new Domain();
         domain.setName(osProperties.OS_USER_DOMAIN_NAME);
@@ -85,7 +88,7 @@ public class KeystoneServiceImpl implements KeystoneService {
         Password password = new Password();
         password.setUser(user);
         Identity identity = new Identity();
-        identity.setMethods(new ArrayList<String>(){{
+        identity.setMethods(new ArrayList<String>() {{
             add("password");
         }});
         identity.setPassword(password);

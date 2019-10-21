@@ -38,7 +38,6 @@ public class ComputeServiceTest {
     @Test
     public void getListInstanceTestNotEmptyList(){
         Object obj = computeService.getListInstance();
-
         LOGGER.info(String.format("received object: %s", obj));
         Assert.assertNotNull(obj);
     }

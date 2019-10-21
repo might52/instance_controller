@@ -4,13 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.might.instance_controller.services.transport.RESTService;
-import com.sun.jersey.api.client.*;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.ServiceUnavailableException;
@@ -24,11 +25,10 @@ import java.util.Map;
 public class RESTServiceImpl implements RESTService, Serializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RESTServiceImpl.class);
-
-    private Client restClient;
-    private ObjectMapper jsonSerializer;
     private static final String CURLY_BRACES = "{}";
     private static final String ENCODING = "UTF-8";
+    private Client restClient;
+    private ObjectMapper jsonSerializer;
 
     @Autowired
     public RESTServiceImpl() {
@@ -38,9 +38,10 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     /**
      * Perform get request to the destination endpoint.
+     *
      * @param endpointUrl - target url endpoint.
-     * @param headers - headers for request.
-     * @param <T> - hz wtf eto.
+     * @param headers     - headers for request.
+     * @param <T>         - hz wtf eto.
      * @return -
      */
     @Override
@@ -69,9 +70,10 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     /**
      * Perform post request to the destination endpoint.
+     *
      * @param endpointUrl - target url source.
-     * @param object - object for.
-     * @param <T> - hz wtf eto.
+     * @param object      - object for.
+     * @param <T>         - hz wtf eto.
      * @return entity object of response.
      */
     public <T> Object post(String endpointUrl, Object object) {
@@ -102,10 +104,11 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     /**
      * Convert object to string JSON.
+     *
      * @param params
      * @return string representation of object.
      */
-    private String getEntityString(Object params){
+    private String getEntityString(Object params) {
         String result = "";
         try {
             result = jsonSerializer.writeValueAsString(params);
@@ -130,7 +133,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
     /**
      * Initialisation of rest client.
      */
-    private void initClient(){
+    private void initClient() {
         this.restClient = Client.create();
     }
 
@@ -172,7 +175,8 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     /**
      * Add headers to the response.
-      * @param builder - builder of the request.
+     *
+     * @param builder - builder of the request.
      * @param headers - map of headers.
      * @return - builder with headers.
      */
