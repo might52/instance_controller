@@ -1,6 +1,7 @@
 package com.might.instance_controller.services.transport.impl;
 
 import com.sun.jersey.api.client.ClientResponse;
+import org.omg.IOP.Encoding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

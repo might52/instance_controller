@@ -19,13 +19,13 @@ public class KeystoneServiceTest {
     private KeystoneService keystoneService;
 
     @Test
-    public void AuthenticateSuccessfullTest() {
+    public void authenticateSuccessfullTest() {
         RestResponse response = (RestResponse) keystoneService.authenticate();
         Assert.assertEquals(201, response.getStatus());
     }
 
     @Test
-    public void CheckConnectionStatusTrue() {
+    public void checkConnectionStatusTrue() {
         keystoneService.authenticate();
         Assert.assertEquals(true, keystoneService.isConnected());
     }
