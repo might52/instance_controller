@@ -40,7 +40,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring.boot.maven.plugin}</version>
                 <configuration>
-                    <mainClass>com.might.instance_controller.InstanceControllerApplication</mainClass>
+                    <mainClass>com.might.instancecontroller.InstanceControllerApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
