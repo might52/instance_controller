@@ -10,4 +10,6 @@ public class InstanceControllerApplication {
         SpringApplication app = new SpringApplication(InstanceControllerApplication.class);
         app.run(args);
     }
+
+    private InstanceControllerApplication() {}
 }

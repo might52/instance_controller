@@ -5,27 +5,30 @@ import com.might.instancecontroller.services.transport.impl.RestResponse;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
-@SpringBootTest(classes = KeystoneServiceTest.class)
-@ComponentScan({"com.might.instancecontroller.*"})
-@RunWith(SpringJUnit4ClassRunner.class)
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+@RunWith(MockitoJUnitRunner.class)
 public class KeystoneServiceTest {
 
-    @Autowired
+    @Mock
     private KeystoneService keystoneService;
 
     @Test
-    public void authenticateSuccessfullTest() {
+    public void canSuccessfullAuthenticate() {
+        when(keystoneService.authenticate()).thenReturn(mock(RestResponse.class));
         RestResponse response = (RestResponse) keystoneService.authenticate();
+        when(response.getStatus()).thenReturn(201);
         Assert.assertEquals(201, response.getStatus());
     }
 
     @Test
-    public void checkConnectionStatusTrue() {
+    public void canConnectToKeystoneService() {
+        when(keystoneService.authenticate()).thenReturn(new Object());
+        when(keystoneService.isConnected()).thenReturn(true);
         keystoneService.authenticate();
         Assert.assertEquals(true, keystoneService.isConnected());
     }

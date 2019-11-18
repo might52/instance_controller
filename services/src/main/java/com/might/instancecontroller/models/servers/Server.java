@@ -9,7 +9,7 @@ import java.util.Map;
 public class Server {
 
     private String taskState;
-    private Address addresses;
+    private List<Address> addresses;
     private List<Link> links;
     private Image image;
     private String vmState;
@@ -47,11 +47,11 @@ public class Server {
         this.taskState = taskState;
     }
 
-    public Address getAddresses() {
+    public List<Address> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(Address addresses) {
+    public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
 

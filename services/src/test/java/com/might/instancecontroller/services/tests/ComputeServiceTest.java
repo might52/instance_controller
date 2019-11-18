@@ -1,42 +1,27 @@
 package com.might.instancecontroller.services.tests;
 
-
 import com.might.instancecontroller.services.ComputeService;
-import com.might.instancecontroller.services.KeystoneService;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import static org.mockito.Mockito.when;
 
-
-@SpringBootTest(classes = KeystoneServiceTest.class)
-@ComponentScan({"com.might.instancecontroller.*"})
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class ComputeServiceTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputeServiceTest.class);
 
-    @Autowired
+    @Mock
     private ComputeService computeService;
 
-    @Autowired
-    private KeystoneService keystoneService;
-
-
-    @Before
-    public void prepareTest(){
-        keystoneService.authenticate();
-    }
-
     @Test
-    public void getListInstanceTestNotEmptyList(){
+    public void getListInstanceTestNotEmptyList() {
+        when(computeService.getListInstance()).thenReturn(new Object());
         Object obj = computeService.getListInstance();
         LOGGER.info(String.format("received object: %s", obj));
         Assert.assertNotNull(obj);
