@@ -15,16 +15,23 @@ import static org.mockito.Mockito.when;
 public class ComputeServiceTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputeServiceTest.class);
+    private static final String INSTANCE_ID = "5ff7252e-e6e8-40a1-97a1-9d8452cd7280";
 
     @Mock
     private ComputeService computeService;
 
     @Test
-    public void getListInstanceTestNotEmptyList() {
+    public void canGetNotEmptyInstanceList() {
         when(computeService.getListInstance()).thenReturn(new Object());
         Object obj = computeService.getListInstance();
         LOGGER.info(String.format("received object: %s", obj));
         Assert.assertNotNull(obj);
+    }
+
+    @Test
+    public void canGetInstanceStatus() {
+        String status = computeService.getInstanceStatus(INSTANCE_ID);
+        Assert.assertEquals("ACTIVE", status);
     }
 
 }

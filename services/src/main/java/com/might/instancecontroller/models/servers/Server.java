@@ -2,12 +2,12 @@ package com.might.instancecontroller.models.servers;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 @JsonRootName(value = "servers")
-public class Server {
-
+public class Server implements Serializable {
     private String taskState;
     private List<Address> addresses;
     private List<Link> links;

@@ -1,6 +1,9 @@
 package com.might.instancecontroller.services.transport.impl;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.might.instancecontroller.services.transport.RESTService;
@@ -17,6 +20,7 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.ServiceUnavailableException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +53,32 @@ public class RESTServiceImpl implements RESTService, Serializable {
      * @param <T>         - hz wtf eto.
      * @return -
      */
-    @Override
+    public <T> T get(String endpointUrl, MultivaluedMap<String, String> headers, TypeReference<T> type) {
+        RestResponse restResponse = (RestResponse) get(endpointUrl, headers);
+        return parseResponse(restResponse, type);
+    }
+
+    private <T> T parseResponse(RestResponse restResponse, TypeReference<T> type) {
+        try {
+            return jsonSerializer.readValue(restResponse.getClientResponse().getEntityInputStream(), type);
+        } catch (JsonParseException ex) {
+            LOGGER.error(String.format("JSON parse exception occurred: %s", ex.getMessage()));
+        } catch (JsonMappingException ex) {
+            LOGGER.error(String.format("JSON mapping exception occurred: %s", ex.getMessage()));
+        } catch (IOException ex) {
+            LOGGER.error(String.format("IOException exception occurred: %s", ex.getMessage()));
+        }
+        return null;
+    }
+
+    /**
+     * Perform get request to the destination endpoint.
+     *
+     * @param endpointUrl - target url endpoint.
+     * @param headers     - headers for request.
+     * @param <T>         - hz wtf eto.
+     * @return -
+     */
     public <T> Object get(String endpointUrl, MultivaluedMap<String, String> headers) {
         ClientResponse clientResponse;
         RestResponse restResponse;

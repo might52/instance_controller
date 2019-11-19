@@ -1,5 +1,8 @@
 package com.might.instancecontroller.services.impl;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.might.instancecontroller.annotations.RequireConnection;
+import com.might.instancecontroller.models.servers.Server;
 import com.might.instancecontroller.services.ComputeService;
 import com.might.instancecontroller.services.transport.RESTService;
 import com.might.instancecontroller.services.transport.impl.RestResponse;
@@ -30,11 +33,29 @@ public class ComputeServiceImpl implements ComputeService {
         this.authSessionBean = authSessionBean;
     }
 
+    @RequireConnection
     public Object getListInstance() {
-        MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
-        headers.putSingle(OSProperties.TONKEN_NAME, authSessionBean.getToken());
-        RestResponse restResponse = (RestResponse) restService.get(osProperties.getOsComputeUrl(), headers);
+        RestResponse restResponse = (RestResponse) restService.get(osProperties.getOsComputeUrl(), getAuthHeaders());
         LOGGER.info(restResponse.getStringEntity());
         return restResponse;
     }
+
+    @Override
+    public String getInstanceStatus(String instanceId) {
+        try {
+            Server server = restService.get(osProperties.getOsComputeUrl(), getAuthHeaders(), new TypeReference<Server>());
+            return server.getStatus();
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+
+    private MultivaluedMap getAuthHeaders() {
+        MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
+        headers.putSingle(OSProperties.TONKEN_NAME, authSessionBean.getToken());
+        return headers;
+    }
+
+
 }
