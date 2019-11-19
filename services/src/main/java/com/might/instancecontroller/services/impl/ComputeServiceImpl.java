@@ -43,7 +43,9 @@ public class ComputeServiceImpl implements ComputeService {
     @Override
     public String getInstanceStatus(String instanceId) {
         try {
-            Server server = restService.get(osProperties.getOsComputeUrl(), getAuthHeaders(), new TypeReference<Server>());
+            com.might.instancecontroller.models.servers.Server server = restService.get(osProperties.getOsComputeUrl(),
+                    getAuthHeaders(),
+                    new TypeReference<Server>() {});
             return server.getStatus();
         } catch (Exception ex) {
             return null;

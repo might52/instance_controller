@@ -5,7 +5,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import javax.ws.rs.core.MultivaluedMap;
 
 public interface RESTService {
-    <T> T get(String endpointUrl, MultivaluedMap<String, String> headers, TypeReference<T> type);
+
+    <T> T get(String endpointUrl, MultivaluedMap<String, String> headers, TypeReference<T> typeReference);
 
     <T> Object get(String endpointUrl, MultivaluedMap<String, String> headers);
 

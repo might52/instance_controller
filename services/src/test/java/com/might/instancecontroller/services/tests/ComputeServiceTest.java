@@ -1,6 +1,7 @@
 package com.might.instancecontroller.services.tests;
 
 import com.might.instancecontroller.services.ComputeService;
+import com.might.instancecontroller.services.InstanceStatus;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +32,7 @@ public class ComputeServiceTest {
     @Test
     public void canGetInstanceStatus() {
         String status = computeService.getInstanceStatus(INSTANCE_ID);
-        Assert.assertEquals("ACTIVE", status);
+        Assert.assertEquals(InstanceStatus.ACTIVE, status);
     }
 
 }

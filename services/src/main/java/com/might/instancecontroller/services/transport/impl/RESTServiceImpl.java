@@ -53,6 +53,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
      * @param <T>         - hz wtf eto.
      * @return -
      */
+    @Override
     public <T> T get(String endpointUrl, MultivaluedMap<String, String> headers, TypeReference<T> type) {
         RestResponse restResponse = (RestResponse) get(endpointUrl, headers);
         return parseResponse(restResponse, type);
@@ -68,6 +69,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
         } catch (IOException ex) {
             LOGGER.error(String.format("IOException exception occurred: %s", ex.getMessage()));
         }
+
         return null;
     }
 
@@ -79,6 +81,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
      * @param <T>         - hz wtf eto.
      * @return -
      */
+    @Override
     public <T> Object get(String endpointUrl, MultivaluedMap<String, String> headers) {
         ClientResponse clientResponse;
         RestResponse restResponse;
