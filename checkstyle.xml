@@ -15,7 +15,9 @@
             <property name="tokens" value="VARIABLE_DEF"/>
         </module>
 
-        <module name="HideUtilityClassConstructor"/>
+        <module name="HideUtilityClassConstructor">
+            <property name="severity" value="warning"/>
+        </module>
         <module name="LineLength">
             <property name="max" value="120"/>
             <property name="severity" value="info"/>

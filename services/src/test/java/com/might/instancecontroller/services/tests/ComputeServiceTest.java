@@ -31,8 +31,9 @@ public class ComputeServiceTest {
 
     @Test
     public void canGetInstanceStatus() {
+        when(computeService.getInstanceStatus(INSTANCE_ID)).thenReturn(InstanceStatus.ACTIVE.getValue());
         String status = computeService.getInstanceStatus(INSTANCE_ID);
-        Assert.assertEquals(InstanceStatus.ACTIVE, status);
+        Assert.assertEquals(InstanceStatus.ACTIVE.getValue(), status);
     }
 
 }

@@ -7,9 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class InstanceControllerApplication {
     public static void main(String[] args) {
 //        SpringApplication.run(InstanceControllerApplication.class, args);
-        SpringApplication app = new SpringApplication(InstanceControllerApplication.class);
+        final SpringApplication app = new SpringApplication(InstanceControllerApplication.class);
         app.run(args);
     }
-
-    private InstanceControllerApplication() {}
 }
