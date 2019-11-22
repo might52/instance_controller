@@ -1,15 +1,13 @@
 package com.might.instancecontroller.models.servers;
 
-import java.util.List;
-
 public class SecurityGroup {
-    private List<String> name;
+    private String name;
 
-    public List<String> getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(List<String> name) {
+    public void setName(String name) {
         this.name = name;
     }
 }

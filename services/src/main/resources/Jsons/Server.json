@@ -1,0 +1,83 @@
+{
+  "server": {
+    "OS-EXT-STS:task_state": null,
+    "addresses": {
+      "internal_network": [
+        {
+          "OS-EXT-IPS-MAC:mac_addr": "fa:16:3e:6d:58:59",
+          "version": 4,
+          "addr": "192.168.30.26",
+          "OS-EXT-IPS:type": "fixed"
+        }
+      ],
+      "external_network": [
+        {
+          "OS-EXT-IPS-MAC:mac_addr": "fa:16:3e:84:f6:4f",
+          "version": 4,
+          "addr": "192.168.20.102",
+          "OS-EXT-IPS:type": "fixed"
+        }
+      ]
+    },
+    "links": [
+      {
+        "href": "http://192.168.20.20:8774/v2.1/servers/5ff7252e-e6e8-40a1-97a1-9d8452cd7280",
+        "rel": "self"
+      },
+      {
+        "href": "http://192.168.20.20:8774/servers/5ff7252e-e6e8-40a1-97a1-9d8452cd7280",
+        "rel": "bookmark"
+      }
+    ],
+    "image": {
+      "id": "1884fe82-552b-4053-a3f6-111f969407b9",
+      "links": [
+        {
+          "href": "http://192.168.20.20:8774/images/1884fe82-552b-4053-a3f6-111f969407b9",
+          "rel": "bookmark"
+        }
+      ]
+    },
+    "OS-EXT-STS:vm_state": "active",
+    "OS-EXT-SRV-ATTR:instance_name": "instance-00000007",
+    "OS-SRV-USG:launched_at": "2019-04-16T19:31:41.000000",
+    "flavor": {
+      "id": "0b239a96-de37-4123-8839-62d7e585098f",
+      "links": [
+        {
+          "href": "http://192.168.20.20:8774/flavors/0b239a96-de37-4123-8839-62d7e585098f",
+          "rel": "bookmark"
+        }
+      ]
+    },
+    "id": "5ff7252e-e6e8-40a1-97a1-9d8452cd7280",
+    "security_groups": [
+      {
+        "name": "default"
+      },
+      {
+        "name": "default"
+      }
+    ],
+    "user_id": "c711eb4e127d49618f7f156ae3abb6ae",
+    "OS-DCF:diskConfig": "AUTO",
+    "accessIPv4": "",
+    "accessIPv6": "",
+    "progress": 0,
+    "OS-EXT-STS:power_state": 1,
+    "OS-EXT-AZ:availability_zone": "nova",
+    "config_drive": "",
+    "status": "ACTIVE",
+    "updated": "2019-05-22T18:16:22Z",
+    "hostId": "f042210dc3b48a2b0df658d5ad930e7cf570ffdc54cf34ab565604a9",
+    "OS-EXT-SRV-ATTR:host": "openstack.centos.local",
+    "OS-SRV-USG:terminated_at": null,
+    "key_name": null,
+    "OS-EXT-SRV-ATTR:hypervisor_hostname": "openstack.centos.local",
+    "name": "first_vm_node",
+    "created": "2019-04-16T19:31:17Z",
+    "tenant_id": "151051e1adf745b5ad55d20e4db559ab",
+    "os-extended-volumes:volumes_attached": [],
+    "metadata": {}
+  }
+}

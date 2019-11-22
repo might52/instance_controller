@@ -2,12 +2,12 @@ package com.might.instancecontroller.services.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.might.instancecontroller.annotations.RequireConnection;
-import com.might.instancecontroller.models.servers.Server;
+import com.might.instancecontroller.models.servers.Instance;
 import com.might.instancecontroller.services.ComputeService;
 import com.might.instancecontroller.services.transport.RESTService;
 import com.might.instancecontroller.services.transport.impl.RestResponse;
 import com.might.instancecontroller.utils.AuthSessionBean;
-import com.might.instancecontroller.utils.OSProperties;
+import com.might.instancecontroller.utils.OSUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,22 +20,22 @@ import javax.ws.rs.core.MultivaluedMap;
 public class ComputeServiceImpl implements ComputeService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputeServiceImpl.class);
 
-    private OSProperties osProperties;
+    private OSUtils osUtils;
     private RESTService restService;
     private AuthSessionBean authSessionBean;
 
     @Autowired
     public ComputeServiceImpl(RESTService restService,
-                              OSProperties osProperties,
+                              OSUtils osUtils,
                               AuthSessionBean authSessionBean) {
         this.restService = restService;
-        this.osProperties = osProperties;
+        this.osUtils = osUtils;
         this.authSessionBean = authSessionBean;
     }
 
     @RequireConnection
     public Object getListInstance() {
-        RestResponse restResponse = (RestResponse) restService.get(osProperties.getOsComputeUrl(), getAuthHeaders());
+        RestResponse restResponse = (RestResponse) restService.get(osUtils.getOsComputeUrl(), getAuthHeaders());
         LOGGER.info(restResponse.getStringEntity());
         return restResponse;
     }
@@ -43,10 +43,10 @@ public class ComputeServiceImpl implements ComputeService {
     @Override
     public String getInstanceStatus(String instanceId) {
         try {
-            com.might.instancecontroller.models.servers.Server server = restService.get(osProperties.getOsComputeUrl(),
+            Instance instance = restService.get(osUtils.getServerUrl(instanceId),
                     getAuthHeaders(),
-                    new TypeReference<Server>() {});
-            return server.getStatus();
+                    new TypeReference<Instance>() {});
+            return instance.getServer().getStatus();
         } catch (Exception ex) {
             return null;
         }
@@ -55,7 +55,7 @@ public class ComputeServiceImpl implements ComputeService {
 
     private MultivaluedMap getAuthHeaders() {
         MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
-        headers.putSingle(OSProperties.TONKEN_NAME, authSessionBean.getToken());
+        headers.putSingle(OSUtils.TONKEN_NAME, authSessionBean.getToken());
         return headers;
     }
 

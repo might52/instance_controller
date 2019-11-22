@@ -61,7 +61,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     private <T> T parseResponse(RestResponse restResponse, TypeReference<T> type) {
         try {
-            return jsonSerializer.readValue(restResponse.getClientResponse().getEntityInputStream(), type);
+            return jsonSerializer.readValue(restResponse.getStringEntity(), type);
         } catch (JsonParseException ex) {
             LOGGER.error(String.format("JSON parse exception occurred: %s", ex.getMessage()));
         } catch (JsonMappingException ex) {
@@ -69,6 +69,9 @@ public class RESTServiceImpl implements RESTService, Serializable {
         } catch (IOException ex) {
             LOGGER.error(String.format("IOException exception occurred: %s", ex.getMessage()));
         }
+//        } catch (IllegalArgumentException ex) {
+//            LOGGER.error(String.format("IllegalArgument exception occurred: %s", ex.getMessage()));
+//        }
 
         return null;
     }
@@ -180,6 +183,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
      */
     private void checkResponseStatus(RestResponse restResponse) {
         LOGGER.info(CURLY_BRACES, restResponse.toString());
+        LOGGER.info(CURLY_BRACES, restResponse.getStringEntity());
         final HttpStatus responseStatus = HttpStatus.valueOf(restResponse.getStatus());
         switch (responseStatus) {
             case OK:

@@ -5,7 +5,7 @@ import com.might.instancecontroller.services.KeystoneService;
 import com.might.instancecontroller.services.transport.RESTService;
 import com.might.instancecontroller.services.transport.impl.RestResponse;
 import com.might.instancecontroller.utils.AuthSessionBean;
-import com.might.instancecontroller.utils.OSProperties;
+import com.might.instancecontroller.utils.OSUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +14,8 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 
-import static com.might.instancecontroller.utils.OSProperties.TIMEOUT;
-import static com.might.instancecontroller.utils.OSProperties.TOKEN;
+import static com.might.instancecontroller.utils.OSUtils.TIMEOUT;
+import static com.might.instancecontroller.utils.OSUtils.TOKEN;
 
 @Service
 public class KeystoneServiceImpl implements KeystoneService {
@@ -23,15 +23,15 @@ public class KeystoneServiceImpl implements KeystoneService {
     private static final Logger LOGGER = LoggerFactory.getLogger(KeystoneServiceImpl.class);
 
     private RESTService restService;
-    private OSProperties osProperties;
+    private OSUtils osUtils;
     private AuthSessionBean authSessionBean;
 
     @Autowired
     public KeystoneServiceImpl(RESTService restService,
-                               OSProperties osProperties,
+                               OSUtils osUtils,
                                AuthSessionBean authSessionBean) {
         this.restService = restService;
-        this.osProperties = osProperties;
+        this.osUtils = osUtils;
         this.authSessionBean = authSessionBean;
     }
 
@@ -50,7 +50,7 @@ public class KeystoneServiceImpl implements KeystoneService {
      * @return RestResponse object;
      */
     public Object authenticate() {
-        RestResponse response = (RestResponse) restService.post(osProperties.getOsAuthUrl(), getAuthModel());
+        RestResponse response = (RestResponse) restService.post(osUtils.getOsAuthUrl(), getAuthModel());
         setAuthDate(response);
         return response;
     }
@@ -80,10 +80,10 @@ public class KeystoneServiceImpl implements KeystoneService {
     private Auth getAuthModel() {
         Auth auth = new Auth();
         Domain domain = new Domain();
-        domain.setName(osProperties.getOsUserDomainName());
+        domain.setName(osUtils.getOsUserDomainName());
         User user = new User();
-        user.setName(osProperties.getOsUsername());
-        user.setPassword(osProperties.getOsPassword());
+        user.setName(osUtils.getOsUsername());
+        user.setPassword(osUtils.getOsPassword());
         user.setDomain(domain);
         Password password = new Password();
         password.setUser(user);
@@ -93,10 +93,10 @@ public class KeystoneServiceImpl implements KeystoneService {
         }});
         identity.setPassword(password);
         Domain projDomain = new Domain();
-        projDomain.setName(osProperties.getOsProjectDomainName());
+        projDomain.setName(osUtils.getOsProjectDomainName());
         Project project = new Project();
         project.setDomain(projDomain);
-        project.setName(osProperties.getOsProjectName());
+        project.setName(osUtils.getOsProjectName());
         Scope scope = new Scope();
         scope.setProject(project);
         auth.setIdentity(identity);

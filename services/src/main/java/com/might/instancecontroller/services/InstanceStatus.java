@@ -54,8 +54,8 @@ public enum InstanceStatus {
      */
     RESCUE("RESCUE"),
     /**
-     * Server is performing the differential copy of data
-     * that changed during its initial copy. Server is down for this stage.
+     * Instance is performing the differential copy of data
+     * that changed during its initial copy. Instance is down for this stage.
      */
     RESIZE("RESIZE"),
     /**

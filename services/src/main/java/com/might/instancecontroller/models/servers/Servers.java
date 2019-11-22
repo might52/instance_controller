@@ -2,74 +2,93 @@ package com.might.instancecontroller.models.servers;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-@JsonRootName(value = "server")
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Server {
-    @JsonProperty("OS-EXT-STS:task_state")
+@JsonRootName(value = "servers")
+public class Servers implements Serializable {
+
     private String taskState;
-    @JsonProperty("addresses")
     private List<Address> addresses;
-    @JsonProperty("links")
     private List<Link> links;
-    @JsonProperty("image")
     private Image image;
-    @JsonProperty("OS-EXT-STS:vm_state")
     private String vmState;
-    @JsonProperty("OS-EXT-SRV-ATTR:instance_name")
     private String instanceName;
-    @JsonProperty("OS-SRV-USG:launched_at")
     private String launchedAt;
-    @JsonProperty("flavor")
     private Flavor flavor;
-    @JsonProperty("id")
     private String id;
-    @JsonProperty(value = "security_groups")
     private List<SecurityGroup> securityGroups;
-    @JsonProperty("user_id")
     private String userId;
-    @JsonProperty("OS-DCF:diskConfig")
     private String diskConfig;
-    @JsonProperty("accessIPv4")
     private String accessIPv4;
-    @JsonProperty("accessIPv6")
     private String accessIPv6;
-    @JsonProperty("progress")
     private int progress;
-    @JsonProperty("OS-EXT-STS:power_state")
     private int powerState;
-    @JsonProperty("OS-EXT-AZ:availability_zone")
     private String availabilityZone;
-    @JsonProperty("config_drive")
     private String configDrive;
-    @JsonProperty("status")
     private String status;
-    @JsonProperty("updated")
     private String updated;
-    @JsonProperty("hostId")
     private String hostId;
-    @JsonProperty("OS-EXT-SRV-ATTR:host")
     private String host;
-    @JsonProperty("OS-SRV-USG:terminated_at")
     private String terminatedAt;
-    @JsonProperty("key_name")
     private String keyName;
-    @JsonProperty("OS-EXT-SRV-ATTR:hypervisor_hostname")
     private String hypervisorHostname;
-    @JsonProperty("name")
     private String name;
-    @JsonProperty("created")
     private String created;
-    @JsonProperty("tenant_id")
     private String tenantId;
-    @JsonProperty("os-extended-volumes:volumes_attached")
     private List<String> volumes_attached;
-    @JsonProperty("metadata")
     private Map<String,String> metadata;
 
-    public Server() {
+    public Servers() {
+    }
+
+    public Servers(String taskState, List<Address> addresses,
+                   List<Link> links, Image image, String vmState,
+                   String instanceName, String launchedAt,
+                   Flavor flavor, String id,
+                   List<SecurityGroup> securityGroups,
+                   String userId, String diskConfig,
+                   String accessIPv4, String accessIPv6,
+                   int progress, int powerState,
+                   String availabilityZone, String configDrive,
+                   String status, String updated,
+                   String hostId, String host,
+                   String terminatedAt, String keyName,
+                   String hypervisorHostname, String name,
+                   String created, String tenantId,
+                   List<String> volumes_attached,
+                   Map<String, String> metadata) {
+        this.taskState = taskState;
+        this.addresses = addresses;
+        this.links = links;
+        this.image = image;
+        this.vmState = vmState;
+        this.instanceName = instanceName;
+        this.launchedAt = launchedAt;
+        this.flavor = flavor;
+        this.id = id;
+        this.securityGroups = securityGroups;
+        this.userId = userId;
+        this.diskConfig = diskConfig;
+        this.accessIPv4 = accessIPv4;
+        this.accessIPv6 = accessIPv6;
+        this.progress = progress;
+        this.powerState = powerState;
+        this.availabilityZone = availabilityZone;
+        this.configDrive = configDrive;
+        this.status = status;
+        this.updated = updated;
+        this.hostId = hostId;
+        this.host = host;
+        this.terminatedAt = terminatedAt;
+        this.keyName = keyName;
+        this.hypervisorHostname = hypervisorHostname;
+        this.name = name;
+        this.created = created;
+        this.tenantId = tenantId;
+        this.volumes_attached = volumes_attached;
+        this.metadata = metadata;
     }
 
     public String getTaskState() {
@@ -311,5 +330,4 @@ public class Server {
     public void setMetadata(Map<String, String> metadata) {
         this.metadata = metadata;
     }
-
 }

@@ -2,6 +2,7 @@ package com.might.instancecontroller.models.servers;
 
 import java.util.List;
 
+
 public class Address {
     private String name;
     private List<NetworkLabel> networkLabels;
