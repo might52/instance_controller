@@ -7,6 +7,8 @@ import com.might.instancecontroller.services.KeystoneService;
 import com.might.instancecontroller.services.transport.RESTService;
 import com.might.instancecontroller.services.transport.impl.RestResponse;
 import com.might.instancecontroller.utils.OSUtils;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +72,5 @@ public class LoginController {
     public String initData(Model model) {
         return "Hello, world!";
     }
-
 
 }

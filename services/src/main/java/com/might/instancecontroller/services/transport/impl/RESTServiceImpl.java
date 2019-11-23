@@ -69,9 +69,6 @@ public class RESTServiceImpl implements RESTService, Serializable {
         } catch (IOException ex) {
             LOGGER.error(String.format("IOException exception occurred: %s", ex.getMessage()));
         }
-//        } catch (IllegalArgumentException ex) {
-//            LOGGER.error(String.format("IllegalArgument exception occurred: %s", ex.getMessage()));
-//        }
 
         return null;
     }

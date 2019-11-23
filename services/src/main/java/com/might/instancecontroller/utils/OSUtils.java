@@ -23,6 +23,8 @@ public class OSUtils implements Serializable {
     private static final String SERVERS = "servers";
     private static final String DETAILS = "detail";
 
+    private static final String SLASH = "/";
+
     @Value("${os.username}")
     private String osUsername;
     @Value("${os.password}")
@@ -73,7 +75,7 @@ public class OSUtils implements Serializable {
             add(osComputeUrl);
             add(SERVERS);
             add(DETAILS);
-        }}.stream().collect(Collectors.joining("/"));
+        }}.stream().collect(Collectors.joining(SLASH));
     }
 
     public String getServerUrl(String instanceId) {
@@ -81,6 +83,6 @@ public class OSUtils implements Serializable {
             add(osComputeUrl);
             add(SERVERS);
             add(instanceId);
-        }}.stream().collect(Collectors.joining("/"));
+        }}.stream().collect(Collectors.joining(SLASH));
     }
 }

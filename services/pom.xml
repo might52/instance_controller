@@ -14,6 +14,7 @@
     <properties>
         <!-- Use the latest version whenever possible. -->
         <jackson.version>2.9.8</jackson.version>
+        <jclouds.version>2.2.0</jclouds.version>
     </properties>
 
     <dependencies>
@@ -74,6 +75,12 @@
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-json</artifactId>
             <version>1.19.4</version>
+        </dependency>-->
+<!-- JCLOUDS API -->
+<!--        <dependency>
+            <groupId>org.apache.jclouds</groupId>
+            <artifactId>jclouds-all</artifactId>
+            <version>${jclouds.version}</version>
         </dependency>-->
     </dependencies>
 </project>

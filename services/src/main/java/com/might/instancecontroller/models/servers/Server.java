@@ -11,7 +11,7 @@ public class Server {
     @JsonProperty("OS-EXT-STS:task_state")
     private String taskState;
     @JsonProperty("addresses")
-    private List<Address> addresses;
+    private Addresses addresses;
     @JsonProperty("links")
     private List<Link> links;
     @JsonProperty("image")
@@ -80,11 +80,11 @@ public class Server {
         this.taskState = taskState;
     }
 
-    public List<Address> getAddresses() {
+    public Addresses getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(List<Address> addresses) {
+    public void setAddresses(Addresses addresses) {
         this.addresses = addresses;
     }
 

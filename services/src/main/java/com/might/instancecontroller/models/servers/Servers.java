@@ -10,7 +10,7 @@ import java.util.Map;
 public class Servers implements Serializable {
 
     private String taskState;
-    private List<Address> addresses;
+    private List<Addresses> addresses;
     private List<Link> links;
     private Image image;
     private String vmState;
@@ -43,7 +43,7 @@ public class Servers implements Serializable {
     public Servers() {
     }
 
-    public Servers(String taskState, List<Address> addresses,
+    public Servers(String taskState, List<Addresses> addresses,
                    List<Link> links, Image image, String vmState,
                    String instanceName, String launchedAt,
                    Flavor flavor, String id,
@@ -99,11 +99,11 @@ public class Servers implements Serializable {
         this.taskState = taskState;
     }
 
-    public List<Address> getAddresses() {
+    public List<Addresses> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(List<Address> addresses) {
+    public void setAddresses(List<Addresses> addresses) {
         this.addresses = addresses;
     }
 
