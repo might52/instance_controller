@@ -19,7 +19,7 @@ import javax.ws.rs.core.MultivaluedMap;
 @Service
 public class ComputeServiceImpl implements ComputeService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputeServiceImpl.class);
-    private static final String INSTANCE_TEMPLATE = "instance {}";
+    private static final String INSTANCE_TEMPLATE = "Instance {}";
 
     private OSUtils osUtils;
     private RESTService restService;
@@ -38,7 +38,7 @@ public class ComputeServiceImpl implements ComputeService {
     @RequireConnection
     public Object getListInstance() {
         RestResponse restResponse = (RestResponse) restService.get(osUtils.getOsComputeUrl(), getAuthHeaders());
-        LOGGER.info(restResponse.getStringEntity());
+        LOGGER.debug("Instance list: {}", restResponse.getStringEntity());
         return restResponse;
     }
 
@@ -47,7 +47,7 @@ public class ComputeServiceImpl implements ComputeService {
         Instance instance = restService.get(osUtils.getServerUrl(instanceId),
                 getAuthHeaders(),
                 new TypeReference<Instance>() {});
-        LOGGER.info(INSTANCE_TEMPLATE, instance);
+        LOGGER.debug(INSTANCE_TEMPLATE, instance);
         return instance.getServer().getStatus();
     }
 
@@ -56,7 +56,7 @@ public class ComputeServiceImpl implements ComputeService {
         Instance instance = restService.get(osUtils.getServerUrl(instanceId),
                 getAuthHeaders(),
                 new TypeReference<Instance>() {});
-        LOGGER.info(INSTANCE_TEMPLATE, instance);
+        LOGGER.debug(INSTANCE_TEMPLATE, instance);
         return instance.getServer().getName();
     }
 

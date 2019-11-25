@@ -88,7 +88,7 @@ public class KeystoneServiceImpl implements KeystoneService {
         Password password = new Password();
         password.setUser(user);
         Identity identity = new Identity();
-        identity.setMethods(new ArrayList<String>() {{
+        identity.setMethods(new ArrayList<>() {{
             add("password");
         }});
         identity.setPassword(password);

@@ -91,7 +91,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
                     .resource(endpointUrl);
             WebResource.Builder builder = webResource.getRequestBuilder();
             addHeaders(builder, headers);
-            LOGGER.info(String.format(URL_MESSAGE_TEMPLATE, webResource.getURI()));
+            LOGGER.debug(String.format(URL_MESSAGE_TEMPLATE, webResource.getURI()));
             clientResponse = builder
                     .accept(MediaType.APPLICATION_JSON_TYPE)
                     .get(ClientResponse.class);
@@ -115,11 +115,12 @@ public class RESTServiceImpl implements RESTService, Serializable {
      */
     public <T> Object post(String endpointUrl, Object object) {
         ClientResponse clientResponse;
+        RestResponse restResponse;
         try {
             String body = getEntityString(object);
             WebResource webResource = restClient.resource(endpointUrl);
-            LOGGER.info(String.format(URL_MESSAGE_TEMPLATE, webResource.getURI()));
-            LOGGER.info(String.format(REQUEST_BODY_MESSAGE_TEMPLATE, body));
+            LOGGER.debug(String.format(URL_MESSAGE_TEMPLATE, webResource.getURI()));
+            LOGGER.debug(String.format(REQUEST_BODY_MESSAGE_TEMPLATE, body));
             clientResponse = webResource
                     .accept(MediaType.APPLICATION_JSON)
                     .entity(body, MediaType.APPLICATION_JSON)
@@ -128,7 +129,9 @@ public class RESTServiceImpl implements RESTService, Serializable {
             LOGGER.error(String.format(ERROR_MESSAGE_TEMPLATE, ex));
             throw ex;
         }
-        return new RestResponse(clientResponse);
+        restResponse = new RestResponse(clientResponse);
+        checkResponseStatus(restResponse);
+        return restResponse;
     }
 
     public <T> T update(String endpointUrl, Object object) {
@@ -179,8 +182,8 @@ public class RESTServiceImpl implements RESTService, Serializable {
      * @param restResponse - client response.
      */
     private void checkResponseStatus(RestResponse restResponse) {
-        LOGGER.info(CURLY_BRACES, restResponse.toString());
-        LOGGER.info(CURLY_BRACES, restResponse.getStringEntity());
+        LOGGER.debug(CURLY_BRACES, restResponse.toString());
+        LOGGER.debug(CURLY_BRACES, restResponse.getStringEntity());
         final HttpStatus responseStatus = HttpStatus.valueOf(restResponse.getStatus());
         switch (responseStatus) {
             case OK:
