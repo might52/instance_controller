@@ -30,10 +30,18 @@ public class ComputeServiceTest {
     }
 
     @Test
-    public void canGetInstanceStatus() {
+    public void canGetInstanceStatusById() {
         when(computeService.getInstanceStatus(INSTANCE_ID)).thenReturn(InstanceStatus.ACTIVE.getValue());
         String status = computeService.getInstanceStatus(INSTANCE_ID);
         Assert.assertEquals(InstanceStatus.ACTIVE.getValue(), status);
     }
+
+    @Test
+    public void canGetInstanceNameById() {
+        when(computeService.getInstanceName(INSTANCE_ID)).thenReturn("first_vm_node");
+        String instanceName = computeService.getInstanceName(INSTANCE_ID);
+        Assert.assertEquals("first_vm_node", instanceName);
+    }
+
 
 }

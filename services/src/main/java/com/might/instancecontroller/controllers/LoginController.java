@@ -68,6 +68,12 @@ public class LoginController {
          return InstanceStatus.getInstanceStatus(value);
     }
 
+    @RequireConnection
+    @GetMapping("/getInstanceName/{instanceId}")
+    public String getInstanceName(@PathVariable String instanceId) {
+        return computeService.getInstanceName(instanceId);
+    }
+
     @GetMapping
     public String initData(Model model) {
         return "Hello, world!";

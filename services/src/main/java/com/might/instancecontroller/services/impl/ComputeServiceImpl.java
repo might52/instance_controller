@@ -19,6 +19,7 @@ import javax.ws.rs.core.MultivaluedMap;
 @Service
 public class ComputeServiceImpl implements ComputeService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputeServiceImpl.class);
+    private static final String INSTANCE_TEMPLATE = "instance {}";
 
     private OSUtils osUtils;
     private RESTService restService;
@@ -33,6 +34,7 @@ public class ComputeServiceImpl implements ComputeService {
         this.authSessionBean = authSessionBean;
     }
 
+    @Override
     @RequireConnection
     public Object getListInstance() {
         RestResponse restResponse = (RestResponse) restService.get(osUtils.getOsComputeUrl(), getAuthHeaders());
@@ -40,19 +42,23 @@ public class ComputeServiceImpl implements ComputeService {
         return restResponse;
     }
 
-    @Override
+    @RequireConnection
     public String getInstanceStatus(String instanceId) {
-        try {
-            Instance instance = restService.get(osUtils.getServerUrl(instanceId),
-                    getAuthHeaders(),
-                    new TypeReference<Instance>() {});
-            LOGGER.info("instance {}", instance);
-            return instance.getServer().getStatus();
-        } catch (Exception ex) {
-            return null;
-        }
+        Instance instance = restService.get(osUtils.getServerUrl(instanceId),
+                getAuthHeaders(),
+                new TypeReference<Instance>() {});
+        LOGGER.info(INSTANCE_TEMPLATE, instance);
+        return instance.getServer().getStatus();
     }
 
+    @RequireConnection
+    public String getInstanceName(String instanceId) {
+        Instance instance = restService.get(osUtils.getServerUrl(instanceId),
+                getAuthHeaders(),
+                new TypeReference<Instance>() {});
+        LOGGER.info(INSTANCE_TEMPLATE, instance);
+        return instance.getServer().getName();
+    }
 
     private MultivaluedMap getAuthHeaders() {
         MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
