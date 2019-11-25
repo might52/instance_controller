@@ -12,4 +12,11 @@ public class Instance implements Serializable {
     public void setServer(Server server) {
         this.server = server;
     }
+
+    @Override
+    public String toString() {
+        return "Instance{" +
+                "server=" + server.toString() +
+                '}';
+    }
 }

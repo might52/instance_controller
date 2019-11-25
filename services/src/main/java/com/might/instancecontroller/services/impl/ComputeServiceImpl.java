@@ -46,6 +46,7 @@ public class ComputeServiceImpl implements ComputeService {
             Instance instance = restService.get(osUtils.getServerUrl(instanceId),
                     getAuthHeaders(),
                     new TypeReference<Instance>() {});
+            LOGGER.info("instance {}", instance);
             return instance.getServer().getStatus();
         } catch (Exception ex) {
             return null;

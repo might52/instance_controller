@@ -19,4 +19,12 @@ public class Volume {
     public void setDelete_on_termination(boolean delete_on_termination) {
         this.delete_on_termination = delete_on_termination;
     }
+
+    @Override
+    public String toString() {
+        return "Volume{" +
+                "id='" + id + '\'' +
+                ", delete_on_termination=" + delete_on_termination +
+                '}';
+    }
 }

@@ -2,6 +2,7 @@ package com.might.instancecontroller.models.servers;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Network {
 
     private String macAddr;

@@ -21,4 +21,12 @@ public class Flavor {
     public void setLinks(List<Link> links) {
         this.links = links;
     }
+
+    @Override
+    public String toString() {
+        return "Flavor{" +
+                "id='" + id + '\'' +
+                ", links=" + links +
+                '}';
+    }
 }

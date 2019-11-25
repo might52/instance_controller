@@ -19,4 +19,12 @@ public class Link {
     public void setRel(String rel) {
         this.rel = rel;
     }
+
+    @Override
+    public String toString() {
+        return "Link{" +
+                "href='" + href + '\'' +
+                ", rel='" + rel + '\'' +
+                '}';
+    }
 }
