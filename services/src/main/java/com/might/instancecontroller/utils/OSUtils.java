@@ -41,6 +41,8 @@ public class OSUtils implements Serializable {
     private String osIdentityApiVersion;
     @Value("${os.compute.url}")
     private String osComputeUrl;
+    @Value("${os.neutron.url}")
+    private String osNeutronUrl;
 
     public String getOsUsername() {
         return osUsername;
@@ -70,7 +72,15 @@ public class OSUtils implements Serializable {
         return osIdentityApiVersion;
     }
 
-    public String getOsComputeUrl () {
+    public String getOsNeutronUrl() {
+        return osNeutronUrl;
+    }
+
+    public void setOsNeutronUrl(String osNeutronUrl) {
+        this.osNeutronUrl = osNeutronUrl;
+    }
+
+    public String getOsComputeUrl() {
         return new ArrayList<String>() {{
             add(osComputeUrl);
             add(SERVERS);

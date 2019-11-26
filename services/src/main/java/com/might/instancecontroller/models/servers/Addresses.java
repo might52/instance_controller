@@ -8,7 +8,6 @@ import java.util.Map;
 
 @JsonRootName("addresses")
 @JsonIgnoreProperties(ignoreUnknown = true)
-//@JsonDeserialize(using = CustomAddressesDeserialize.class)
 public class Addresses {
     private Map<String, List<Network>> networks;
 

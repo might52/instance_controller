@@ -1,6 +1,8 @@
 package com.might.instancecontroller.models.servers;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.might.instancecontroller.serializers.CustomAddressesDeserializer;
 
 import java.util.List;
 import java.util.Map;
@@ -10,7 +12,7 @@ import java.util.Map;
 public class Server {
     @JsonProperty("OS-EXT-STS:task_state")
     private String taskState;
-//    @JsonIgnore
+    @JsonDeserialize(using = CustomAddressesDeserializer.class)
     @JsonProperty("addresses")
     private Addresses addresses;
     @JsonProperty("links")
