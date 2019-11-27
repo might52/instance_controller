@@ -7,8 +7,6 @@ import com.might.instancecontroller.models.servers.Instance;
 import com.might.instancecontroller.services.InstanceStatus;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.internal.runners.JUnit4ClassRunner;
-import org.junit.runner.RunWith;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -28,10 +26,23 @@ public class DeserializationTest {
     }
 
     @Test
-    public void canGetStatusAfterServiceDeserialization() throws IOException {
+    public void canGetStatusServer() throws IOException {
         Instance instance = this.jsonSerializer.readValue(this.serverResponce, new TypeReference<Instance>() {});
         String status = instance.getServer().getStatus();
         Assert.assertEquals(InstanceStatus.ACTIVE, InstanceStatus.getInstanceStatus(status));
+    }
+
+    @Test
+    public void canGetServerName() throws IOException {
+        Instance instance = this.jsonSerializer.readValue(this.serverResponce, new TypeReference<Instance>() {});
+        String name = instance.getServer().getName();
+        Assert.assertEquals("first_vm_node", name);
+    }
+
+
+    public void canGetNameOfNetwork() throws IOException{
+        Instance instance = this.jsonSerializer.readValue(this.serverResponce, new TypeReference<Instance>() {});
+//        Assert.assertEquals("first_vm_node", name);
     }
 
 }

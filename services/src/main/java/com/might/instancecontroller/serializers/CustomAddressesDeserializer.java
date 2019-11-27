@@ -24,42 +24,36 @@ public class CustomAddressesDeserializer extends JsonDeserializer<Addresses> {
 
         Addresses addresses = new Addresses();
         Map<String, List<Network>> networks = new HashMap<>();
-        List<Network> networkList = new ArrayList<>();
-        String networkName = "";
-        Network network = new Network();
+        List<Network> networkList;
         ObjectCodec oc = p.getCodec();
         JsonNode jsonNode = oc.readTree(p);
-        Iterator<JsonNode> iterator = jsonNode.elements();
+        Iterator<Map.Entry<String, JsonNode>> iterator = jsonNode.fields();
         while (iterator.hasNext()) {
-            JsonNode el = iterator.next();
-            System.out.println(el);
-            Iterator<JsonNode> iterator1 = el.iterator();
-            System.out.println(iterator1.next());
+            Map.Entry<String, JsonNode> el = iterator.next();
+            networkList = new ArrayList<Network>();
+            JsonNode field = el.getValue();
+            Network network = new Network();
+            field.forEach(e -> {
+                Iterator<Map.Entry<String, JsonNode>> networkFields = e.fields();
+                do {
+                    Map.Entry<String, JsonNode> networkItem = networkFields.next();
+                    if (networkItem.getKey().equals("OS-EXT-IPS-MAC:mac_addr")) {
+                        network.setMacAddr(networkItem.getValue().asText());
+                    }
+                    if (networkItem.getKey().equals("version")) {
+                        network.setVersion(Integer.parseInt(networkItem.getValue().asText()));
+                    }
+                    if (networkItem.getKey().equals("addr")) {
+                        network.setAddr(networkItem.getValue().asText());
+                    }
+                    if (networkItem.getKey().equals("OS-EXT-IPS:type")) {
+                        network.setType(networkItem.getValue().asText());
+                    }
+                } while (networkFields.hasNext());
+            });
+            networkList.add(network);
+            networks.put(el.getKey(), networkList);
         }
-
-//        networkName = p.getCurrentName();
-//        networkList.add(network);
-//        networks.put(networkName, networkList);
-
-//        if (p.getCurrentName().contains("mac_addr")) {
-//            p.nextToken();
-//            network.setMacAddr(p.getText());
-//        }
-//        p.nextToken();
-//        if (p.getCurrentName().contains("version")) {
-//            p.nextToken();
-//            network.setVersion(Integer.parseInt(p.getText()));
-//        }
-//        p.nextToken();
-//        if (p.getCurrentName().contains("addr")) {
-//            p.nextToken();
-//            network.setAddr(p.getText());
-//        }
-//        p.nextToken();
-//        if (p.getCurrentName().contains("type")) {
-//            p.nextToken();
-//            network.setType(p.getText());
-//        }
 
         addresses.setNetworks(networks);
         return addresses;
