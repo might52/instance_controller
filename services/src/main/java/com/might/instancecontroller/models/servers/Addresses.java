@@ -18,4 +18,24 @@ public class Addresses {
     public void setNetworks(Map<String, List<Network>> networks) {
         this.networks = networks;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof Addresses)) {
+            return false;
+        }
+
+        Addresses addresses = (Addresses) o;
+
+        return getNetworks().equals(addresses.getNetworks());
+    }
+
+    @Override
+    public int hashCode() {
+        return getNetworks().hashCode();
+    }
 }

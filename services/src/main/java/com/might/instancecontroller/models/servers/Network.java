@@ -44,6 +44,43 @@ public class Network {
     public void setType(String type) {
         this.type = type;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof Network)) {
+            return false;
+        }
+
+        Network network = (Network) o;
+
+        if (getVersion() != network.getVersion()) {
+            return false;
+        }
+
+        if (!getMacAddr().equals(network.getMacAddr())) {
+            return false;
+        }
+
+        if (!getAddr().equals(network.getAddr())) {
+            return false;
+        }
+
+        return getType().equals(network.getType());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getMacAddr().hashCode();
+        result = 31 * result + getVersion();
+        result = 31 * result + getAddr().hashCode();
+        result = 31 * result + getType().hashCode();
+        return result;
+    }
 }
 
 
