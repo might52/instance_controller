@@ -22,6 +22,8 @@ public class KeystoneServiceImpl implements KeystoneService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KeystoneServiceImpl.class);
 
+    private static final String X_TOKE_KEY = "X-Subject-Token";
+
     private RESTService restService;
     private OSUtils osUtils;
     private AuthSessionBean authSessionBean;
@@ -61,7 +63,7 @@ public class KeystoneServiceImpl implements KeystoneService {
      * @param restResponse - response after call.
      */
     private void setAuthDate(RestResponse restResponse) {
-        if (!StringUtils.isEmpty(restResponse.getHeaders().getFirst("X-Subject-Token"))) {
+        if (!StringUtils.isEmpty(restResponse.getHeaders().getFirst(X_TOKE_KEY))) {
             authSessionBean.setConnected(true);
             authSessionBean.setToken(restResponse.getHeaders().getFirst(TOKEN));
             authSessionBean.setTimeout(restResponse.getHeaders().getFirst(TIMEOUT));
