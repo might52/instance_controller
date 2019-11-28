@@ -51,9 +51,12 @@ public class DeserializationTest {
     public void canGetAddresses() throws IOException {
         Instance instance = this.jsonSerializer.readValue(this.serverResponce, new TypeReference<Instance>() {});
         Assert.assertEquals(getEtalonInstance().getServer().getAddresses(), instance.getServer().getAddresses());
-
     }
 
+    /**
+     * Getting the etalon instance.
+     * @return Instance.class
+     */
     private Instance getEtalonInstance() {
         Instance instance = new Instance();
         Server server = new Server();
