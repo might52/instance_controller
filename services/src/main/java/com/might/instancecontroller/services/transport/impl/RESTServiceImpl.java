@@ -198,7 +198,6 @@ public class RESTServiceImpl implements RESTService, Serializable {
             case SERVICE_UNAVAILABLE:
                 throw new ServiceUnavailableException("Service unavailable");
             case UNAUTHORIZED: {
-
                 LOGGER.error(String.format("%s", restResponse.getStringEntity()), ENCODING);
                 throw new RuntimeException("Unauthorized Exception");
             }
