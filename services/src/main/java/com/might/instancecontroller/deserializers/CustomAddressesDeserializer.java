@@ -1,4 +1,4 @@
-package com.might.instancecontroller.serializers;
+package com.might.instancecontroller.deserializers;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

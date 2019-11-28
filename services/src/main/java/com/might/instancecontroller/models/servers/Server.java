@@ -2,7 +2,7 @@ package com.might.instancecontroller.models.servers;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.might.instancecontroller.serializers.CustomAddressesDeserializer;
+import com.might.instancecontroller.deserializers.CustomAddressesDeserializer;
 
 import java.util.List;
 import java.util.Map;
