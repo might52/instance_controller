@@ -32,9 +32,44 @@
             <version>4.2.1</version>
         </dependency>
     </dependencies>
+    <profiles>
+        <profile>
+            <id>development</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <ng.build>build</ng.build>
+            </properties>
+        </profile>
+        <profile>
+            <id>production</id>
+            <properties>
+                <ng.build>build:prod</ng.build>
+            </properties>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>ng</executable>
+                    <workingDirectory>src/main/ui/instancecontroller</workingDirectory>
+                    <arguments>${ng.build}</arguments>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
