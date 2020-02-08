@@ -5,12 +5,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeadComponent } from './head/head.component';
 import { FooterComponent } from './footer/footer.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { InventoryComponent } from './inventory/inventory.component';
+import { EndpointsComponent } from './endpoints/endpoints.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeadComponent,
-    FooterComponent
+    FooterComponent,
+    DashboardComponent,
+    InventoryComponent,
+    EndpointsComponent
   ],
   imports: [
     BrowserModule,
