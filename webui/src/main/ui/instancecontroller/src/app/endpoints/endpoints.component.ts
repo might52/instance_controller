@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EndpointsComponent implements OnInit {
 
+  title="Endpoints configuration";
+
   constructor() { }
 
   ngOnInit() {

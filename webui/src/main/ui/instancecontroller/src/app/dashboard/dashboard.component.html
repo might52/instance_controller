@@ -1,1 +1,88 @@
-<p>dashboard works!</p>
+<div class="p-4 pt-4 shadow-sm bg-white">
+  <h2>{{title}}</h2>
+  <table class="table table-striped table-hover table-bordered bg-white">
+    <caption>{{title}}</caption>
+    <thead>
+      <tr class="shadow-sm">
+          <th scope="col">Instance name</th>
+          <th scope="col">Ivents</th>
+          <th scope="col">Instance status</th>
+          <th scope="col">Process</th>
+          <th scope="col">IP's</th>
+          <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td scope="row">Test instance name 1</td>
+      <td>Up</td>
+      <td>Active</td>
+      <td>Configuration</td>
+      <td>192.168.0.1/24</td>
+      <td>
+        <div class="btn-group">
+          <button type="button" class="btn btn-sm btn-outline-primary">
+            Start
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-danger">
+            Stop
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-secondary">
+            Scale In
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-secondary">
+            Scale Out
+          </button>
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td scope="row">Test instance name 2</td>
+      <td>Up</td>
+      <td>Rebuild</td>
+      <td>Creation</td>
+      <td>192.168.0.2/24</td>
+      <td>
+        <div class="btn-group">
+          <button type="button" class="btn btn-sm btn-outline-primary">
+            Start
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-danger">
+            Stop
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-secondary">
+            Scale In
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-secondary">
+            Scale Out
+          </button>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td scope="row">Test instance name 3</td>
+      <td>Not available</td>
+      <td>Shutdown</td>
+      <td>Done</td>
+      <td>192.168.0.3/24</td>
+      <td>
+        <div class="btn-group">
+          <button type="button" class="btn btn-sm btn-outline-primary">
+            Start
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-danger">
+            Stop
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-secondary">
+            Scale In
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-secondary">
+            Scale Out
+          </button>
+        </div>
+      </td>
+    </tr>
+
+    </tbody>
+  </table>

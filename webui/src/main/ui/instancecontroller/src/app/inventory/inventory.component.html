@@ -1,34 +1,73 @@
-<div class="bg-light container rounded shadow mt-4">
-  <div class="row mt-1 bg-dark text-light rounded shadow-sm">
-    <div class="col-4">Instance name</div>
-    <div class="col-sm">Status</div>
-    <div class="col-sm">Image</div>
-    <div class="col-sm">IP's</div>
-    <div class="col-sm">Actions</div>
-    <div class="col-sm">Details</div>
-  </div>
-  <div class="row bg-light">
-    <div class="col-4">Test instance name</div>
-    <div class="col-md">Active</div>
-    <div class="col-md">Test image name</div>
-    <div class="col-md">192.168.0.1/24</div>
-    <div class="col-md">Start/Stop</div>
-    <div class="col-md">Some details.</div>
-  </div>
-  <div class="row bg-info">
-    <div class="col-4">Test instance name</div>
-    <div class="col-md">Active</div>
-    <div class="col-md">Test image name</div>
-    <div class="col-md">192.168.0.1/24</div>
-    <div class="col-md">Start/Stop</div>
-    <div class="col-md">Some details.</div>
-  </div>
-  <div class="row bg-info">
-    <div class="col-4">Test instance name</div>
-    <div class="col-md">Active</div>
-    <div class="col-md">Test image name</div>
-    <div class="col-md">192.168.0.1/24</div>
-    <div class="col-md">Start/Stop</div>
-    <div class="col-md">Some details.</div>
-  </div>
-</div>
+<div class="p-4 pt-4 shadow-sm bg-white">
+  <h2>{{title}}</h2>
+  <table class="table table-striped table-hover table-bordered bg-white">
+    <caption>{{title}}</caption>
+    <thead>
+    <tr class="shadow-sm">
+      <th scope="col">Instance name</th>
+      <th scope="col">Status</th>
+      <th scope="col">Image</th>
+      <th scope="col">Flavor</th>
+      <th scope="col">IP's</th>
+      <th scope="col">Actions</th>
+      <th scope="col">Details</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td scope="row">Test instance name</td>
+      <td>Active</td>
+      <td>Test image name</td>
+      <td>Test flavor name</td>
+      <td>192.168.0.1/24</td>
+      <td>
+        <div class="btn-group">
+          <button type="button" class="btn btn-sm btn-outline-primary">
+            Start
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-danger">
+            Stop
+          </button>
+        </div>
+      </td>
+      <td>Some details.</td>
+    </tr>
+
+    <tr>
+      <td scope="row">Test instance name</td>
+      <td>Active</td>
+      <td>Test image name</td>
+      <td>Test flavor name</td>
+      <td>192.168.0.1/24</td>
+      <td>
+        <div class="btn-group">
+          <button type="button" class="btn btn-sm btn-outline-primary">
+            Start
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-danger">
+            Stop
+          </button>
+        </div>
+      </td>
+      <td>Some details.</td>
+    </tr>
+    <tr>
+      <td>Test instance name</td>
+      <td>Active</td>
+      <td>Test image name</td>
+      <td>Test flavor name</td>
+      <td>192.168.0.1/24</td>
+      <td>
+        <div class="btn-group">
+          <button type="button" class="btn btn-sm btn-outline-primary">
+            Start
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-danger">
+            Stop
+          </button>
+        </div>
+      </td>
+      <td>Some details.</td>
+    </tr>
+    </tbody>
+  </table>
