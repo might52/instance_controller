@@ -55,7 +55,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
      */
     @Override
     public <T> T get(String endpointUrl, MultivaluedMap<String, String> headers, TypeReference<T> type) {
-        RestResponse restResponse = (RestResponse) get(endpointUrl, headers);
+        RestResponse restResponse = get(endpointUrl, headers);
         return parseResponse(restResponse, type);
     }
 
@@ -82,7 +82,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
      * @return -
      */
     @Override
-    public <T> Object get(String endpointUrl, MultivaluedMap<String, String> headers) {
+    public <T> RestResponse get(String endpointUrl, MultivaluedMap<String, String> headers) {
         ClientResponse clientResponse;
         RestResponse restResponse;
         try {
@@ -129,6 +129,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
             LOGGER.error(String.format(ERROR_MESSAGE_TEMPLATE, ex));
             throw ex;
         }
+
         restResponse = new RestResponse(clientResponse);
         checkResponseStatus(restResponse);
         return restResponse;
@@ -145,13 +146,13 @@ public class RESTServiceImpl implements RESTService, Serializable {
     /**
      * Convert object to string JSON.
      *
-     * @param params
+     * @param object
      * @return string representation of object.
      */
-    private String getEntityString(Object params) {
+    private String getEntityString(Object object) {
         String result = "";
         try {
-            result = jsonSerializer.writeValueAsString(params);
+            result = jsonSerializer.writeValueAsString(object);
         } catch (JsonProcessingException ex) {
 
         }

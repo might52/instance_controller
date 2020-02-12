@@ -1,6 +1,7 @@
 package com.might.instancecontroller.controllers;
 
 import com.might.instancecontroller.annotations.RequireConnection;
+import com.might.instancecontroller.models.servers.Instance;
 import com.might.instancecontroller.services.ComputeService;
 import com.might.instancecontroller.services.InstanceStatus;
 import com.might.instancecontroller.services.KeystoneService;
@@ -16,6 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+
+import java.util.List;
 
 import static com.might.instancecontroller.utils.OSUtils.TIMEOUT;
 import static com.might.instancecontroller.utils.OSUtils.TOKEN;
@@ -42,10 +45,6 @@ public class LoginController {
         this.computeService = computeService;
     }
 
-    @GetMapping("/getTest")
-    public void testGet() {
-    }
-
     @GetMapping("/getToken")
     public Object auth(HttpServletResponse response) {
         RestResponse restResponse = (RestResponse) keystoneService.authenticate();
@@ -55,10 +54,17 @@ public class LoginController {
     }
 
     @RequireConnection
-    @GetMapping("/getServerList")
+    @GetMapping("/getServerListString")
     public Object getServices(HttpServletResponse response) {
         RestResponse restResponse = (RestResponse) computeService.getListInstance();
         return restResponse.getStringEntity();
+    }
+
+    @RequireConnection
+    @GetMapping("/getServerList")
+    public List<Instance> getInstanceList() {
+        List<Instance> instances = computeService.getInstanceList();
+        return instances;
     }
 
     @RequireConnection

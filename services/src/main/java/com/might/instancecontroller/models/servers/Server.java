@@ -17,7 +17,7 @@ public class Server {
     private Addresses addresses;
     @JsonProperty("links")
     private List<Link> links;
-    @JsonProperty("image")
+    @JsonProperty(value = "image")
     private Image image;
     @JsonProperty("OS-EXT-STS:vm_state")
     private String vmState;

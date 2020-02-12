@@ -3,10 +3,7 @@ package com.might.instancecontroller.services.tests;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.might.instancecontroller.models.servers.Addresses;
-import com.might.instancecontroller.models.servers.Instance;
-import com.might.instancecontroller.models.servers.Network;
-import com.might.instancecontroller.models.servers.Server;
+import com.might.instancecontroller.models.servers.*;
 import com.might.instancecontroller.services.InstanceStatus;
 import org.junit.Assert;
 import org.junit.Test;
@@ -23,33 +20,46 @@ import java.util.Map;
 
 public class DeserializationTest {
 
-    private String serverResponce;
-    private ObjectMapper jsonSerializer;
+    private final String serversReponse;
+    private final String serverResponse;
+    private final ObjectMapper jsonSerializer;
 
     public DeserializationTest() throws IOException {
-        this.serverResponce = Files.readString(Paths.get("src/main/resources/Jsons/Server.json"), StandardCharsets.UTF_8);
+        this.serverResponse = Files.readString(Paths.get("src/main/resources/Jsons/Server.json"), StandardCharsets.UTF_8);
+        this.serversReponse = Files.readString(Paths.get("src/main/resources/Jsons/Servers.json"), StandardCharsets.UTF_8);
         this.jsonSerializer = new ObjectMapper();
         this.jsonSerializer.enable(SerializationFeature.WRAP_ROOT_VALUE);
+//        this.jsonSerializer.disable(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS);
+//        this.jsonSerializer.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
     }
 
     @Test
     public void canGetStatusServer() throws IOException {
-        Instance instance = this.jsonSerializer.readValue(this.serverResponce, new TypeReference<Instance>() {});
+        Instance instance = this.jsonSerializer.readValue(this.serverResponse, new TypeReference<Instance>() {});
         String status = instance.getServer().getStatus();
         Assert.assertEquals(InstanceStatus.ACTIVE, InstanceStatus.getInstanceStatus(status));
     }
 
     @Test
     public void canGetServerName() throws IOException {
-        Instance instance = this.jsonSerializer.readValue(this.serverResponce, new TypeReference<Instance>() {});
+        Instance instance = this.jsonSerializer.readValue(this.serverResponse, new TypeReference<Instance>() {});
         String name = instance.getServer().getName();
         Assert.assertEquals("first_vm_node", name);
     }
 
     @Test
     public void canGetAddresses() throws IOException {
-        Instance instance = this.jsonSerializer.readValue(this.serverResponce, new TypeReference<Instance>() {});
+        Instance instance = this.jsonSerializer.readValue(this.serverResponse, new TypeReference<Instance>() {});
         Assert.assertEquals(getEtalonInstance().getServer().getAddresses(), instance.getServer().getAddresses());
+    }
+
+    @Test
+    public void canGetInstanceList() throws IOException {
+        InstanceList instances =
+                this.jsonSerializer.readValue(
+                        this.serversReponse,
+                        new TypeReference<InstanceList>() {});
+        Assert.assertNotNull(instances);
     }
 
     /**

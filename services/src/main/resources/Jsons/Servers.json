@@ -1,215 +1,240 @@
 {
-  "servers": [{
-    "OS-EXT-STS:task_state": null,
-    "addresses": {
-      "internal_network": [{
-        "OS-EXT-IPS-MAC:mac_addr": "fa:16:3e:6d:58:59",
-        "version": 4,
-        "addr": "192.168.30.26",
-        "OS-EXT-IPS:type": "fixed"
-      }
+  "servers": [
+    {
+      "OS-EXT-STS:task_state": null,
+      "addresses": {
+        "internal_network": [
+          {
+            "OS-EXT-IPS-MAC:mac_addr": "fa:16:3e:6d:58:59",
+            "version": 4,
+            "addr": "192.168.30.26",
+            "OS-EXT-IPS:type": "fixed"
+          }
+        ],
+        "external_network": [
+          {
+            "OS-EXT-IPS-MAC:mac_addr": "fa:16:3e:84:f6:4f",
+            "version": 4,
+            "addr": "192.168.20.102",
+            "OS-EXT-IPS:type": "fixed"
+          }
+        ]
+      },
+      "links": [
+        {
+          "href": "http://192.168.20.20:8774/v2.1/servers/5ff7252e-e6e8-40a1-97a1-9d8452cd7280",
+          "rel": "self"
+        },
+        {
+          "href": "http://192.168.20.20:8774/servers/5ff7252e-e6e8-40a1-97a1-9d8452cd7280",
+          "rel": "bookmark"
+        }
       ],
-      "external_network": [{
-        "OS-EXT-IPS-MAC:mac_addr": "fa:16:3e:84:f6:4f",
-        "version": 4,
-        "addr": "192.168.20.102",
-        "OS-EXT-IPS:type": "fixed"
-      }
-      ]
-    },
-    "links": [{
-      "href": "http://192.168.20.20:8774/v2.1/servers/5ff7252e-e6e8-40a1-97a1-9d8452cd7280",
-      "rel": "self"
-    }, {
-      "href": "http://192.168.20.20:8774/servers/5ff7252e-e6e8-40a1-97a1-9d8452cd7280",
-      "rel": "bookmark"
-    }
-    ],
-    "image": {
-      "id": "1884fe82-552b-4053-a3f6-111f969407b9",
-      "links": [{
-        "href": "http://192.168.20.20:8774/images/1884fe82-552b-4053-a3f6-111f969407b9",
-        "rel": "bookmark"
-      }
-      ]
-    },
-    "OS-EXT-STS:vm_state": "active",
-    "OS-EXT-SRV-ATTR:instance_name": "instance-00000007",
-    "OS-SRV-USG:launched_at": "2019-04-16T19:31:41.000000",
-    "flavor": {
-      "id": "0b239a96-de37-4123-8839-62d7e585098f",
-      "links": [{
-        "href": "http://192.168.20.20:8774/flavors/0b239a96-de37-4123-8839-62d7e585098f",
-        "rel": "bookmark"
-      }
-      ]
-    },
-    "id": "5ff7252e-e6e8-40a1-97a1-9d8452cd7280",
-    "security_groups": [{
-      "name": "default"
-    }, {
-      "name": "default"
-    }
-    ],
-    "user_id": "c711eb4e127d49618f7f156ae3abb6ae",
-    "OS-DCF:diskConfig": "AUTO",
-    "accessIPv4": "",
-    "accessIPv6": "",
-    "progress": 0,
-    "OS-EXT-STS:power_state": 1,
-    "OS-EXT-AZ:availability_zone": "nova",
-    "config_drive": "",
-    "status": "ACTIVE",
-    "updated": "2019-05-22T18:16:22Z",
-    "hostId": "f042210dc3b48a2b0df658d5ad930e7cf570ffdc54cf34ab565604a9",
-    "OS-EXT-SRV-ATTR:host": "openstack.centos.local",
-    "OS-SRV-USG:terminated_at": null,
-    "key_name": null,
-    "OS-EXT-SRV-ATTR:hypervisor_hostname": "openstack.centos.local",
-    "name": "first_vm_node",
-    "created": "2019-04-16T19:31:17Z",
-    "tenant_id": "151051e1adf745b5ad55d20e4db559ab",
-    "os-extended-volumes:volumes_attached": [],
-    "metadata": {}
-  }, {
-    "OS-EXT-STS:task_state": null,
-    "addresses": {
-      "internal_network": [{
-        "OS-EXT-IPS-MAC:mac_addr": "fa:16:3e:f5:e5:dd",
-        "version": 4,
-        "addr": "192.168.30.22",
-        "OS-EXT-IPS:type": "fixed"
-      }
+      "image": {
+        "id": "1884fe82-552b-4053-a3f6-111f969407b9",
+        "links": [
+          {
+            "href": "http://192.168.20.20:8774/images/1884fe82-552b-4053-a3f6-111f969407b9",
+            "rel": "bookmark"
+          }
+        ]
+      },
+      "OS-EXT-STS:vm_state": "stopped",
+      "OS-EXT-SRV-ATTR:instance_name": "instance-00000007",
+      "OS-SRV-USG:launched_at": "2019-04-16T19:31:41.000000",
+      "flavor": {
+        "id": "0b239a96-de37-4123-8839-62d7e585098f",
+        "links": [
+          {
+            "href": "http://192.168.20.20:8774/flavors/0b239a96-de37-4123-8839-62d7e585098f",
+            "rel": "bookmark"
+          }
+        ]
+      },
+      "id": "5ff7252e-e6e8-40a1-97a1-9d8452cd7280",
+      "security_groups": [
+        {
+          "name": "default"
+        },
+        {
+          "name": "default"
+        }
       ],
-      "external_network": [{
-        "OS-EXT-IPS-MAC:mac_addr": "fa:16:3e:3f:92:e8",
-        "version": 4,
-        "addr": "192.168.20.108",
-        "OS-EXT-IPS:type": "fixed"
-      }
-      ]
+      "user_id": "c711eb4e127d49618f7f156ae3abb6ae",
+      "OS-DCF:diskConfig": "AUTO",
+      "accessIPv4": "",
+      "accessIPv6": "",
+      "OS-EXT-STS:power_state": 4,
+      "OS-EXT-AZ:availability_zone": "nova",
+      "config_drive": "",
+      "status": "SHUTOFF",
+      "updated": "2019-11-26T11:12:29Z",
+      "hostId": "f042210dc3b48a2b0df658d5ad930e7cf570ffdc54cf34ab565604a9",
+      "OS-EXT-SRV-ATTR:host": "openstack.centos.local",
+      "OS-SRV-USG:terminated_at": null,
+      "key_name": null,
+      "OS-EXT-SRV-ATTR:hypervisor_hostname": "openstack.centos.local",
+      "name": "first_vm_node",
+      "created": "2019-04-16T19:31:17Z",
+      "tenant_id": "151051e1adf745b5ad55d20e4db559ab",
+      "os-extended-volumes:volumes_attached": [],
+      "metadata": {}
     },
-    "links": [{
-      "href": "http://192.168.20.20:8774/v2.1/servers/d2bb236e-7ce7-4598-8cfe-db844b394a1c",
-      "rel": "self"
-    }, {
-      "href": "http://192.168.20.20:8774/servers/d2bb236e-7ce7-4598-8cfe-db844b394a1c",
-      "rel": "bookmark"
-    }
-    ],
-    "image": {
-      "id": "1884fe82-552b-4053-a3f6-111f969407b9",
-      "links": [{
-        "href": "http://192.168.20.20:8774/images/1884fe82-552b-4053-a3f6-111f969407b9",
-        "rel": "bookmark"
-      }
-      ]
-    },
-    "OS-EXT-STS:vm_state": "active",
-    "OS-EXT-SRV-ATTR:instance_name": "instance-00000006",
-    "OS-SRV-USG:launched_at": "2019-04-16T18:37:17.000000",
-    "flavor": {
-      "id": "0b239a96-de37-4123-8839-62d7e585098f",
-      "links": [{
-        "href": "http://192.168.20.20:8774/flavors/0b239a96-de37-4123-8839-62d7e585098f",
-        "rel": "bookmark"
-      }
-      ]
-    },
-    "id": "d2bb236e-7ce7-4598-8cfe-db844b394a1c",
-    "security_groups": [{
-      "name": "default"
-    }, {
-      "name": "default"
-    }
-    ],
-    "user_id": "c711eb4e127d49618f7f156ae3abb6ae",
-    "OS-DCF:diskConfig": "AUTO",
-    "accessIPv4": "",
-    "accessIPv6": "",
-    "progress": 0,
-    "OS-EXT-STS:power_state": 1,
-    "OS-EXT-AZ:availability_zone": "nova",
-    "config_drive": "",
-    "status": "ACTIVE",
-    "updated": "2019-05-22T18:16:22Z",
-    "hostId": "f042210dc3b48a2b0df658d5ad930e7cf570ffdc54cf34ab565604a9",
-    "OS-EXT-SRV-ATTR:host": "openstack.centos.local",
-    "OS-SRV-USG:terminated_at": null,
-    "key_name": null,
-    "OS-EXT-SRV-ATTR:hypervisor_hostname": "openstack.centos.local",
-    "name": "second_vm_node",
-    "created": "2019-04-16T18:35:11Z",
-    "tenant_id": "151051e1adf745b5ad55d20e4db559ab",
-    "os-extended-volumes:volumes_attached": [],
-    "metadata": {}
-  }, {
-    "OS-EXT-STS:task_state": null,
-    "addresses": {
-      "internal_network": [{
-        "OS-EXT-IPS-MAC:mac_addr": "fa:16:3e:b5:bf:53",
-        "version": 4,
-        "addr": "192.168.30.11",
-        "OS-EXT-IPS:type": "fixed"
-      }
+    {
+      "OS-EXT-STS:task_state": null,
+      "addresses": {
+        "internal_network": [
+          {
+            "OS-EXT-IPS-MAC:mac_addr": "fa:16:3e:f5:e5:dd",
+            "version": 4,
+            "addr": "192.168.30.22",
+            "OS-EXT-IPS:type": "fixed"
+          }
+        ],
+        "external_network": [
+          {
+            "OS-EXT-IPS-MAC:mac_addr": "fa:16:3e:3f:92:e8",
+            "version": 4,
+            "addr": "192.168.20.108",
+            "OS-EXT-IPS:type": "fixed"
+          }
+        ]
+      },
+      "links": [
+        {
+          "href": "http://192.168.20.20:8774/v2.1/servers/d2bb236e-7ce7-4598-8cfe-db844b394a1c",
+          "rel": "self"
+        },
+        {
+          "href": "http://192.168.20.20:8774/servers/d2bb236e-7ce7-4598-8cfe-db844b394a1c",
+          "rel": "bookmark"
+        }
       ],
-      "external_network": [{
-        "OS-EXT-IPS-MAC:mac_addr": "fa:16:3e:6f:e9:56",
-        "version": 4,
-        "addr": "192.168.20.115",
-        "OS-EXT-IPS:type": "fixed"
-      }
-      ]
+      "image": {
+        "id": "1884fe82-552b-4053-a3f6-111f969407b9",
+        "links": [
+          {
+            "href": "http://192.168.20.20:8774/images/1884fe82-552b-4053-a3f6-111f969407b9",
+            "rel": "bookmark"
+          }
+        ]
+      },
+      "OS-EXT-STS:vm_state": "stopped",
+      "OS-EXT-SRV-ATTR:instance_name": "instance-00000006",
+      "OS-SRV-USG:launched_at": "2019-04-16T18:37:17.000000",
+      "flavor": {
+        "id": "0b239a96-de37-4123-8839-62d7e585098f",
+        "links": [
+          {
+            "href": "http://192.168.20.20:8774/flavors/0b239a96-de37-4123-8839-62d7e585098f",
+            "rel": "bookmark"
+          }
+        ]
+      },
+      "id": "d2bb236e-7ce7-4598-8cfe-db844b394a1c",
+      "security_groups": [
+        {
+          "name": "default"
+        },
+        {
+          "name": "default"
+        }
+      ],
+      "user_id": "c711eb4e127d49618f7f156ae3abb6ae",
+      "OS-DCF:diskConfig": "AUTO",
+      "accessIPv4": "",
+      "accessIPv6": "",
+      "OS-EXT-STS:power_state": 4,
+      "OS-EXT-AZ:availability_zone": "nova",
+      "config_drive": "",
+      "status": "SHUTOFF",
+      "updated": "2019-11-26T11:12:31Z",
+      "hostId": "f042210dc3b48a2b0df658d5ad930e7cf570ffdc54cf34ab565604a9",
+      "OS-EXT-SRV-ATTR:host": "openstack.centos.local",
+      "OS-SRV-USG:terminated_at": null,
+      "key_name": null,
+      "OS-EXT-SRV-ATTR:hypervisor_hostname": "openstack.centos.local",
+      "name": "second_vm_node",
+      "created": "2019-04-16T18:35:11Z",
+      "tenant_id": "151051e1adf745b5ad55d20e4db559ab",
+      "os-extended-volumes:volumes_attached": [],
+      "metadata": {}
     },
-    "links": [{
-      "href": "http://192.168.20.20:8774/v2.1/servers/01a1fc32-d9f5-40d4-a212-7adb8b111e83",
-      "rel": "self"
-    }, {
-      "href": "http://192.168.20.20:8774/servers/01a1fc32-d9f5-40d4-a212-7adb8b111e83",
-      "rel": "bookmark"
+    {
+      "OS-EXT-STS:task_state": null,
+      "addresses": {
+        "internal_network": [
+          {
+            "OS-EXT-IPS-MAC:mac_addr": "fa:16:3e:b5:bf:53",
+            "version": 4,
+            "addr": "192.168.30.11",
+            "OS-EXT-IPS:type": "fixed"
+          }
+        ],
+        "external_network": [
+          {
+            "OS-EXT-IPS-MAC:mac_addr": "fa:16:3e:6f:e9:56",
+            "version": 4,
+            "addr": "192.168.20.115",
+            "OS-EXT-IPS:type": "fixed"
+          }
+        ]
+      },
+      "links": [
+        {
+          "href": "http://192.168.20.20:8774/v2.1/servers/01a1fc32-d9f5-40d4-a212-7adb8b111e83",
+          "rel": "self"
+        },
+        {
+          "href": "http://192.168.20.20:8774/servers/01a1fc32-d9f5-40d4-a212-7adb8b111e83",
+          "rel": "bookmark"
+        }
+      ],
+      "image": "",
+      "OS-EXT-STS:vm_state": "stopped",
+      "OS-EXT-SRV-ATTR:instance_name": "instance-00000002",
+      "OS-SRV-USG:launched_at": "2019-04-11T21:34:27.000000",
+      "flavor": {
+        "id": "0b239a96-de37-4123-8839-62d7e585098f",
+        "links": [
+          {
+            "href": "http://192.168.20.20:8774/flavors/0b239a96-de37-4123-8839-62d7e585098f",
+            "rel": "bookmark"
+          }
+        ]
+      },
+      "id": "01a1fc32-d9f5-40d4-a212-7adb8b111e83",
+      "security_groups": [
+        {
+          "name": "default"
+        },
+        {
+          "name": "default"
+        }
+      ],
+      "user_id": "c711eb4e127d49618f7f156ae3abb6ae",
+      "OS-DCF:diskConfig": "AUTO",
+      "accessIPv4": "",
+      "accessIPv6": "",
+      "OS-EXT-STS:power_state": 4,
+      "OS-EXT-AZ:availability_zone": "nova",
+      "config_drive": "",
+      "status": "SHUTOFF",
+      "updated": "2019-04-16T08:13:12Z",
+      "hostId": "f042210dc3b48a2b0df658d5ad930e7cf570ffdc54cf34ab565604a9",
+      "OS-EXT-SRV-ATTR:host": "openstack.centos.local",
+      "OS-SRV-USG:terminated_at": null,
+      "key_name": null,
+      "OS-EXT-SRV-ATTR:hypervisor_hostname": "openstack.centos.local",
+      "name": "CenOS7_Installed",
+      "created": "2019-04-11T21:34:05Z",
+      "tenant_id": "151051e1adf745b5ad55d20e4db559ab",
+      "os-extended-volumes:volumes_attached": [
+        {
+          "id": "faecb6c9-e330-444c-84f4-75f890306bcf"
+        }
+      ],
+      "metadata": {}
     }
-    ],
-    "image": "",
-    "OS-EXT-STS:vm_state": "stopped",
-    "OS-EXT-SRV-ATTR:instance_name": "instance-00000002",
-    "OS-SRV-USG:launched_at": "2019-04-11T21:34:27.000000",
-    "flavor": {
-      "id": "0b239a96-de37-4123-8839-62d7e585098f",
-      "links": [{
-        "href": "http://192.168.20.20:8774/flavors/0b239a96-de37-4123-8839-62d7e585098f",
-        "rel": "bookmark"
-      }
-      ]
-    },
-    "id": "01a1fc32-d9f5-40d4-a212-7adb8b111e83",
-    "security_groups": [{
-      "name": "default"
-    }, {
-      "name": "default"
-    }
-    ],
-    "user_id": "c711eb4e127d49618f7f156ae3abb6ae",
-    "OS-DCF:diskConfig": "AUTO",
-    "accessIPv4": "",
-    "accessIPv6": "",
-    "OS-EXT-STS:power_state": 4,
-    "OS-EXT-AZ:availability_zone": "nova",
-    "config_drive": "",
-    "status": "SHUTOFF",
-    "updated": "2019-04-16T08:13:12Z",
-    "hostId": "f042210dc3b48a2b0df658d5ad930e7cf570ffdc54cf34ab565604a9",
-    "OS-EXT-SRV-ATTR:host": "openstack.centos.local",
-    "OS-SRV-USG:terminated_at": null,
-    "key_name": null,
-    "OS-EXT-SRV-ATTR:hypervisor_hostname": "openstack.centos.local",
-    "name": "CenOS7_Installed",
-    "created": "2019-04-11T21:34:05Z",
-    "tenant_id": "151051e1adf745b5ad55d20e4db559ab",
-    "os-extended-volumes:volumes_attached": [{
-      "id": "faecb6c9-e330-444c-84f4-75f890306bcf"
-    }
-    ],
-    "metadata": {}
-  }
   ]
 }

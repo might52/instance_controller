@@ -3,13 +3,14 @@ package com.might.instancecontroller.services.transport;
 import com.might.instancecontroller.utils.AuthSessionBean;
 import com.might.instancecontroller.utils.OSUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
+@Service
 public class RestUtils {
 
-    @Autowired
     private static AuthSessionBean AUTH_SESSION_BEAN;
 
     public static MultivaluedMap getAuthHeaders() {
@@ -18,5 +19,8 @@ public class RestUtils {
         return headers;
     }
 
-    private RestUtils() {}
+    @Autowired
+    private RestUtils(final AuthSessionBean authSessionBean) {
+        AUTH_SESSION_BEAN = authSessionBean;
+    }
 }
