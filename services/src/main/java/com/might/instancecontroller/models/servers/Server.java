@@ -68,6 +68,7 @@ public class Server {
     @JsonProperty("tenant_id")
     private String tenantId;
     @JsonProperty("os-extended-volumes:volumes_attached")
+    @JsonIgnore
     private List<String> volumes_attached;
     @JsonProperty("metadata")
     private Map<String,String> metadata;

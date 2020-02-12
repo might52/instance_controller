@@ -3,6 +3,7 @@ package com.might.instancecontroller.services.transport.impl;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -169,6 +170,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
     private void initSerializer() {
         this.jsonSerializer = new ObjectMapper();
         this.jsonSerializer.enable(SerializationFeature.WRAP_ROOT_VALUE);
+        this.jsonSerializer.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
     }
 
     /**

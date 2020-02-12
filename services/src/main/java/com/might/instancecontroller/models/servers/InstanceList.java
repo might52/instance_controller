@@ -2,7 +2,6 @@ package com.might.instancecontroller.models.servers;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRootName;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,20 +10,14 @@ import java.util.List;
 public class InstanceList implements Serializable {
 
     @JsonProperty("servers")
-    private List<Server> instances;
+    private List<Server> servers;
 
-    public List<Server> getInstances() {
-        return instances;
+    public List<Server> getServers() {
+        return servers;
     }
 
-    public void setInstances(List<Server> instances) {
-        this.instances = instances;
+    public void setServers(List<Server> servers) {
+        this.servers = servers;
     }
 
-    @Override
-    public String toString() {
-        return "InstanceList{" +
-                "instances=" + instances +
-                '}';
-    }
 }

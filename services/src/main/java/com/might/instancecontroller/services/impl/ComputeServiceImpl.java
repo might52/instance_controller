@@ -3,7 +3,7 @@ package com.might.instancecontroller.services.impl;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.might.instancecontroller.annotations.RequireConnection;
 import com.might.instancecontroller.models.servers.Instance;
-import com.might.instancecontroller.models.servers.Server;
+import com.might.instancecontroller.models.servers.InstanceList;
 import com.might.instancecontroller.services.ComputeService;
 import com.might.instancecontroller.services.transport.RESTService;
 import com.might.instancecontroller.services.transport.RestUtils;
@@ -52,7 +52,8 @@ public class ComputeServiceImpl implements ComputeService {
                 restService.get(
                         osUtils.getServerUrl(instanceId),
                         RestUtils.getAuthHeaders(),
-                        new TypeReference<Instance>() {});
+                        new TypeReference<Instance>() {
+                        });
         LOGGER.debug(INSTANCE_TEMPLATE, instance);
         return instance.getServer().getStatus();
     }
@@ -61,22 +62,31 @@ public class ComputeServiceImpl implements ComputeService {
     public String getInstanceName(final String instanceId) {
         Instance instance =
                 restService.get(
-                    osUtils.getServerUrl(instanceId),
-                    RestUtils.getAuthHeaders(),
-                    new TypeReference<Instance>() {});
+                        osUtils.getServerUrl(instanceId),
+                        RestUtils.getAuthHeaders(),
+                        new TypeReference<Instance>() {
+                        });
         LOGGER.debug(INSTANCE_TEMPLATE, instance);
         return instance.getServer().getName();
     }
 
     @RequireConnection
-    public List<Instance> getInstanceList(){
-        List<Instance> instances =
+    public List<Instance> getInstanceList() {
+        InstanceList instanceList =
                 restService.get(
                         osUtils.getOsComputeUrl(),
                         RestUtils.getAuthHeaders(),
-                        new TypeReference<List<Instance>>() {
+                        new TypeReference<InstanceList>() {
                         });
-
+        List<Instance> instances = new ArrayList<>();
+        instanceList
+                .getServers()
+                .forEach(el -> {
+                    Instance instance = new Instance() {{
+                        setServer(el);
+                    }};
+                    instances.add(instance);
+                });
 
         return instances;
     }

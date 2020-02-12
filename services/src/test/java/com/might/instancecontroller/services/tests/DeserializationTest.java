@@ -1,12 +1,15 @@
 package com.might.instancecontroller.services.tests;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.might.instancecontroller.models.servers.*;
 import com.might.instancecontroller.services.InstanceStatus;
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.internal.matchers.InstanceOf;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -29,7 +32,10 @@ public class DeserializationTest {
         this.serversReponse = Files.readString(Paths.get("src/main/resources/Jsons/Servers.json"), StandardCharsets.UTF_8);
         this.jsonSerializer = new ObjectMapper();
         this.jsonSerializer.enable(SerializationFeature.WRAP_ROOT_VALUE);
-//        this.jsonSerializer.disable(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS);
+        this.jsonSerializer.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+
+//        this.jsonSerializer.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+//        this.jsonSerializer.enable(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS);
 //        this.jsonSerializer.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
     }
 
