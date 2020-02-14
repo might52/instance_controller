@@ -34,7 +34,10 @@
         </dependency>
 -->
     </dependencies>
-    <profiles>
+
+    <!--For node js-->
+
+    <!--<profiles>
         <profile>
             <id>development</id>
             <activation>
@@ -82,5 +85,5 @@
             </plugin>
         </plugins>
     </build>
-
+-->
 </project>

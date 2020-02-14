@@ -2,6 +2,7 @@ package com.might.instancecontroller.annotations.impl;
 
 
 import com.might.instancecontroller.annotations.RequireConnection;
+import com.might.instancecontroller.services.KeystoneService;
 import com.might.instancecontroller.utils.AuthSessionBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,19 +17,28 @@ import java.lang.reflect.Method;
 public class RequireConnectionHandlerInterceptorAdapter extends HandlerInterceptorAdapter {
 
     private AuthSessionBean authSessionBean;
+    private KeystoneService keystoneService;
 
     @Autowired
-    public RequireConnectionHandlerInterceptorAdapter(AuthSessionBean authSessionBean) {
+    public RequireConnectionHandlerInterceptorAdapter(
+            AuthSessionBean authSessionBean,
+            KeystoneService keystoneService) {
         this.authSessionBean = authSessionBean;
+        this.keystoneService = keystoneService;
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            Object handler
+    ) throws Exception {
         if (handler instanceof HandlerMethod) {
             Method method = ((HandlerMethod) handler).getMethod();
             if (method.isAnnotationPresent(RequireConnection.class)) {
                 if (!authSessionBean.getConnected()) {
-                    throw new RuntimeException("Please authenticate before using the service via the the getToken call");
+                    keystoneService.authenticate();
+//                    throw new RuntimeException("Please authenticate before using the service via the the getToken call");
                 }
             }
         }

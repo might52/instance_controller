@@ -23,7 +23,7 @@ public class ComputeServiceTest {
 
     @Test
     public void canGetNotEmptyInstanceList() {
-        when(computeService.getListInstance()).thenReturn(new Object());
+        when(computeService.getListInstance()).thenReturn(new String());
         Object obj = computeService.getListInstance();
         LOGGER.info(String.format("received object: %s", obj));
         Assert.assertNotNull(obj);

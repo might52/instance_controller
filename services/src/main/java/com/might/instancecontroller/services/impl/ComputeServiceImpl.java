@@ -1,7 +1,6 @@
 package com.might.instancecontroller.services.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.might.instancecontroller.annotations.RequireConnection;
 import com.might.instancecontroller.models.servers.Instance;
 import com.might.instancecontroller.models.servers.InstanceList;
 import com.might.instancecontroller.services.ComputeService;
@@ -37,40 +36,13 @@ public class ComputeServiceImpl implements ComputeService {
         this.authSessionBean = authSessionBean;
     }
 
-    @Override
-    @RequireConnection
-    public Object getListInstance() {
+    public String getListInstance() {
         RestResponse restResponse = (RestResponse) restService.get(osUtils.getOsComputeUrl(),
                 RestUtils.getAuthHeaders());
         LOGGER.debug("Instance list: {}", restResponse.getStringEntity());
-        return restResponse;
+        return restResponse.getStringEntity();
     }
 
-    @RequireConnection
-    public String getInstanceStatus(final String instanceId) {
-        Instance instance =
-                restService.get(
-                        osUtils.getServerUrl(instanceId),
-                        RestUtils.getAuthHeaders(),
-                        new TypeReference<Instance>() {
-                        });
-        LOGGER.debug(INSTANCE_TEMPLATE, instance);
-        return instance.getServer().getStatus();
-    }
-
-    @RequireConnection
-    public String getInstanceName(final String instanceId) {
-        Instance instance =
-                restService.get(
-                        osUtils.getServerUrl(instanceId),
-                        RestUtils.getAuthHeaders(),
-                        new TypeReference<Instance>() {
-                        });
-        LOGGER.debug(INSTANCE_TEMPLATE, instance);
-        return instance.getServer().getName();
-    }
-
-    @RequireConnection
     public List<Instance> getInstanceList() {
         InstanceList instanceList =
                 restService.get(
@@ -90,5 +62,40 @@ public class ComputeServiceImpl implements ComputeService {
 
         return instances;
     }
+
+    public Instance getInstance(final String instanceId) {
+        Instance instance =
+                restService.get(
+                        osUtils.getServerUrl(instanceId),
+                        RestUtils.getAuthHeaders(),
+                        new TypeReference<Instance>() {
+                        });
+        LOGGER.debug(INSTANCE_TEMPLATE, instance);
+        return instance;
+    }
+
+
+    public String getInstanceStatus(final String instanceId) {
+        Instance instance =
+                restService.get(
+                        osUtils.getServerUrl(instanceId),
+                        RestUtils.getAuthHeaders(),
+                        new TypeReference<Instance>() {
+                        });
+        LOGGER.debug(INSTANCE_TEMPLATE, instance);
+        return instance.getServer().getStatus();
+    }
+
+    public String getInstanceName(final String instanceId) {
+        Instance instance =
+                restService.get(
+                        osUtils.getServerUrl(instanceId),
+                        RestUtils.getAuthHeaders(),
+                        new TypeReference<Instance>() {
+                        });
+        LOGGER.debug(INSTANCE_TEMPLATE, instance);
+        return instance.getServer().getName();
+    }
+
 
 }
