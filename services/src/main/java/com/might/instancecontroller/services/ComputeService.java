@@ -1,14 +1,13 @@
 package com.might.instancecontroller.services;
 
-import com.might.instancecontroller.models.servers.Instance;
-import org.glassfish.jersey.message.internal.MsgTraceEvent;
+import com.might.instancecontroller.models.servers.Server;
 
 import java.util.List;
 
 public interface ComputeService {
-    String getListInstance();
-    String getInstanceStatus(String instanceId);
-    String getInstanceName(String instanceId);
-    List<Instance> getInstanceList();
-    Instance getInstance(String instanceId);
+    String getListServer();
+    String getServerStatus(String serverId);
+    String getInstanceName(String serverId);
+    List<Server> getServerList();
+    Server getServer(String serverId);
 }

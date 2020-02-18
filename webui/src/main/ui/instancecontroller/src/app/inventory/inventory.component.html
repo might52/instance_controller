@@ -4,95 +4,68 @@
     <caption>{{title}}</caption>
     <thead>
     <tr class="shadow-sm">
+      <th scope="col">Instance</th>
       <th scope="col">Instance name</th>
-      <th scope="col">Image Name</th>
+      <th scope="col">Image</th>
       <th scope="col">IP Address</th>
       <th scope="col">Flavor</th>
       <th scope="col">Status</th>
-      <th scope="col">Task</th>
-      <th scope="col">PowerState</th>
       <th scope="col">Time since created</th>
       <th scope="col">Actions</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <td scope="row">Test instance name</td>
-      <td>Test image name</td>
-      <td>192.168.0.1/24</td>
-      <td>Test flavor name</td>
-      <td>Active</td>
-      <td>Test task</td>
-      <td>Up</td>
-      <td>10 months</td>
-      <td>
-        <div class="container btn-group">
-          <button type="button" class="btn btn-sm btn-outline-primary">
-            Start
-          </button>
-          <button type="button" class="btn btn-sm btn-outline-secondary">
-            Stop
-          </button>
-          <button type="button" class="btn btn-sm btn-outline-info">
-            Soft reboot
-          </button>
-          <button type="button" class="btn btn-sm btn-outline-danger">
-            Hard reboot
-          </button>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td scope="row">Test instance name</td>
-      <td>Test image name</td>
-      <td>192.168.0.1/24</td>
-      <td>Test flavor name</td>
-      <td>Active</td>
-      <td>Test task</td>
-      <td>Up</td>
-      <td>10 months</td>
-      <td>
-        <div class="container btn-group">
-          <button type="button" class="btn btn-sm btn-outline-primary">
-            Start
-          </button>
-          <button type="button" class="btn btn-sm btn-outline-secondary">
-            Stop
-          </button>
-          <button type="button" class="btn btn-sm btn-outline-info">
-            Soft reboot
-          </button>
-          <button type="button" class="btn btn-sm btn-outline-danger">
-            Hard reboot
-          </button>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td scope="row">Test instance name</td>
-      <td>Test image name</td>
-      <td>192.168.0.1/24</td>
-      <td>Test flavor name</td>
-      <td>Active</td>
-      <td>Test task</td>
-      <td>Up</td>
-      <td>10 months</td>
-      <td>
-        <div class="container btn-group">
-          <button type="button" class="btn btn-sm btn-outline-primary">
-            Start
-          </button>
-          <button type="button" class="btn btn-sm btn-outline-secondary">
-            Stop
-          </button>
-          <button type="button" class="btn btn-sm btn-outline-info">
-            Soft reboot
-          </button>
-          <button type="button" class="btn btn-sm btn-outline-danger">
-            Hard reboot
-          </button>
-        </div>
-      </td>
-    </tr>
+      <tr *ngFor="let server of servers">
+        <td scope="row">
+          <small>{{ server.id }}</small>
+        </td>
+        <td>
+          <small>{{ server.name }}</small>
+        </td>
+        <td>
+          <small>{{ server.image }}</small>
+        </td>
+        <td>
+          <h6>Internal network</h6>
+          <small *ngFor="let network of server.addresses.networks.internal_network">
+            <span>type: {{ network.type }}</span>
+            <span>addr: {{ network.addr }}</span>
+            <span>version: {{ network.version }}</span>
+            <span>macAddr: {{ network.macAddr }}</span>
+          </small>
+          <h6 class="mt-2">External network</h6>
+          <small *ngFor="let network of server.addresses.networks.external_network">
+            <span>type: {{ network.type }}</span>
+            <span>addr: {{ network.addr }}</span>
+            <span>version: {{ network.version }}</span>
+            <span>macAddr: {{ network.macAddr }}</span>
+          </small>
+        </td>
+        <td>
+          <small>{{ server.flavor.id }}</small>
+        </td>
+        <td>
+          <small>{{ server.status }}</small>
+        </td>
+        <td>
+          <small>{{ server.created }}</small>
+        </td>
+        <td>
+          <p class="container btn-group">
+            <button type="button" class="btn btn-sm btn-outline-primary">
+              Start
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">
+              Stop
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-info">
+              Soft reboot
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-danger">
+              Hard reboot
+            </button>
+          </p>
+        </td>
+      </tr>
     </tbody>
   </table>

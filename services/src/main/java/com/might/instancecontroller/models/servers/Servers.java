@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @JsonIgnoreProperties
-public class InstanceList implements Serializable {
+public class Servers implements Serializable {
 
     @JsonProperty("servers")
     private List<Server> servers;

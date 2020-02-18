@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ComputeService } from "../compute.service";
+import { Server, Network, Flavor, Link, Image, Networks, Addresses } from "../models/Server"
 
 @Component({
   selector: 'app-inventory',
@@ -8,10 +10,20 @@ import { Component, OnInit } from '@angular/core';
 export class InventoryComponent implements OnInit {
 
   title="Inventory";
+  servers: Array<Server>;
 
-  constructor() { }
+  constructor(private computeService: ComputeService) {
+  }
+
+  getServers(): void {
+    this.computeService.getServers()
+      .subscribe(data => this.servers = data);
+  }
 
   ngOnInit() {
+    this.getServers();
   }
 
 }
+
+

@@ -2,98 +2,87 @@ package com.might.instancecontroller.services.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.might.instancecontroller.models.servers.Instance;
-import com.might.instancecontroller.models.servers.InstanceList;
+import com.might.instancecontroller.models.servers.Server;
+import com.might.instancecontroller.models.servers.Servers;
 import com.might.instancecontroller.services.ComputeService;
 import com.might.instancecontroller.services.transport.RESTService;
 import com.might.instancecontroller.services.transport.RestUtils;
 import com.might.instancecontroller.services.transport.impl.RestResponse;
-import com.might.instancecontroller.utils.AuthSessionBean;
 import com.might.instancecontroller.utils.OSUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 @Service
 public class ComputeServiceImpl implements ComputeService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputeServiceImpl.class);
-    private static final String INSTANCE_TEMPLATE = "Instance {}";
+    private static final String SERVER_TEMPLATE = "Server {}";
+    private static final String SERVERS_TEMPLATE = "Server list {}";
 
     private OSUtils osUtils;
     private RESTService restService;
-    private AuthSessionBean authSessionBean;
 
     @Autowired
     public ComputeServiceImpl(RESTService restService,
-                              OSUtils osUtils,
-                              AuthSessionBean authSessionBean) {
+                              OSUtils osUtils) {
         this.restService = restService;
         this.osUtils = osUtils;
-        this.authSessionBean = authSessionBean;
     }
 
-    public String getListInstance() {
+    public String getListServer() {
         RestResponse restResponse = (RestResponse) restService.get(osUtils.getOsComputeUrl(),
                 RestUtils.getAuthHeaders());
-        LOGGER.debug("Instance list: {}", restResponse.getStringEntity());
+        LOGGER.debug(SERVERS_TEMPLATE, restResponse.getStringEntity());
         return restResponse.getStringEntity();
     }
 
-    public List<Instance> getInstanceList() {
-        InstanceList instanceList =
+    public List<Server> getServerList() {
+        Servers servers =
                 restService.get(
                         osUtils.getOsComputeUrl(),
                         RestUtils.getAuthHeaders(),
-                        new TypeReference<InstanceList>() {
+                        new TypeReference<Servers>() {
                         });
-        List<Instance> instances = new ArrayList<>();
-        instanceList
-                .getServers()
-                .forEach(el -> {
-                    Instance instance = new Instance() {{
-                        setServer(el);
-                    }};
-                    instances.add(instance);
-                });
 
-        return instances;
+        LOGGER.debug("Server list: {}", servers.getServers());
+        return servers.getServers();
     }
 
-    public Instance getInstance(final String instanceId) {
+    public Server getServer(final String serverId) {
         Instance instance =
                 restService.get(
-                        osUtils.getServerUrl(instanceId),
+                        osUtils.getServerUrl(serverId),
                         RestUtils.getAuthHeaders(),
                         new TypeReference<Instance>() {
                         });
-        LOGGER.debug(INSTANCE_TEMPLATE, instance);
-        return instance;
+        LOGGER.debug(SERVER_TEMPLATE, instance.getServer());
+        return instance.getServer();
     }
 
 
-    public String getInstanceStatus(final String instanceId) {
+    public String getServerStatus(final String serverId) {
         Instance instance =
                 restService.get(
-                        osUtils.getServerUrl(instanceId),
+                        osUtils.getServerUrl(serverId),
                         RestUtils.getAuthHeaders(),
                         new TypeReference<Instance>() {
                         });
-        LOGGER.debug(INSTANCE_TEMPLATE, instance);
+        LOGGER.debug(SERVER_TEMPLATE, instance);
         return instance.getServer().getStatus();
     }
 
-    public String getInstanceName(final String instanceId) {
+    public String getInstanceName(final String serverId) {
         Instance instance =
                 restService.get(
-                        osUtils.getServerUrl(instanceId),
+                        osUtils.getServerUrl(serverId),
                         RestUtils.getAuthHeaders(),
                         new TypeReference<Instance>() {
                         });
-        LOGGER.debug(INSTANCE_TEMPLATE, instance);
+        LOGGER.debug(SERVER_TEMPLATE, instance);
         return instance.getServer().getName();
     }
 

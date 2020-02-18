@@ -1,6 +1,5 @@
 package com.might.instancecontroller.services.tests;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,7 +8,6 @@ import com.might.instancecontroller.models.servers.*;
 import com.might.instancecontroller.services.InstanceStatus;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.internal.matchers.InstanceOf;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -61,10 +59,10 @@ public class DeserializationTest {
 
     @Test
     public void canGetInstanceList() throws IOException {
-        InstanceList instances =
+        Servers instances =
                 this.jsonSerializer.readValue(
                         this.serversReponse,
-                        new TypeReference<InstanceList>() {});
+                        new TypeReference<Servers>() {});
         Assert.assertNotNull(instances);
     }
 

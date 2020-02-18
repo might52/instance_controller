@@ -23,16 +23,16 @@ public class ComputeServiceTest {
 
     @Test
     public void canGetNotEmptyInstanceList() {
-        when(computeService.getListInstance()).thenReturn(new String());
-        Object obj = computeService.getListInstance();
+        when(computeService.getListServer()).thenReturn(new String());
+        Object obj = computeService.getListServer();
         LOGGER.info(String.format("received object: %s", obj));
         Assert.assertNotNull(obj);
     }
 
     @Test
     public void canGetInstanceStatusById() {
-        when(computeService.getInstanceStatus(INSTANCE_ID)).thenReturn(InstanceStatus.ACTIVE.getValue());
-        String status = computeService.getInstanceStatus(INSTANCE_ID);
+        when(computeService.getServerStatus(INSTANCE_ID)).thenReturn(InstanceStatus.ACTIVE.getValue());
+        String status = computeService.getServerStatus(INSTANCE_ID);
         Assert.assertEquals(InstanceStatus.ACTIVE.getValue(), status);
     }
 

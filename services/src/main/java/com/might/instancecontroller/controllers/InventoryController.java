@@ -1,9 +1,13 @@
 package com.might.instancecontroller.controllers;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.might.instancecontroller.annotations.RequireConnection;
-import com.might.instancecontroller.models.servers.Instance;
+import com.might.instancecontroller.models.servers.Server;
 import com.might.instancecontroller.services.ComputeService;
 import com.might.instancecontroller.services.InstanceStatus;
+import com.might.instancecontroller.services.transport.RestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -18,43 +26,72 @@ import java.util.List;
 public class InventoryController {
 
     private ComputeService computeService;
+    private String serversReponse;
+    private ObjectMapper jsonSerializer;
 
     @Autowired
-    public InventoryController(ComputeService computeService) {
+    public InventoryController(ComputeService computeService) throws IOException {
         this.computeService = computeService;
+        this.serversReponse = Files.readString(Paths.get("D:\\repos\\instance_controller\\services\\src\\main\\resources\\Jsons\\servers_response.json"), StandardCharsets.UTF_8);
+        this.jsonSerializer = new ObjectMapper();
+        this.jsonSerializer.enable(SerializationFeature.WRAP_ROOT_VALUE);
+        this.jsonSerializer.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+
     }
 
     @RequireConnection
     @GetMapping("/all/string")
     public String getInstanceListAsString(HttpServletResponse response) {
-        String instanceList = computeService.getListInstance();
-        return instanceList;
+        RestUtils.addAccessControlAllowOriginHeader(response);
+        return computeService.getListServer();
     }
 
     @RequireConnection
     @GetMapping("/all")
-    public List<Instance> getInstanceList() {
-        List<Instance> instances = computeService.getInstanceList();
-        return instances;
+    public List<Server> getInstanceList(HttpServletResponse response) throws IOException {
+        RestUtils.addAccessControlAllowOriginHeader(response);
+        return computeService.getServerList();
+
     }
 
+
+    @GetMapping("/all_stub")
+    public String getInstanceListStub(HttpServletResponse response) throws IOException {
+        RestUtils.addAccessControlAllowOriginHeader(response);
+//        Servers servers =
+//                this.jsonSerializer.readValue(
+//                        this.serversReponse,
+//                        new TypeReference<Servers>() {});
+//        return servers.getServers();
+        return  this.serversReponse;
+    }
+
+
     @RequireConnection
-    @GetMapping("/status/{instanceId}")
-    public InstanceStatus getInstanceStatus(@PathVariable String instanceId) {
-        String value = computeService.getInstanceStatus(instanceId);
+    @GetMapping("/status/{serverId}")
+    public InstanceStatus getInstanceStatus(
+            HttpServletResponse response,
+            @PathVariable String serverId) {
+        RestUtils.addAccessControlAllowOriginHeader(response);
+        String value = computeService.getServerStatus(serverId);
         return InstanceStatus.getInstanceStatus(value);
     }
 
     @RequireConnection
-    @GetMapping("/name/{instanceId}")
-    public String getInstanceName(@PathVariable String instanceId) {
-        return computeService.getInstanceName(instanceId);
+    @GetMapping("/name/{serverId}")
+    public String getInstanceName(
+            HttpServletResponse response,
+            @PathVariable String serverId) {
+        RestUtils.addAccessControlAllowOriginHeader(response);
+        return computeService.getInstanceName(serverId);
     }
 
     @RequireConnection
-    @GetMapping("/{instanceId}")
-    public Instance getInstance(@PathVariable String instanceId) {
-        Instance instance = (Instance) computeService.getInstance(instanceId);
-        return instance;
+    @GetMapping("/{serverId}")
+    public Server getInstance(
+            HttpServletResponse response,
+            @PathVariable String serverId) {
+        RestUtils.addAccessControlAllowOriginHeader(response);
+        return computeService.getServer(serverId);
     }
 }
