@@ -63,7 +63,6 @@ public class ComputeServiceImpl implements ComputeService {
         return instance.getServer();
     }
 
-
     public String getServerStatus(final String serverId) {
         Instance instance =
                 restService.get(
@@ -75,7 +74,7 @@ public class ComputeServiceImpl implements ComputeService {
         return instance.getServer().getStatus();
     }
 
-    public String getInstanceName(final String serverId) {
+    public String getServerName(final String serverId) {
         Instance instance =
                 restService.get(
                         osUtils.getServerUrl(serverId),
@@ -85,6 +84,5 @@ public class ComputeServiceImpl implements ComputeService {
         LOGGER.debug(SERVER_TEMPLATE, instance);
         return instance.getServer().getName();
     }
-
-
+    
 }

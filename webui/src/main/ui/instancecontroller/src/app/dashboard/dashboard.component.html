@@ -4,67 +4,56 @@
     <caption>{{title}}</caption>
     <thead>
       <tr class="shadow-sm">
-          <th scope="col">Instance name</th>
-          <th scope="col">Ivents</th>
-          <th scope="col">Instance status</th>
-          <th scope="col">Process</th>
-          <th scope="col">IP's</th>
-          <th scope="col">Actions</th>
+        <th scope="col">Function</th>
+        <th scope="col">Instance name</th>
+        <th scope="col">Ivents</th>
+        <th scope="col">Instance status</th>
+        <th scope="col">Actions</th>
       </tr>
     </thead>
     <tbody>
-    <tr>
-      <td scope="row">Test instance name 1</td>
-      <td>Up</td>
-      <td>Active</td>
-      <td>Configuration</td>
-      <td>192.168.0.1/24</td>
-      <td>
-        <div class="container btn-group">
-          <button type="button" class="btn btn-sm btn-outline-primary">
-            Scale In
-          </button>
-          <button type="button" class="btn btn-sm btn-outline-secondary">
-            Scale Out
-          </button>
-        </div>
-      </td>
-    </tr>
-
-    <tr>
-      <td scope="row">Test instance name 2</td>
-      <td>Up</td>
-      <td>Rebuild</td>
-      <td>Creation</td>
-      <td>192.168.0.2/24</td>
-      <td>
-        <div class="container btn-group">
-          <button type="button" class="btn btn-sm btn-outline-primary">
-            Scale In
-          </button>
-          <button type="button" class="btn btn-sm btn-outline-secondary">
-            Scale Out
-          </button>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td scope="row">Test instance name 3</td>
-      <td>Not available</td>
-      <td>Shutdown</td>
-      <td>Done</td>
-      <td>192.168.0.3/24</td>
-      <td>
-        <div class="container btn-group">
-          <button type="button" class="btn btn-sm btn-outline-primary">
-            Scale In
-          </button>
-          <button type="button" class="btn btn-sm btn-outline-secondary">
-            Scale Out
-          </button>
-        </div>
-      </td>
-    </tr>
-
+      <tr *ngFor="let server of servers">
+        <td scope="row">{{ server}}</td>
+        <td>{{ server.name }}</td>
+        <td>{{ server.vm_state }}</td>
+        <td>{{ server.status }}</td>
+        <td>
+          <div class="container-md">
+            <div *ngIf="server.addresses.networks.internal_network">
+              <h6>Internal network</h6>
+              <div class=ml-2 *ngFor="let network of server.addresses.networks.internal_network">
+                <p class="text-monospace m-0">
+                  <small>macAddr: {{ network.macAddr }}</small>
+                </p>
+                <p class="text-monospace m-0">
+                  <small>addr: {{ network.addr }}</small>
+                </p>
+              </div>
+            </div>
+            <div *ngIf="server.addresses.networks.external_network">
+              <h6 class="mt-2">External network</h6>
+              <div class=ml-2 *ngFor="let network of server.addresses.networks.external_network">
+                <p class="text-monospace m-0">
+                  <small>macAddr: {{ network.macAddr }}</small>
+                </p>
+                <p class="text-monospace m-0">
+                  <small>addr: {{ network.addr }}</small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="container btn-group">
+            <button type="button" class="btn btn-sm btn-outline-primary">
+              Scale In
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">
+              Scale Out
+            </button>
+          </div>
+        </td>
+      </tr>
     </tbody>
   </table>
+</div>

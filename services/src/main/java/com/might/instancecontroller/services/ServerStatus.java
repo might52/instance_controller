@@ -4,7 +4,7 @@ import io.micrometer.core.instrument.util.StringUtils;
 
 import java.util.Arrays;
 
-public enum InstanceStatus {
+public enum ServerStatus {
     /**
      * The server is active.
      */
@@ -105,16 +105,16 @@ public enum InstanceStatus {
 
     private String status;
 
-    InstanceStatus(String status) {
+    ServerStatus(String status) {
         this.status = status;
     }
 
-    public static InstanceStatus getInstanceStatus(String instanceStatus) {
+    public static ServerStatus getServerStatus(String instanceStatus) {
         if (!StringUtils.isNotEmpty(instanceStatus)) {
             return UNKNOWN;
         }
 
-        return Arrays.stream(InstanceStatus.values())
+        return Arrays.stream(ServerStatus.values())
                 .filter(el -> el.getValue().equalsIgnoreCase(instanceStatus))
                 .findFirst().orElse(UNKNOWN);
     }

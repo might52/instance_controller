@@ -1,14 +1,18 @@
 export interface Server {
   name: string;
-  image?: Image;
+  image?: ImgFlv;
   instance_name?: string;
   addresses: Addresses;
   links?: Array<Link>;
-  flavor?: Flavor;
+  flavor?: ImgFlv;
   status?: string;
   created?: string;
   vm_state?: string;
   id: string;
+  user_id?: string;
+  progress?: string;
+  updated?: string;
+  task_state?: string;
 }
 
 export interface Addresses {
@@ -27,7 +31,7 @@ export interface Network {
   type: string;
 }
 
-export interface Image {
+export interface ImgFlv {
   id?: string;
   links?: Array<Link>;
 }
@@ -37,8 +41,16 @@ export interface Link {
   rel?: string;
 }
 
+/*
+export interface Image {
+  id?: string;
+  links?: Array<Link>;
+}
+
 export interface Flavor {
   id?: string;
   links?: Array<Link>;
 }
+*/
+
 

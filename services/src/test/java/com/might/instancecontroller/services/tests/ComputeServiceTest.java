@@ -1,7 +1,7 @@
 package com.might.instancecontroller.services.tests;
 
 import com.might.instancecontroller.services.ComputeService;
-import com.might.instancecontroller.services.InstanceStatus;
+import com.might.instancecontroller.services.ServerStatus;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +22,7 @@ public class ComputeServiceTest {
     private ComputeService computeService;
 
     @Test
-    public void canGetNotEmptyInstanceList() {
+    public void canGetNotEmpSyServerList() {
         when(computeService.getListServer()).thenReturn(new String());
         Object obj = computeService.getListServer();
         LOGGER.info(String.format("received object: %s", obj));
@@ -30,16 +30,16 @@ public class ComputeServiceTest {
     }
 
     @Test
-    public void canGetInstanceStatusById() {
-        when(computeService.getServerStatus(INSTANCE_ID)).thenReturn(InstanceStatus.ACTIVE.getValue());
+    public void canGetServerStatusById() {
+        when(computeService.getServerStatus(INSTANCE_ID)).thenReturn(ServerStatus.ACTIVE.getValue());
         String status = computeService.getServerStatus(INSTANCE_ID);
-        Assert.assertEquals(InstanceStatus.ACTIVE.getValue(), status);
+        Assert.assertEquals(ServerStatus.ACTIVE.getValue(), status);
     }
 
     @Test
-    public void canGetInstanceNameById() {
-        when(computeService.getInstanceName(INSTANCE_ID)).thenReturn("first_vm_node");
-        String instanceName = computeService.getInstanceName(INSTANCE_ID);
+    public void canGetServerNameById() {
+        when(computeService.getServerName(INSTANCE_ID)).thenReturn("first_vm_node");
+        String instanceName = computeService.getServerName(INSTANCE_ID);
         Assert.assertEquals("first_vm_node", instanceName);
     }
 

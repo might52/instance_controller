@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.might.instancecontroller.annotations.RequireConnection;
 import com.might.instancecontroller.models.servers.Server;
 import com.might.instancecontroller.services.ComputeService;
-import com.might.instancecontroller.services.InstanceStatus;
+import com.might.instancecontroller.services.ServerStatus;
 import com.might.instancecontroller.services.transport.RestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +32,12 @@ public class InventoryController {
     @Autowired
     public InventoryController(ComputeService computeService) throws IOException {
         this.computeService = computeService;
-        this.serversReponse = Files.readString(Paths.get("D:\\repos\\instance_controller\\services\\src\\main\\resources\\Jsons\\servers_response.json"), StandardCharsets.UTF_8);
+        this.serversReponse = Files.readString(
+                Paths.get(
+                        "D:\\repos\\instance_controller\\services\\src\\" +
+                                "main\\resources\\Jsons\\servers_response.json"),
+                StandardCharsets.UTF_8
+        );
         this.jsonSerializer = new ObjectMapper();
         this.jsonSerializer.enable(SerializationFeature.WRAP_ROOT_VALUE);
         this.jsonSerializer.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
@@ -41,14 +46,14 @@ public class InventoryController {
 
     @RequireConnection
     @GetMapping("/all/string")
-    public String getInstanceListAsString(HttpServletResponse response) {
+    public String getServerListAsString(HttpServletResponse response) {
         RestUtils.addAccessControlAllowOriginHeader(response);
         return computeService.getListServer();
     }
 
     @RequireConnection
     @GetMapping("/all")
-    public List<Server> getInstanceList(HttpServletResponse response) throws IOException {
+    public List<Server> getServerList(HttpServletResponse response) throws IOException {
         RestUtils.addAccessControlAllowOriginHeader(response);
         return computeService.getServerList();
 
@@ -56,25 +61,20 @@ public class InventoryController {
 
 
     @GetMapping("/all_stub")
-    public String getInstanceListStub(HttpServletResponse response) throws IOException {
+    public String getServerListStub(HttpServletResponse response) throws IOException {
         RestUtils.addAccessControlAllowOriginHeader(response);
-//        Servers servers =
-//                this.jsonSerializer.readValue(
-//                        this.serversReponse,
-//                        new TypeReference<Servers>() {});
-//        return servers.getServers();
         return  this.serversReponse;
     }
 
 
     @RequireConnection
     @GetMapping("/status/{serverId}")
-    public InstanceStatus getInstanceStatus(
+    public ServerStatus getServerStatus(
             HttpServletResponse response,
             @PathVariable String serverId) {
         RestUtils.addAccessControlAllowOriginHeader(response);
         String value = computeService.getServerStatus(serverId);
-        return InstanceStatus.getInstanceStatus(value);
+        return ServerStatus.getServerStatus(value);
     }
 
     @RequireConnection
@@ -83,7 +83,7 @@ public class InventoryController {
             HttpServletResponse response,
             @PathVariable String serverId) {
         RestUtils.addAccessControlAllowOriginHeader(response);
-        return computeService.getInstanceName(serverId);
+        return computeService.getServerName(serverId);
     }
 
     @RequireConnection

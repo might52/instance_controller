@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { map, catchError, tap } from "rxjs/operators";
 import { Observable, of } from "rxjs";
-import { Server, Image, Link, Flavor, Network } from "./models/Server"
+import { Server } from "./models/Server"
 
 
 @Injectable({
@@ -22,7 +22,6 @@ export class ComputeService {
 
   constructor(private httpClient: HttpClient) {
   }
-
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

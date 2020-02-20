@@ -3,52 +3,114 @@
   <table class="table table-striped table-hover table-bordered bg-white">
     <caption>{{title}}</caption>
     <thead>
-    <tr class="shadow-sm">
-      <th scope="col">Instance</th>
-      <th scope="col">Instance name</th>
-      <th scope="col">Image</th>
-      <th scope="col">IP Address</th>
-      <th scope="col">Flavor</th>
-      <th scope="col">Status</th>
-      <th scope="col">Time since created</th>
-      <th scope="col">Actions</th>
-    </tr>
+      <tr class="shadow-sm">
+        <th scope="col">Instance</th>
+        <th scope="col">Instance name</th>
+        <th scope="col">Image</th>
+        <th scope="col">IP Address</th>
+        <th scope="col">Flavor</th>
+        <th scope="col">Status</th>
+        <th scope="col">Time since created</th>
+        <th scope="col">Actions</th>
+      </tr>
     </thead>
     <tbody>
       <tr *ngFor="let server of servers">
         <td scope="row">
-          <small>{{ server.id }}</small>
+          <p class="text-monospace m-0">
+            <small>{{ server.id }}</small>
+          </p>
         </td>
         <td>
-          <small>{{ server.name }}</small>
+          <p class="text-monospace m-0">
+            <small>{{ server.name }}</small>
+          </p>
         </td>
         <td>
-          <small>{{ server.image }}</small>
+          <div class="container-sm" *ngIf="server.image">
+            <h6>Id</h6>
+            <div class="ml-2">
+              <p class="text-monospace">
+                <small>{{ server.image.id }}</small>
+              </p>
+            </div>
+            <h6>Links</h6>
+            <div class="ml-2" *ngFor="let link of server.image.links">
+              <p class="text-monospace m-0">
+                <small>href: {{ link.href}}</small>
+              </p>
+              <p class="text-monospace m-0">
+                <small>rel: {{ link.rel }}</small>
+              </p>
+            </div>
+          </div>
         </td>
         <td>
-          <h6>Internal network</h6>
-          <small *ngFor="let network of server.addresses.networks.internal_network">
-            <span>type: {{ network.type }}</span>
-            <span>addr: {{ network.addr }}</span>
-            <span>version: {{ network.version }}</span>
-            <span>macAddr: {{ network.macAddr }}</span>
-          </small>
-          <h6 class="mt-2">External network</h6>
-          <small *ngFor="let network of server.addresses.networks.external_network">
-            <span>type: {{ network.type }}</span>
-            <span>addr: {{ network.addr }}</span>
-            <span>version: {{ network.version }}</span>
-            <span>macAddr: {{ network.macAddr }}</span>
-          </small>
+          <div class="container-md">
+            <div *ngIf="server.addresses.networks.internal_network">
+              <h6>Internal network</h6>
+              <div class=ml-2 *ngFor="let network of server.addresses.networks.internal_network">
+                <p class="text-monospace m-0">
+                  <small>macAddr: {{ network.macAddr }}</small>
+                </p>
+                <p class="text-monospace m-0">
+                  <small>addr: {{ network.addr }}</small>
+                </p>
+                <p class="text-monospace m-0">
+                <small>type: {{ network.type }}</small>
+                </p>
+                <p class="text-monospace m-0">
+                <small>version: {{ network.version }}</small>
+                </p>
+              </div>
+            </div>
+            <div *ngIf="server.addresses.networks.external_network">
+              <h6 class="mt-2">External network</h6>
+              <div class=ml-2 *ngFor="let network of server.addresses.networks.external_network">
+                <p class="text-monospace m-0">
+                  <small>macAddr: {{ network.macAddr }}</small>
+                </p>
+                <p class="text-monospace m-0">
+                <small>addr: {{ network.addr }}</small>
+                </p>
+                <p class="text-monospace m-0">
+                  <small>type: {{ network.type }}</small>
+                </p>
+                <p class="text-monospace m-0">
+                  <small>version: {{ network.version }}</small>
+                </p>
+              </div>
+            </div>
+          </div>
         </td>
         <td>
-          <small>{{ server.flavor.id }}</small>
+          <div class="container-sm" *ngIf="server.flavor">
+              <h6>Id</h6>
+              <div class="ml-2">
+                <p class="text-monospace">
+                  <small>{{ server.flavor.id }}</small>
+                </p>
+              </div>
+              <h6>Links</h6>
+              <div class="ml-2" *ngFor="let link of server.flavor.links">
+                <p class="text-monospace m-0">
+                  <small>href: {{ link.href}}</small>
+                </p>
+                <p class="text-monospace m-0">
+                  <small>rel: {{ link.rel }}</small>
+                </p>
+              </div>
+          </div>
         </td>
         <td>
-          <small>{{ server.status }}</small>
+          <p class="text-monospace m-0">
+            <small>{{ server.status }}</small>
+          </p>
         </td>
         <td>
-          <small>{{ server.created }}</small>
+          <p class="text-monospace m-0">
+            <small>{{ server.created }}</small>
+          </p>
         </td>
         <td>
           <p class="container btn-group">
@@ -69,3 +131,4 @@
       </tr>
     </tbody>
   </table>
+</div>

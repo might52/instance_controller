@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.might.instancecontroller.models.servers.*;
-import com.might.instancecontroller.services.InstanceStatus;
+import com.might.instancecontroller.services.ServerStatus;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -38,10 +38,10 @@ public class DeserializationTest {
     }
 
     @Test
-    public void canGetStatusServer() throws IOException {
+    public void canGetServerStatus() throws IOException {
         Instance instance = this.jsonSerializer.readValue(this.serverResponse, new TypeReference<Instance>() {});
         String status = instance.getServer().getStatus();
-        Assert.assertEquals(InstanceStatus.ACTIVE, InstanceStatus.getInstanceStatus(status));
+        Assert.assertEquals(ServerStatus.ACTIVE, ServerStatus.getServerStatus(status));
     }
 
     @Test
@@ -52,13 +52,13 @@ public class DeserializationTest {
     }
 
     @Test
-    public void canGetAddresses() throws IOException {
+    public void canGetServerAddresses() throws IOException {
         Instance instance = this.jsonSerializer.readValue(this.serverResponse, new TypeReference<Instance>() {});
         Assert.assertEquals(getEtalonInstance().getServer().getAddresses(), instance.getServer().getAddresses());
     }
 
     @Test
-    public void canGetInstanceList() throws IOException {
+    public void canGetServerList() throws IOException {
         Servers instances =
                 this.jsonSerializer.readValue(
                         this.serversReponse,
