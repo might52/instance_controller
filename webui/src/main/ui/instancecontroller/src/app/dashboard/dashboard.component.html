@@ -13,7 +13,9 @@
     </thead>
     <tbody>
       <tr *ngFor="let server of servers">
-        <td scope="row">{{ server}}</td>
+        <td scope="row" class="text-break">
+          {{ server}}
+        </td>
         <td>{{ server.name }}</td>
         <td>{{ server.vm_state }}</td>
         <td>{{ server.status }}</td>

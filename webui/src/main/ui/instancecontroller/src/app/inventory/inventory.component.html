@@ -16,7 +16,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let server of servers">
-        <td scope="row">
+        <td scope="row" class="text-break">
           <p class="text-monospace m-0">
             <small>{{ server.id }}</small>
           </p>
@@ -113,7 +113,7 @@
           </p>
         </td>
         <td>
-          <p class="container btn-group">
+          <p class="container btn-group-vertical">
             <button type="button" class="btn btn-sm btn-outline-primary">
               Start
             </button>

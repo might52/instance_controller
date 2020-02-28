@@ -25,17 +25,17 @@ import java.util.List;
 @RequestMapping("api/v1/instance")
 public class InventoryController {
 
-    private ComputeService computeService;
-    private String serversReponse;
-    private ObjectMapper jsonSerializer;
+    private final ComputeService computeService;
+    private final String serversResponse;
+    private final ObjectMapper jsonSerializer;
 
     @Autowired
     public InventoryController(ComputeService computeService) throws IOException {
         this.computeService = computeService;
-        this.serversReponse = Files.readString(
+        this.serversResponse = Files.readString(
                 Paths.get(
-                        "D:\\repos\\instance_controller\\services\\src\\" +
-                                "main\\resources\\Jsons\\servers_response.json"),
+                        "D:\\repo\\git\\instance_controller\\services\\src" +
+                                "\\main\\resources\\Jsons\\servers_response.json"),
                 StandardCharsets.UTF_8
         );
         this.jsonSerializer = new ObjectMapper();
@@ -59,13 +59,11 @@ public class InventoryController {
 
     }
 
-
     @GetMapping("/all_stub")
     public String getServerListStub(HttpServletResponse response) throws IOException {
         RestUtils.addAccessControlAllowOriginHeader(response);
-        return  this.serversReponse;
+        return  this.serversResponse;
     }
-
 
     @RequireConnection
     @GetMapping("/status/{serverId}")
