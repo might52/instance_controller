@@ -19,27 +19,59 @@ import java.util.List;
 
 @Service
 public class ComputeServiceImpl implements ComputeService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ComputeServiceImpl.class);
+    /**
+     * Logger initialization.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(
+            ComputeServiceImpl.class
+    );
+    /**
+     * Template for message with server object.
+     */
     private static final String SERVER_TEMPLATE = "Server {}";
+    /**
+     * Template for message with server list.
+     */
     private static final String SERVERS_TEMPLATE = "Server list {}";
 
+    /**
+     * OS utils bean.
+     */
     private OSUtils osUtils;
+    /**
+     * Rest service bean.
+     */
     private RESTService restService;
 
+    /** Default constructor.
+     * @param restService
+     * @param osUtils
+     */
     @Autowired
-    public ComputeServiceImpl(RESTService restService,
-                              OSUtils osUtils) {
+    public ComputeServiceImpl(final RESTService restService,
+                              final OSUtils osUtils) {
         this.restService = restService;
         this.osUtils = osUtils;
     }
 
+    /**
+     * Return the server list.
+     * @return string entity of servers.
+     */
     public String getListServer() {
-        RestResponse restResponse = (RestResponse) restService.get(osUtils.getOsComputeUrl(),
-                RestUtils.getAuthHeaders());
+        RestResponse restResponse = restService.getRaw(
+                osUtils.getOsComputeUrl(),
+                RestUtils.getAuthHeaders(),
+                new TypeReference<>(){
+                });
         LOGGER.debug(SERVERS_TEMPLATE, restResponse.getStringEntity());
         return restResponse.getStringEntity();
     }
 
+    /**
+     * Return the server list.
+     * @return the List<Server>.
+     */
     public List<Server> getServerList() {
         Servers servers =
                 restService.get(
@@ -52,6 +84,11 @@ public class ComputeServiceImpl implements ComputeService {
         return servers.getServers();
     }
 
+    /**
+     * Return the server by Id.
+     * @param serverId
+     * @return the Server object.
+     */
     public Server getServer(final String serverId) {
         Instance instance =
                 restService.get(
@@ -63,6 +100,11 @@ public class ComputeServiceImpl implements ComputeService {
         return instance.getServer();
     }
 
+    /**
+     * Return the server status by Id.
+     * @param serverId
+     * @return Status of the server.
+     */
     public String getServerStatus(final String serverId) {
         Instance instance =
                 restService.get(
@@ -74,6 +116,11 @@ public class ComputeServiceImpl implements ComputeService {
         return instance.getServer().getStatus();
     }
 
+    /**
+     * Return the server name by.
+     * @param serverId
+     * @return server name.
+     */
     public String getServerName(final String serverId) {
         Instance instance =
                 restService.get(
@@ -84,5 +131,14 @@ public class ComputeServiceImpl implements ComputeService {
         LOGGER.debug(SERVER_TEMPLATE, instance);
         return instance.getServer().getName();
     }
-    
+
+    @Override
+    public void stopServer(String serverId) {
+
+    }
+
+    @Override
+    public void startServer(String serverId) {
+
+    }
 }

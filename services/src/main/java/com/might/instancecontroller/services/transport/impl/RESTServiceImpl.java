@@ -56,22 +56,17 @@ public class RESTServiceImpl implements RESTService, Serializable {
      */
     @Override
     public <T> T get(String endpointUrl, MultivaluedMap<String, String> headers, TypeReference<T> type) {
-        RestResponse restResponse = get(endpointUrl, headers);
+        RestResponse restResponse = getRequest(endpointUrl, headers);
         return parseResponse(restResponse, type);
     }
 
-    private <T> T parseResponse(RestResponse restResponse, TypeReference<T> type) {
-        try {
-            return jsonSerializer.readValue(restResponse.getStringEntity(), type);
-        } catch (JsonParseException ex) {
-            LOGGER.error(String.format("JSON parse exception occurred: %s", ex.getMessage()));
-        } catch (JsonMappingException ex) {
-            LOGGER.error(String.format("JSON mapping exception occurred: %s", ex.getMessage()));
-        } catch (IOException ex) {
-            LOGGER.error(String.format("IOException exception occurred: %s", ex.getMessage()));
-        }
-
-        return null;
+    public <T> RestResponse getRaw(String endpointUrl,
+                                    MultivaluedMap<String, String> headers,
+                                    TypeReference<T> type
+    ) {
+        return this.getRequest(
+                endpointUrl,
+                headers);
     }
 
     /**
@@ -79,11 +74,9 @@ public class RESTServiceImpl implements RESTService, Serializable {
      *
      * @param endpointUrl - target url endpoint.
      * @param headers     - headers for request.
-     * @param <T>         - hz wtf eto.
-     * @return -
+     * @return - rest response object.
      */
-    @Override
-    public <T> RestResponse get(String endpointUrl, MultivaluedMap<String, String> headers) {
+    private RestResponse getRequest(String endpointUrl, MultivaluedMap<String, String> headers) {
         ClientResponse clientResponse;
         RestResponse restResponse;
         try {
@@ -106,33 +99,69 @@ public class RESTServiceImpl implements RESTService, Serializable {
         return restResponse;
     }
 
-    /**
-     * Perform post request to the destination endpoint.
-     *
-     * @param endpointUrl - target url source.
-     * @param object      - object for.
-     * @param <T>         - hz wtf eto.
-     * @return entity object of response.
-     */
-    public <T> Object post(String endpointUrl, Object object) {
+    private <T> T parseResponse(RestResponse restResponse, TypeReference<T> type) {
+        try {
+            return jsonSerializer.readValue(restResponse.getStringEntity(), type);
+        } catch (JsonParseException ex) {
+            LOGGER.error(String.format("JSON parse exception occurred: %s", ex.getMessage()));
+        } catch (JsonMappingException ex) {
+            LOGGER.error(String.format("JSON mapping exception occurred: %s", ex.getMessage()));
+        } catch (IOException ex) {
+            LOGGER.error(String.format("IOException exception occurred: %s", ex.getMessage()));
+        }
+
+        return null;
+    }
+
+    public <T> T post(String endpointUrl,
+                      Object data,
+                      MultivaluedMap<String, String> headers,
+                      TypeReference<T> type
+    ) {
+        RestResponse restResponse = this.postRequest(
+                endpointUrl,
+                data,
+                headers,
+                type);
+        return this.parseResponse(restResponse, type);
+    }
+
+    public <T> RestResponse postRaw(String endpointUrl,
+                      Object data,
+                      MultivaluedMap<String, String> headers,
+                      TypeReference<T> type
+    ) {
+        return this.postRequest(
+                endpointUrl,
+                data,
+                headers,
+                type);
+    }
+
+    private RestResponse postRequest(String endpointUrl,
+                                 Object data,
+                                 MultivaluedMap<String, String> headers,
+                                 TypeReference type) {
         ClientResponse clientResponse;
         RestResponse restResponse;
         try {
-            String body = getEntityString(object);
+            String body = getEntityString(data);
             WebResource webResource = restClient.resource(endpointUrl);
+            WebResource.Builder builder = webResource.getRequestBuilder();
+            addHeaders(builder, headers);
             LOGGER.debug(String.format(URL_MESSAGE_TEMPLATE, webResource.getURI()));
             LOGGER.debug(String.format(REQUEST_BODY_MESSAGE_TEMPLATE, body));
-            clientResponse = webResource
+            clientResponse = builder
                     .accept(MediaType.APPLICATION_JSON)
                     .entity(body, MediaType.APPLICATION_JSON)
                     .post(ClientResponse.class);
+            restResponse = new RestResponse(clientResponse);
+            checkResponseStatus(restResponse);
         } catch (Exception ex) {
             LOGGER.error(String.format(ERROR_MESSAGE_TEMPLATE, ex));
             throw ex;
         }
 
-        restResponse = new RestResponse(clientResponse);
-        checkResponseStatus(restResponse);
         return restResponse;
     }
 
@@ -225,6 +254,10 @@ public class RESTServiceImpl implements RESTService, Serializable {
      */
     private WebResource.Builder addHeaders(WebResource.Builder builder, MultivaluedMap<String, String> headers) {
         LOGGER.debug("Headers: {}", headers);
+        if (headers == null) {
+            return builder;
+        }
+
         for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
             for (String value : entry.getValue()) {
                 builder.header(entry.getKey(), value);

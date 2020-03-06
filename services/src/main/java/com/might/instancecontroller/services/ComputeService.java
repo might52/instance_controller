@@ -10,4 +10,6 @@ public interface ComputeService {
     String getServerName(String serverId);
     List<Server> getServerList();
     Server getServer(String serverId);
+    void stopServer(String serverId);
+    void startServer(String serverId);
 }

@@ -1,5 +1,6 @@
 package com.might.instancecontroller.services.impl;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.might.instancecontroller.models.auth.*;
 import com.might.instancecontroller.services.KeystoneService;
 import com.might.instancecontroller.services.transport.RESTService;
@@ -51,8 +52,14 @@ public class KeystoneServiceImpl implements KeystoneService {
      *
      * @return RestResponse object;
      */
-    public Object authenticate() {
-        RestResponse response = (RestResponse) restService.post(osUtils.getOsAuthUrl(), getAuthModel());
+    public RestResponse authenticate() {
+        RestResponse response = restService.postRaw(
+                osUtils.getOsAuthUrl(),
+                getAuthModel(),
+                null,
+                new TypeReference<>(){
+                }
+        );
         setAuthDate(response);
         return response;
     }
