@@ -1,5 +1,6 @@
 package com.might.instancecontroller.services.impl;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.might.instancecontroller.models.servers.Instance;
 import com.might.instancecontroller.models.servers.Server;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -134,11 +136,29 @@ public class ComputeServiceImpl implements ComputeService {
 
     @Override
     public void stopServer(String serverId) {
-
+        StopAction stopAction = new StopAction();
+        restService.postRaw(osUtils.getServerUrlAction(serverId),
+                stopAction,
+                RestUtils.getAuthHeaders(),
+                new TypeReference<>() {
+                });
     }
 
     @Override
     public void startServer(String serverId) {
+        StartAction startAction = new StartAction();
+        restService.postRaw(osUtils.getServerUrlAction(serverId),
+                startAction,
+                RestUtils.getAuthHeaders(),
+                new TypeReference<>() {
+                });
+    }
 
+    @JsonRootName(value = "os-start")
+    final class StartAction implements Serializable {
+    }
+
+    @JsonRootName(value = "os-stop")
+    final class StopAction implements Serializable{
     }
 }

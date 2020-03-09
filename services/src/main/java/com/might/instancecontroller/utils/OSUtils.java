@@ -22,6 +22,7 @@ public class OSUtils implements Serializable {
 
     private static final String SERVERS = "servers";
     private static final String DETAILS = "detail";
+    private static final String ACTION = "action";
 
     private static final String SLASH = "/";
 
@@ -94,5 +95,13 @@ public class OSUtils implements Serializable {
             add(SERVERS);
             add(instanceId);
         }}.stream().collect(Collectors.joining(SLASH));
+    }
+
+    public String getServerUrlAction(String instanceId) {
+        return String.join(
+                SLASH,
+                this.getServerUrl(instanceId),
+                ACTION
+        );
     }
 }

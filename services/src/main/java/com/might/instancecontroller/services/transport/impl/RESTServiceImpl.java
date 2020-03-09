@@ -229,15 +229,19 @@ public class RESTServiceImpl implements RESTService, Serializable {
     //endregion
 
     //region UPDATE
+
     public <T> T update(String endpointUrl, Object object) {
         return null;
     }
+
     //endregion
 
     //region DELETE
+
     public <T> T delete(String endpointUrl, Object object) {
         return null;
     }
+
     //endregion
 
     //endregion
@@ -278,6 +282,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
         switch (responseStatus) {
             case OK:
             case CREATED:
+            case ACCEPTED:
             case NO_CONTENT:
                 //All ok
                 return;

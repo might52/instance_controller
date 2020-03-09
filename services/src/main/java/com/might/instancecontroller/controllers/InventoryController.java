@@ -9,10 +9,7 @@ import com.might.instancecontroller.services.ComputeService;
 import com.might.instancecontroller.services.ServerStatus;
 import com.might.instancecontroller.services.transport.RestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -91,5 +88,23 @@ public class InventoryController {
             @PathVariable String serverId) {
         RestUtils.addAccessControlAllowOriginHeader(response);
         return computeService.getServer(serverId);
+    }
+
+    @RequireConnection
+    @PostMapping("/{serverId}/stop")
+    public void stopServer(
+            HttpServletResponse response,
+            @PathVariable String serverId) {
+        RestUtils.addAccessControlAllowOriginHeader(response);
+        computeService.stopServer(serverId);
+    }
+
+    @RequireConnection
+    @PostMapping("/{serverId}/start")
+    public void startServer(
+            HttpServletResponse response,
+            @PathVariable String serverId) {
+        RestUtils.addAccessControlAllowOriginHeader(response);
+        computeService.startServer(serverId);
     }
 }
