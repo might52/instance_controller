@@ -107,4 +107,22 @@ public class InventoryController {
         RestUtils.addAccessControlAllowOriginHeader(response);
         computeService.startServer(serverId);
     }
+
+    @RequireConnection
+    @PostMapping("/{serverId}/hardreboot")
+    public void hardReboot(
+            HttpServletResponse response,
+            @PathVariable String serverId) {
+        RestUtils.addAccessControlAllowOriginHeader(response);
+        computeService.hardReboot(serverId);
+    }
+
+    @RequireConnection
+    @PostMapping("/{serverId}/softreboot")
+    public void softReboot(
+            HttpServletResponse response,
+            @PathVariable String serverId) {
+        RestUtils.addAccessControlAllowOriginHeader(response);
+        computeService.softReboot(serverId);
+    }
 }

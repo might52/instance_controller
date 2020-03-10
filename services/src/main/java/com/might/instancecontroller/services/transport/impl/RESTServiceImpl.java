@@ -92,6 +92,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
                      TypeReference<T> type
     ) {
         RestResponse restResponse = getRequest(endpointUrl, headers);
+        checkResponseStatus(restResponse);
         return parseResponse(restResponse, type);
     }
 
@@ -135,7 +136,6 @@ public class RESTServiceImpl implements RESTService, Serializable {
                     .accept(MediaType.APPLICATION_JSON_TYPE)
                     .get(ClientResponse.class);
             restResponse = new RestResponse(clientResponse);
-            checkResponseStatus(restResponse);
         } catch (Exception ex) {
             LOGGER.error(String.format(ERROR_MESSAGE_TEMPLATE, ex));
             throw ex;
@@ -167,6 +167,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
                 data,
                 headers,
                 type);
+        checkResponseStatus(restResponse);
         return this.parseResponse(restResponse, type);
     }
 
@@ -217,7 +218,6 @@ public class RESTServiceImpl implements RESTService, Serializable {
                     .entity(body, MediaType.APPLICATION_JSON)
                     .post(ClientResponse.class);
             restResponse = new RestResponse(clientResponse);
-            checkResponseStatus(restResponse);
         } catch (Exception ex) {
             LOGGER.error(String.format(ERROR_MESSAGE_TEMPLATE, ex));
             throw ex;

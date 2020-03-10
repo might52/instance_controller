@@ -156,4 +156,31 @@ public class ComputeServiceImpl implements ComputeService {
                 });
     }
 
+    @Override
+    public void hardReboot(String serverId) {
+        LOGGER.debug(
+                SERVER_ACTION_TEMPLATE,
+                serverId,
+                BaseActions.HardReboot.class
+        );
+        restService.postRaw(osUtils.getServerUrlAction(serverId),
+                new BaseActions.HardReboot(),
+                RestUtils.getAuthHeaders(),
+                new TypeReference<>() {
+                });
+    }
+
+    @Override
+    public void softReboot(String serverId) {
+        LOGGER.debug(
+                SERVER_ACTION_TEMPLATE,
+                serverId,
+                BaseActions.SoftReboot.class
+        );
+        restService.postRaw(osUtils.getServerUrlAction(serverId),
+                new BaseActions.SoftReboot(),
+                RestUtils.getAuthHeaders(),
+                new TypeReference<>() {
+                });
+    }
 }

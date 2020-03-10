@@ -12,4 +12,6 @@ public interface ComputeService {
     Server getServer(String serverId);
     void stopServer(String serverId);
     void startServer(String serverId);
+    void hardReboot(String serverId);
+    void softReboot(String serverId);
 }
