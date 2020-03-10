@@ -36,7 +36,7 @@ export class ComputeService {
   }
 
   getServers(): Observable<Array<Server>> {
-    const url = `${this.compute_url}/all_stub`;
+    const url = `${this.compute_url}/all`;
     return this
       .httpClient
       .get<Array<Server>>(url)
@@ -47,6 +47,79 @@ export class ComputeService {
         tap(_ => console.log('Fetching servers')),
         catchError(this.handleError<Array<Server>>('getServers', []))
       );
+  }
+
+  startServer(serverId): void {
+    const url = `${this.compute_url}/${serverId}/start`;
+    console.log(`ServerID ${serverId} and url: ${url}`);
+    this
+      .httpClient
+      .post(url, null)
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+      tap(_ =>
+        console.log(
+          `Perform start action, server id: ${serverId}`
+        )
+      ),
+      catchError(this.handleError<any>('start action'))
+      ).subscribe();
+  }
+
+  stopServer(serverId): void {
+    const url = `${this.compute_url}/${serverId}/stop`;
+    console.log(`ServerID ${serverId} and url: ${url}`);
+    this
+      .httpClient
+      .post<any>(url, "")
+      .pipe(
+        tap(_ =>
+          console.log(
+            `Perform stop action, server id: ${serverId}`
+          )
+        ),
+        catchError(this.handleError<any>('stop action'))
+      ).subscribe();
+  }
+
+  softRebootServer(serverId): void {
+    const url = `${this.compute_url}/${serverId}/softreboot`;
+    console.log(`ServerID ${serverId} and url: ${url}`);
+    this
+      .httpClient
+      .post(url, null)
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        tap(_ =>
+          console.log(
+            `Perform soft reboot action server id: ${serverId}`
+          )
+        ),
+        catchError(this.handleError<any>('soft reboot action'))
+      ).subscribe();
+  }
+
+  hardRebootServer(serverId): void {
+    const url = `${this.compute_url}/${serverId}/hardreboot`;
+    console.log(`ServerID ${serverId} and url: ${url}`);
+    this
+      .httpClient
+      .post(url, null)
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        tap(_ =>
+          console.log(
+            `Perform hard reboot action server id: ${serverId}`
+          )
+        ),
+        catchError(this.handleError<any>('hard reboot action'))
+      ).subscribe();
   }
 
 }

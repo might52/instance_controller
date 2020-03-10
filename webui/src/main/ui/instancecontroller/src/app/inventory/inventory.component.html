@@ -21,12 +21,12 @@
             <small>{{ server.id }}</small>
           </p>
         </td>
-        <td>
+        <td class="text-break">
           <p class="text-monospace m-0">
             <small>{{ server.name }}</small>
           </p>
         </td>
-        <td>
+        <td class="text-break">
           <div class="container-sm" *ngIf="server.image">
             <h6>Id</h6>
             <div class="ml-2">
@@ -83,7 +83,7 @@
             </div>
           </div>
         </td>
-        <td>
+        <td class="text-break">
           <div class="container-sm" *ngIf="server.flavor">
               <h6>Id</h6>
               <div class="ml-2">
@@ -102,28 +102,43 @@
               </div>
           </div>
         </td>
-        <td>
+        <td class="text-break">
           <p class="text-monospace m-0">
-            <small>{{ server.status }}</small>
+            <small>
+              Status:
+              {{ server.status }}
+            </small>
+          </p>
+          <p class="text-monospace m-0">
+            <small>
+              Task state:
+              {{ server["OS-EXT-STS:task_state"] }}
+            </small>
+          </p>
+          <p class="text-monospace m-0">
+            <small>
+              Power state:
+              {{ server["OS-EXT-STS:power_state"] }}
+            </small>
           </p>
         </td>
-        <td>
+        <td class="text-break">
           <p class="text-monospace m-0">
             <small>{{ server.created }}</small>
           </p>
         </td>
-        <td>
+        <td class="text-break">
           <p class="container btn-group-vertical">
-            <button type="button" class="btn btn-sm btn-outline-primary">
+            <button (click)="serverAction(serverActions.START, server.id)" type="button" class="btn btn-sm btn-outline-primary">
               Start
             </button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">
+            <button (click)="serverAction(serverActions.STOP, server.id)" type="button" class="btn btn-sm btn-outline-secondary">
               Stop
             </button>
-            <button type="button" class="btn btn-sm btn-outline-info">
+            <button (click)="serverAction(serverActions.SOFT_REBOOT, server.id)" type="button" class="btn btn-sm btn-outline-info">
               Soft reboot
             </button>
-            <button type="button" class="btn btn-sm btn-outline-danger">
+            <button (click)="serverAction(serverActions.HARD_REBOOT, server.id)" type="button" class="btn btn-sm btn-outline-danger">
               Hard reboot
             </button>
           </p>

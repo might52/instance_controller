@@ -13,6 +13,7 @@ export interface Server {
   progress?: string;
   updated?: string;
   task_state?: string;
+  power_state?: number;
 }
 
 export interface Addresses {
