@@ -1,10 +1,10 @@
 package com.might.instancecontroller.services.impl;
 
-import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.might.instancecontroller.models.servers.Instance;
 import com.might.instancecontroller.models.servers.Server;
 import com.might.instancecontroller.models.servers.Servers;
+import com.might.instancecontroller.services.BaseActions;
 import com.might.instancecontroller.services.ComputeService;
 import com.might.instancecontroller.services.transport.RESTService;
 import com.might.instancecontroller.services.transport.RestUtils;
@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
 import java.util.List;
 
 
@@ -35,6 +34,9 @@ public class ComputeServiceImpl implements ComputeService {
      * Template for message with server list.
      */
     private static final String SERVERS_TEMPLATE = "Server list {}";
+
+    private static final String SERVER_ACTION_TEMPLATE =
+            "Server {} perform action {}";
 
     /**
      * OS utils bean.
@@ -82,7 +84,7 @@ public class ComputeServiceImpl implements ComputeService {
                         new TypeReference<Servers>() {
                         });
 
-        LOGGER.debug("Server list: {}", servers.getServers());
+        LOGGER.debug(SERVERS_TEMPLATE, servers.getServers());
         return servers.getServers();
     }
 
@@ -136,9 +138,9 @@ public class ComputeServiceImpl implements ComputeService {
 
     @Override
     public void stopServer(String serverId) {
-        StopAction stopAction = new StopAction();
+        LOGGER.debug(SERVER_ACTION_TEMPLATE, serverId, BaseActions.Stop.class);
         restService.postRaw(osUtils.getServerUrlAction(serverId),
-                stopAction,
+                new BaseActions.Stop(),
                 RestUtils.getAuthHeaders(),
                 new TypeReference<>() {
                 });
@@ -146,19 +148,12 @@ public class ComputeServiceImpl implements ComputeService {
 
     @Override
     public void startServer(String serverId) {
-        StartAction startAction = new StartAction();
+        LOGGER.debug(SERVER_ACTION_TEMPLATE, serverId, BaseActions.Start.class);
         restService.postRaw(osUtils.getServerUrlAction(serverId),
-                startAction,
+                new BaseActions.Start(),
                 RestUtils.getAuthHeaders(),
                 new TypeReference<>() {
                 });
     }
 
-    @JsonRootName(value = "os-start")
-    final class StartAction implements Serializable {
-    }
-
-    @JsonRootName(value = "os-stop")
-    final class StopAction implements Serializable{
-    }
 }

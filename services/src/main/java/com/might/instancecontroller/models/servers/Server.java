@@ -316,39 +316,4 @@ public class Server {
         this.metadata = metadata;
     }
 
-    @Override
-    public String toString() {
-        return "Server{" +
-                "taskState='" + taskState + '\'' +
-                ", addresses=" + addresses +
-                ", links=" + links.toString() +
-                ", image=" + image.toString() +
-                ", vmState='" + vmState + '\'' +
-                ", instanceName='" + instanceName + '\'' +
-                ", launchedAt='" + launchedAt + '\'' +
-                ", flavor=" + flavor.toString() +
-                ", id='" + id + '\'' +
-                ", securityGroups=" + securityGroups +
-                ", userId='" + userId + '\'' +
-                ", diskConfig='" + diskConfig + '\'' +
-                ", accessIPv4='" + accessIPv4 + '\'' +
-                ", accessIPv6='" + accessIPv6 + '\'' +
-                ", progress=" + progress +
-                ", powerState=" + powerState +
-                ", availabilityZone='" + availabilityZone + '\'' +
-                ", configDrive='" + configDrive + '\'' +
-                ", status='" + status + '\'' +
-                ", updated='" + updated + '\'' +
-                ", hostId='" + hostId + '\'' +
-                ", host='" + host + '\'' +
-                ", terminatedAt='" + terminatedAt + '\'' +
-                ", keyName='" + keyName + '\'' +
-                ", hypervisorHostname='" + hypervisorHostname + '\'' +
-                ", name='" + name + '\'' +
-                ", created='" + created + '\'' +
-                ", tenantId='" + tenantId + '\'' +
-                ", volumes_attached=" + volumes_attached +
-                ", metadata=" + metadata +
-                '}';
-    }
 }

@@ -21,4 +21,5 @@ public class Image {
     public void setLinks(List<Link> links) {
         this.links = links;
     }
+
 }
