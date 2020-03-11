@@ -4,55 +4,74 @@
     <caption>{{title}}</caption>
     <thead>
       <tr class="shadow-sm">
-        <th scope="col">Function</th>
         <th scope="col">Instance name</th>
-        <th scope="col">Task</th>
-        <th scope="col">Instance status</th>
+        <th scope="col">Function name</th>
+        <th scope="col">Status</th>
+        <th scope="col">Networks</th>
         <th scope="col">Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let server of servers">
         <td scope="row" class="text-break">
-          {{ server}}
+          <p class="text-monospace m-0">
+            <small>
+              {{ server.instance_name }}
+            </small>
+          </p>
         </td>
-        <td>{{ server.name }}</td>
         <td>
           <p class="text-monospace m-0">
             <small>
+              {{ server.name }}
+            </small>
+          </p>
+        </td>
+        <td>
+          <p class="text-monospace m-0">
+            <small>
+              Status:
+              {{ server.status }}
+            </small>
+          </p>
+          <p class="text-monospace m-0">
+            <small>
+              VM state:
+              {{ server.vm_state }}
+            </small>
+          </p>
+          <p class="text-monospace m-0">
+            <small>
               Task state:
-              {{ server["OS-EXT-STS:task_state"] }}
+              {{ server.task_state }}
             </small>
           </p>
           <p class="text-monospace m-0">
             <small>
               Power state:
-              {{ server["OS-EXT-STS:power_state"] }}
+              {{ server.power_state }}
+            </small>
+          </p>
+          <p class="text-monospace m-0">
+            <small>
+              Progress:
+              {{ server.progress }}
             </small>
           </p>
         </td>
-        <td>{{ server.status }}</td>
         <td>
           <div class="container-md">
             <div *ngIf="server.addresses.networks.internal_network">
-              <h6>Internal network</h6>
               <div class=ml-2 *ngFor="let network of server.addresses.networks.internal_network">
                 <p class="text-monospace m-0">
-                  <small>macAddr: {{ network.macAddr }}</small>
-                </p>
-                <p class="text-monospace m-0">
-                  <small>addr: {{ network.addr }}</small>
+                  <small>Internal network addr: {{ network.addr }}</small>
                 </p>
               </div>
             </div>
             <div *ngIf="server.addresses.networks.external_network">
-              <h6 class="mt-2">External network</h6>
               <div class=ml-2 *ngFor="let network of server.addresses.networks.external_network">
                 <p class="text-monospace m-0">
-                  <small>macAddr: {{ network.macAddr }}</small>
-                </p>
-                <p class="text-monospace m-0">
-                  <small>addr: {{ network.addr }}</small>
+                  <small>External network addr: {{ network.addr }}</small>
                 </p>
               </div>
             </div>

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { map, catchError, tap } from "rxjs/operators";
 import { Observable, of } from "rxjs";
-import { Server } from "./models/Server"
+import { Server, ServerJSON } from "./models/Server"
 
 
 @Injectable({
@@ -35,17 +35,17 @@ export class ComputeService {
    };
   }
 
-  getServers(): Observable<Array<Server>> {
+  getServers(): Observable<Array<ServerJSON>> {
     const url = `${this.compute_url}/all`;
     return this
       .httpClient
-      .get<Array<Server>>(url)
+      .get<Array<ServerJSON>>(url)
       .pipe(
         map((res: any) => {
           return res;
         }),
         tap(_ => console.log('Fetching servers')),
-        catchError(this.handleError<Array<Server>>('getServers', []))
+        catchError(this.handleError<Array<ServerJSON>>('getServers', []))
       );
   }
 

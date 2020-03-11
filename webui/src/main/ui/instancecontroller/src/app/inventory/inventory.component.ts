@@ -21,7 +21,13 @@ export class InventoryComponent implements OnInit {
 
   getServers(): void {
     this.computeService.getServers()
-      .subscribe(data => this.servers = data);
+      .subscribe(data => {
+        let correctedData = [];
+        data.forEach((el) => {
+          correctedData.push(Server.fromJSON(el));
+        });
+        this.servers = correctedData;
+      });
   }
 
   serverAction(serverActions:ServerActions, serverId:String): void {
