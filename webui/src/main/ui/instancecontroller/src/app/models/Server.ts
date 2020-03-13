@@ -22,7 +22,7 @@ export class Server {
       instance_name: json["OS-EXT-SRV-ATTR:instance_name"],
       vm_state: json["OS-EXT-STS:vm_state"],
       task_state: json["OS-EXT-STS:task_state"],
-      power_state: json["OS-EXT-STS:power_state"],
+      power_state: PowerState[json["OS-EXT-STS:power_state"]],
       }
     );
   }
@@ -73,16 +73,11 @@ export interface Link {
   rel?: string;
 }
 
-/*
-export interface Image {
-  id?: string;
-  links?: Array<Link>;
+export enum PowerState {
+  NOSTATE = 0,
+  RUNNING = 1,
+  PAUSED = 3,
+  SHUTDOWN = 4,
+  CRASHED = 6,
+  SUSPENDED = 7
 }
-
-export interface Flavor {
-  id?: string;
-  links?: Array<Link>;
-}
-*/
-
-
