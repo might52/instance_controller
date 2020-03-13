@@ -1,3 +1,5 @@
+import { PowerState } from "./PowerState";
+
 export class Server {
   name: string;
   image?: ImgFlv;
@@ -26,9 +28,8 @@ export class Server {
       }
     );
   }
-
-
 }
+
 export interface ServerJSON {
   name: string;
   image?: ImgFlv;
@@ -71,13 +72,4 @@ export interface ImgFlv {
 export interface Link {
   href?: string;
   rel?: string;
-}
-
-export enum PowerState {
-  NOSTATE = 0,
-  RUNNING = 1,
-  PAUSED = 3,
-  SHUTDOWN = 4,
-  CRASHED = 6,
-  SUSPENDED = 7
 }
