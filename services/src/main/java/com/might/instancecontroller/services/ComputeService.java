@@ -14,4 +14,5 @@ public interface ComputeService {
     void startServer(String serverId);
     void hardReboot(String serverId);
     void softReboot(String serverId);
+    void deleteServer(String serverId);
 }

@@ -9,9 +9,9 @@ public interface RESTService {
 
     /**
      * Perform GET request to the endpoint.
-     * @param endpointUrl
-     * @param headers
-     * @param typeReference
+     * @param endpointUrl url endpoint.
+     * @param headers headers map.
+     * @param typeReference type of required object.
      * @param <T>
      * @return
      */
@@ -21,11 +21,11 @@ public interface RESTService {
 
     /**
      * Perform GET request to the endpoint.
-     * @param endpointUrl
-     * @param headers
-     * @param typeReference
+     * @param endpointUrl url endpoint.
+     * @param headers headers map.
+     * @param typeReference type of required object.
      * @param <T>
-     * @return Return RestRequest object.
+     * @return Return RestResponse object.
      */
     <T> RestResponse getRaw(String endpointUrl,
                             MultivaluedMap<String, String> headers,
@@ -33,10 +33,10 @@ public interface RESTService {
 
     /**
      * Perform POST request to the endpoint.
-     * @param endpointUrl
-     * @param data
-     * @param headers
-     * @param typeReference
+     * @param endpointUrl url endpoint.
+     * @param data class body of request.
+     * @param headers headers map.
+     * @param typeReference type of required object.
      * @param <T>
      * @return Return required object.
      */
@@ -47,12 +47,12 @@ public interface RESTService {
 
     /**
      * Perform POST request to the endpoint.
-     * @param endpointUrl
-     * @param data
-     * @param headers
-     * @param typeReference
+     * @param endpointUrl url endpoint.
+     * @param data class body of request.
+     * @param headers headers map.
+     * @param typeReference type of required object.
      * @param <T>
-     * @return Return RestRequiest object.
+     * @return Return RestResponse object.
      */
     <T> RestResponse postRaw(String endpointUrl,
                Object data,
@@ -61,19 +61,39 @@ public interface RESTService {
 
     /**
      * Perform UPDATE request to the endpoint.
-     * @param endpointUrl
-     * @param object
+     * @param endpointUrl url endpoint.
+     * @param data class body of request.
      * @param <T>
      * @return
      */
-    <T> T update(String endpointUrl, Object object);
+    <T> T update(String endpointUrl, Object data);
 
     /**
      * Perform DELETE request to the endpoint.
-     * @param endpointUrl
-     * @param object
+     * @param endpointUrl url endpoint.
+     * @param data class body of request.
+     * @param headers headers map.
+     * @param typeReference type of required object.
      * @param <T>
-     * @return
+     * @return Return required object.
      */
-    <T> T delete(String endpointUrl, Object object);
+    <T> T delete(String endpointUrl,
+                 Object data,
+                 MultivaluedMap<String, String> headers,
+                 TypeReference<T> typeReference);
+
+    /**
+     * Perform DELETE request to the endpoint.
+     * @param endpointUrl url endpoint.
+     * @param data class body of request.
+     * @param headers headers map.
+     * @param typeReference type of required object.
+     * @param <T>
+     * @return Return RestResponse object.
+     */
+    <T> RestResponse deleteRaw(String endpointUrl,
+                 Object data,
+                 MultivaluedMap<String, String> headers,
+                 TypeReference<T> typeReference);
+
 }

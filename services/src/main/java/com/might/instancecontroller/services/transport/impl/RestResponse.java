@@ -28,7 +28,7 @@ public class RestResponse implements Serializable {
         this.clientResponse = clientResponse;
         this.stringEntity = null;
         try {
-            InputStream inputStream = clientResponse.getEntity(InputStream.class);
+            InputStream inputStream = clientResponse.getEntityInputStream();
             ByteArrayOutputStream result = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
             int length;

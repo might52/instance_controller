@@ -89,18 +89,18 @@ public class OSUtils implements Serializable {
         }}.stream().collect(Collectors.joining(SLASH));
     }
 
-    public String getServerUrl(String instanceId) {
+    public String getServerUrl(String serverId) {
         return new ArrayList<String>() {{
             add(osComputeUrl);
             add(SERVERS);
-            add(instanceId);
+            add(serverId);
         }}.stream().collect(Collectors.joining(SLASH));
     }
 
-    public String getServerUrlAction(String instanceId) {
+    public String getServerUrlAction(String serverId) {
         return String.join(
                 SLASH,
-                this.getServerUrl(instanceId),
+                this.getServerUrl(serverId),
                 ACTION
         );
     }

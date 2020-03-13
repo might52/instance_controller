@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ComputeService} from "../compute.service";
 import {Server} from "../models/Server";
 import {ServerActions} from "../models/ServerActions";
@@ -48,6 +48,10 @@ export class InventoryComponent implements OnInit {
       case ServerActions.HARD_REBOOT:
         console.log(`serverAction: ${ServerActions} from HARD_REBOOT case`);
         this.computeService.hardRebootServer(serverId);
+        break;
+      case ServerActions.DELETE:
+        console.log(`serverAction: ${ServerActions} from Delete case`);
+        this.computeService.deleteServer(serverId);
         break;
       default:
         console.log(`serverAction: ${ServerActions} from default case`);

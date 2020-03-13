@@ -183,4 +183,18 @@ public class ComputeServiceImpl implements ComputeService {
                 new TypeReference<>() {
                 });
     }
+
+    @Override
+    public void deleteServer(String serverId) {
+        LOGGER.debug(
+                SERVER_ACTION_TEMPLATE,
+                serverId,
+                BaseActions.DeleteServer.class
+        );
+        restService.deleteRaw(osUtils.getServerUrl(serverId),
+                new BaseActions.DeleteServer(),
+                RestUtils.getAuthHeaders(),
+                new TypeReference<>() {
+                });
+    }
 }

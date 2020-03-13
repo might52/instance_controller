@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { map, catchError, tap } from "rxjs/operators";
 import { Observable, of } from "rxjs";
-import { Server, ServerJSON } from "./models/Server"
+import { ServerJSON } from "./models/Server"
 
 
 @Injectable({
@@ -29,7 +29,7 @@ export class ComputeService {
       try {
         return JSON.parse(error)
       } catch (error) {
-        console.error("Error doesn't have JSON format");
+        console.error("Response doesn't have JSON format");
         return of(result as T);
       }
    };
@@ -119,6 +119,21 @@ export class ComputeService {
           )
         ),
         catchError(this.handleError<any>('hard reboot action'))
+      ).subscribe();
+  }
+
+  deleteServer(serverId): void {
+    const url = `${this.compute_url}/${serverId}/delete`;
+    console.log(`ServerID ${serverId} and url: ${url}`);
+    this
+      .httpClient
+      .delete(url)
+      .pipe(
+        tap(_ =>
+          console.log(
+            `Perform delete action server id: ${serverId}`
+          )
+        )
       ).subscribe();
   }
 

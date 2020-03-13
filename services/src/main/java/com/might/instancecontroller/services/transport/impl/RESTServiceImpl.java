@@ -81,9 +81,9 @@ public class RESTServiceImpl implements RESTService, Serializable {
     //region GET
     /**
      * Perform get request to the destination endpoint.
-     * @param endpointUrl - target url endpoint.
-     * @param headers     - headers for request.
-     * @param <T>         - hz wtf eto.
+     * @param endpointUrl target url endpoint.
+     * @param headers     headers for request.
+     * @param <T>         hz wtf eto.
      * @return -
      */
     @Override
@@ -98,9 +98,9 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     /**
      * Return the RestResponse on get method.
-     * @param endpointUrl url.
-     * @param headers may be empty.
-     * @param type should be empty
+     * @param endpointUrl target url endpoint.
+     * @param headers headers for request.
+     * @param type type of required object.
      * @param <T> should be empty.
      * @return <RestResponse>
      */
@@ -115,9 +115,8 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     /**
      * Perform get request to the destination endpoint.
-     *
-     * @param endpointUrl - target url endpoint.
-     * @param headers     - headers for request.
+     * @param endpointUrl target url endpoint.
+     * @param headers headers for request.
      * @return - rest response object.
      */
     private RestResponse getRequest(String endpointUrl,
@@ -150,10 +149,10 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     /**
      * Perform post request to the destination endpoint.
-     * @param endpointUrl url for service.
+     * @param endpointUrl target url endpoint.
      * @param data request body.
-     * @param headers headers.
-     * @param type required type.
+     * @param headers headers for request.
+     * @param type type of required object.
      * @param <T> return object type.
      * @return required object.
      */
@@ -173,10 +172,10 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     /**
      * Return the RestResponse on post method.
-     * @param endpointUrl url.
-     * @param data body request.
-     * @param headers may be empty.
-     * @param type should be empty
+     * @param endpointUrl target url endpoint.
+     * @param data request body.
+     * @param headers headers for request.
+     * @param type type of required object.
      * @param <T> should be empty.
      * @return <RestResponse>
      */
@@ -197,7 +196,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
      * @param endpointUrl target url endpoint.
      * @param data request body.
      * @param headers headers for request.
-     * @param type required type.
+     * @param type type of required object.
      * @return RestResponse.
      */
     private RestResponse postRequest(String endpointUrl,
@@ -238,8 +237,82 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     //region DELETE
 
-    public <T> T delete(String endpointUrl, Object object) {
-        return null;
+    /**
+     * Perform DELETE request to the destination endpoint.
+     * @param endpointUrl target url endpoint.
+     * @param data request body.
+     * @param headers headers for request.
+     * @param type type of required object.
+     * @param <T>
+     * @return return required object.
+     */
+    public <T> T delete(String endpointUrl,
+                        Object data,
+                        MultivaluedMap<String, String> headers,
+                        TypeReference<T> type
+    ) {
+        RestResponse restResponse = this.deleteRequest(
+                endpointUrl,
+                data,
+                headers,
+                type);
+        checkResponseStatus(restResponse);
+        return this.parseResponse(restResponse, type);
+    }
+
+    /**
+     * Return the RestResponse on post method.
+     * @param endpointUrl target url endpoint.
+     * @param data request body.
+     * @param headers headers for request.
+     * @param type type of required object.
+     * @param <T>
+     * @return RestResponse.
+     */
+    public <T> RestResponse deleteRaw(String endpointUrl,
+                                      Object data,
+                                      MultivaluedMap<String, String> headers,
+                                      TypeReference<T> type
+    ) {
+        return this.deleteRequest(
+                endpointUrl,
+                data,
+                headers,
+                type);
+    }
+
+    /**
+     * Perform DELETE request to the destination endpoint.
+     * @param endpointUrl target url endpoint.
+     * @param data request body.
+     * @param headers headers for request.
+     * @param type type of required object.
+     * @return RestResponse.
+     */
+    private RestResponse deleteRequest(String endpointUrl,
+                                     Object data,
+                                     MultivaluedMap<String, String> headers,
+                                     TypeReference type) {
+        ClientResponse clientResponse;
+        RestResponse restResponse;
+        try {
+            String body = getEntityString(data);
+            WebResource webResource = restClient.resource(endpointUrl);
+            WebResource.Builder builder = webResource.getRequestBuilder();
+            addHeaders(builder, headers);
+            LOGGER.debug(String.format(URL_MESSAGE_TEMPLATE, webResource.getURI()));
+            LOGGER.debug(String.format(REQUEST_BODY_MESSAGE_TEMPLATE, body));
+            clientResponse = builder
+                    .accept(MediaType.APPLICATION_JSON)
+                    .entity(body, MediaType.APPLICATION_JSON)
+                    .delete(ClientResponse.class);
+            restResponse = new RestResponse(clientResponse);
+        } catch (Exception ex) {
+            LOGGER.error(String.format(ERROR_MESSAGE_TEMPLATE, ex));
+            throw ex;
+        }
+
+        return restResponse;
     }
 
     //endregion
@@ -310,8 +383,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     /**
      * Convert object to string JSON.
-     *
-     * @param object
+     * @param object POJO for serialization.
      * @return string representation of object.
      */
     private String getEntityString(Object object) {
@@ -330,7 +402,6 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     /**
      * Add headers to the response.
-     *
      * @param builder - builder of the request.
      * @param headers - map of headers.
      * @return - builder with headers.
