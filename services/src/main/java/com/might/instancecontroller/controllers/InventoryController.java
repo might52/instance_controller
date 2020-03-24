@@ -29,7 +29,7 @@ public class InventoryController {
         this.computeService = computeService;
         this.serversResponse = Files.readString(
                 Paths.get(
-                        "D:\\repo\\git\\instance_controller\\services\\src" +
+                        "D:\\repos\\instance_controller\\services\\src" +
                                 "\\main\\resources\\Jsons\\servers_response.json"),
                 StandardCharsets.UTF_8
         );

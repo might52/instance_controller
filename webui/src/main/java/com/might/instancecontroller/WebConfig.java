@@ -10,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
-
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     private AuthSessionBean authSessionBean;
@@ -40,7 +39,5 @@ public class WebConfig extends WebMvcConfigurerAdapter {
                 .addMapping("/api/**")
                 .allowedOrigins("http://localhost:4200")
                 .allowedMethods("GET", "POST","PUT", "DELETE");
-
-//        super.addCorsMappings(registry);
     }
 }
