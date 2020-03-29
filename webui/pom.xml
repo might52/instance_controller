@@ -4,86 +4,25 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>instance_controller</artifactId>
-        <groupId>com.might</groupId>
+        <groupId>org.might</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
     <artifactId>webui</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
-            <groupId>com.might</groupId>
+            <groupId>org.might</groupId>
             <artifactId>services</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.might</groupId>
-                <artifactId>dba</artifactId>
+            <groupId>org.might</groupId>
+            <artifactId>dba</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-thymeleaf</artifactId>-->
-<!--        </dependency>-->
-<!--
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>bootstrap</artifactId>
-            <version>4.2.1</version>
-        </dependency>
--->
     </dependencies>
 
-    <!--For node js-->
-
-    <!--<profiles>
-        <profile>
-            <id>development</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <ng.build>build</ng.build>
-            </properties>
-        </profile>
-        <profile>
-            <id>production</id>
-            <properties>
-                <ng.build>build:prod</ng.build>
-            </properties>
-        </profile>
-    </profiles>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.6.0</version>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <executable>ng</executable>
-                    <workingDirectory>src/main/ui/instancecontroller</workingDirectory>
-                    <arguments>${ng.build}</arguments>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring.boot.maven.plugin}</version>
-                <configuration>
-                    <mainClass>com.might.instancecontroller.InstanceControllerApplication</mainClass>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
--->
 </project>
