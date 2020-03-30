@@ -3,15 +3,13 @@ package org.might.instancecontroller.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-@Configuration
-@PropertySource(value = "classpath:service.properties", ignoreResourceNotFound = true)
+@Service
 public class OSUtils implements Serializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OSUtils.class);
