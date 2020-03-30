@@ -26,4 +26,20 @@ public class Configuration {
     public void setScript(String script) {
         this.script = script;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof Configuration)) {
+            return false;
+        }
+
+        Configuration that = (Configuration) o;
+
+        return getScript() != null ? getScript().equals(that.getScript()) : that.getScript() == null;
+    }
+
 }

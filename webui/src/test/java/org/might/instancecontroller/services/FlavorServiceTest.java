@@ -86,7 +86,7 @@ public class FlavorServiceTest {
     }
 
     @Test
-    public void canGetWholeflavors() {
+    public void canGetWholeFlavors() {
         Flavor image = prepateTestFlavor();
         flavorService.saveFlavor(image);
         LOGGER.debug(
