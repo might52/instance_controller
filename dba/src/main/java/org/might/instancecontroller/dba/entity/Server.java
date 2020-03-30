@@ -46,4 +46,29 @@ public class Server {
     public void setFunction(Function function) {
         this.function = function;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof Server)) {
+            return false;
+        }
+
+        Server server = (Server) o;
+
+        if (!getName().equals(server.getName())) {
+            return false;
+        }
+
+        if (!getServerId().equals(server.getServerId())) {
+            return false;
+        }
+
+        return getFunction().equals(server.getFunction());
+    }
+
 }
