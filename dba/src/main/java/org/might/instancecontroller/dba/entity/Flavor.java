@@ -26,4 +26,19 @@ public class Flavor {
     public void setReference(String reference) {
         this.reference = reference;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Flavor)) {
+            return false;
+        }
+
+        Flavor flavor = (Flavor) o;
+
+        return getReference().equals(flavor.getReference());
+    }
+
 }

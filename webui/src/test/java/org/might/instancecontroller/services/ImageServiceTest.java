@@ -61,7 +61,7 @@ public class ImageServiceTest {
         );
 
         Optional<Image> toBeDel = imageService.getImageById(image.getId());
-        imageService.deleteImage(toBeDel.get());
+        toBeDel.ifPresent(value -> imageService.deleteImage(value));
         Assert.assertEquals(0, imageService.getAll().size());
     }
 
