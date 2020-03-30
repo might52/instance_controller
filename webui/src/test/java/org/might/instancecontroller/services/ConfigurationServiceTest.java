@@ -35,6 +35,12 @@ public class ConfigurationServiceTest {
         }
     }
 
+    private Configuration prepateTestConfiguration() {
+        Configuration configuration = new Configuration();
+        configuration.setScript(TEST_SCRIPTS);
+        return configuration;
+    }
+
     @Test
     public void canAddNewConfiguration() {
         Configuration configuration = prepateTestConfiguration();
@@ -73,7 +79,6 @@ public class ConfigurationServiceTest {
                 configuration.getScript()
         );
 
-        Optional<Configuration> toBeUpdated = configurationService.getConfigurationById(configuration.getId());
         configuration.setScript(UPDATED_SCRIPTS);
         configurationService.saveConfiguration(configuration);
         LOGGER.debug(
@@ -119,12 +124,6 @@ public class ConfigurationServiceTest {
         );
 
         Assert.assertEquals(configuration, receivedImage);
-    }
-
-    private Configuration prepateTestConfiguration() {
-        Configuration configuration = new Configuration();
-        configuration.setScript(TEST_SCRIPTS);
-        return configuration;
     }
 
 

@@ -27,6 +27,12 @@ public class FlavorServiceTest {
             FlavorServiceTest.class
     );
 
+    private Flavor prepateTestFlavor() {
+        Flavor flavor = new Flavor();
+        flavor.setReference(TEST_REF);
+        return flavor;
+    }
+
     @Before
     public void cleanUpTable() {
         for (Flavor flavor :
@@ -73,7 +79,6 @@ public class FlavorServiceTest {
                 flavor.getReference()
         );
 
-        Optional<Flavor> toBeUpdated = flavorService.getFlavorById(flavor.getId());
         flavor.setReference(UPDATED_REF);
         flavorService.saveFlavor(flavor);
         LOGGER.debug(
@@ -121,11 +126,7 @@ public class FlavorServiceTest {
         Assert.assertEquals(image, receivedImage);
     }
 
-    private Flavor prepateTestFlavor() {
-        Flavor flavor = new Flavor();
-        flavor.setReference(TEST_REF);
-        return flavor;
-    }
+
 
 
 }

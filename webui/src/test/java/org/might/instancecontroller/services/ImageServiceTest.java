@@ -29,6 +29,12 @@ public class ImageServiceTest {
             ImageServiceTest.class
     );
 
+    private Image prepateTestImage() {
+        Image image = new Image();
+        image.setReference(TEST_REF);
+        return image;
+    }
+
     @Before
     public void cleanUpTable() {
         for (Image image :
@@ -75,7 +81,6 @@ public class ImageServiceTest {
                 image.getReference()
         );
 
-        Optional<Image> toBeUpdated = imageService.getImageById(image.getId());
         image.setReference(UPDATED_REF);
         imageService.saveImage(image);
         LOGGER.debug(
@@ -123,9 +128,4 @@ public class ImageServiceTest {
         Assert.assertEquals(image, receivedImage);
     }
 
-    private Image prepateTestImage() {
-        Image image = new Image();
-        image.setReference(TEST_REF);
-        return image;
-    }
 }

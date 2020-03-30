@@ -96,4 +96,44 @@ public class Function {
     public void setScaleOutAbility(Boolean scaleOutAbility) {
         this.scaleOutAbility = scaleOutAbility;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Function)) {
+            return false;
+        }
+
+        Function function = (Function) o;
+
+        if (!getName().equals(function.getName())) {
+            return false;
+        }
+
+        if (!getPrefix().equals(function.getPrefix())) {
+            return false;
+        }
+
+        if (getConfiguration() != null ? !getConfiguration().equals(function.getConfiguration()) : function.getConfiguration() != null) {
+            return false;
+        }
+
+        if (!getImage().equals(function.getImage())) {
+            return false;
+        }
+
+        if (!getFlavor().equals(function.getFlavor())) {
+            return false;
+        }
+
+        if (!getScaleInAbility().equals(function.getScaleInAbility())) {
+            return false;
+        }
+
+        return getScaleOutAbility().equals(function.getScaleOutAbility());
+    }
+
 }
