@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ComputeService } from "../compute.service";
-import { Server } from "../models/Server";
+import { InstanceService } from "../instance.service";
+import { Instance } from "../models/Instance";
 
 @Component({
   selector: 'app-dashboard',
@@ -9,24 +9,25 @@ import { Server } from "../models/Server";
 })
 export class DashboardComponent implements OnInit {
 
-  title="Instance state";
-  servers: Array<Server>;
+  title="Function state";
+  instances: Array<Instance>;
 
-  constructor(private computeService: ComputeService) { }
+  constructor(private instanceService: InstanceService) { }
 
-  getServers(): void {
-    this.computeService.getServers()
+  getInstances(): void {
+    this.instanceService.getInstances()
       .subscribe(data => {
-        let correctedData = [];
-        data.forEach((el) => {
-          correctedData.push(Server.fromJSON(el));
-        });
-        this.servers = correctedData;
+        // let correctedData = [];
+        // data.forEach((el) => {
+        //   correctedData.push(Server.fromJSON(el));
+        // });
+        // this.servers = correctedData;
+        this.instances = data
       });
   }
 
   ngOnInit() {
-    this.getServers();
+    this.getInstances();
   }
 
 }

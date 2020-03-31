@@ -4,85 +4,85 @@
     <caption>{{title}}</caption>
     <thead>
       <tr class="shadow-sm">
-        <th scope="col">Instance name</th>
-        <th scope="col">Function name</th>
-        <th scope="col">Status</th>
-        <th scope="col">Networks</th>
+        <th scope="col">Description</th>
+        <th scope="col">Events</th>
+        <th scope="col">Technical Information</th>
+        <th scope="col">Servers</th>
         <th scope="col">Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let server of servers">
+      <tr *ngFor="let instance of instances">
         <td scope="row" class="text-break">
           <p class="text-monospace m-0">
             <small>
-              {{ server.instance_name }}
+              Name:
+              {{ instance.function.name }}
+            </small>
+          </p>
+          <p class="text-monospace m-0">
+            <small>
+              Description:
+              {{ instance.function.description }}
             </small>
           </p>
         </td>
         <td>
           <p class="text-monospace m-0">
             <small>
-              {{ server.name }}
+
             </small>
           </p>
         </td>
         <td>
           <p class="text-monospace m-0">
             <small>
-              Status:
-              {{ server.status }}
+              Flavor:
+              {{ instance.function.flavor.reference }}
             </small>
           </p>
           <p class="text-monospace m-0">
             <small>
-              VM state:
-              {{ server.vm_state }}
+              Image:
+              {{ instance.function.image.reference }}
+            </small>
+          </p>
+          <hr>
+          <p class="text-monospace m-0">
+            <small>
+              Scale In ability:
+              {{ instance.function.scaleInAbility }}
             </small>
           </p>
           <p class="text-monospace m-0">
             <small>
-              Task state:
-              {{ server.task_state }}
+              Scale Out ability:
+              {{ instance.function.scaleOutAbility }}
             </small>
           </p>
-          <p class="text-monospace m-0">
-            <small>
-              Power state:
-              {{ server.power_state }}
-            </small>
-          </p>
-          <p class="text-monospace m-0">
-            <small>
-              Progress:
-              {{ server.progress }}
-            </small>
-          </p>
+          <hr>
         </td>
         <td>
           <div class="container-md">
-            <div *ngIf="server.addresses.networks.internal_network">
-              <div class=ml-2 *ngFor="let network of server.addresses.networks.internal_network">
+            <div *ngIf="instance.servers">
+              <div class=ml-2 *ngFor="let server of instance.servers">
                 <p class="text-monospace m-0">
-                  <small>Internal network addr: {{ network.addr }}</small>
+                  <small>Name: {{ server.name }}</small>
                 </p>
-              </div>
-            </div>
-            <div *ngIf="server.addresses.networks.external_network">
-              <div class=ml-2 *ngFor="let network of server.addresses.networks.external_network">
                 <p class="text-monospace m-0">
-                  <small>External network addr: {{ network.addr }}</small>
+                  <small>ServerId: {{ server.serverId }}</small>
                 </p>
+                <hr>
               </div>
             </div>
           </div>
         </td>
         <td>
-          <div class="container btn-group">
-            <button type="button" class="btn btn-sm btn-outline-primary">
+          <div class="container btn-group-vertical">
+            <button *ngIf="instance.function.scaleInAbility" type="button" class="btn btn-sm btn-outline-primary">
               Scale In
             </button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">
+            <button *ngIf="instance.function.scaleOutAbility" type="button" class="btn btn-sm btn-outline-secondary">
               Scale Out
             </button>
           </div>

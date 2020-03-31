@@ -1,6 +1,7 @@
 package org.might.instancecontroller.models.function;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.might.instancecontroller.dba.entity.Server;
 import org.might.instancecontroller.dba.entity.Function;
 
@@ -13,6 +14,7 @@ public class FunctionModel implements Serializable {
     private static final long serialVersionUID = 476941359250274252L;
     @JsonIgnoreProperties
     private Function function;
+    @JsonProperty("servers")
     private List<Server> serverList;
 
     public FunctionModel(Function function, List<Server> serverList) {
