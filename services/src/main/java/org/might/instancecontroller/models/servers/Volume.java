@@ -1,6 +1,11 @@
 package org.might.instancecontroller.models.servers;
 
-public class Volume {
+import java.io.Serializable;
+
+public class Volume implements Serializable {
+
+    private static final long serialVersionUID = 8571054790360346592L;
+
     private String id;
     private boolean delete_on_termination;
 

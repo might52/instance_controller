@@ -1,10 +1,11 @@
 package org.might.instancecontroller.services;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.might.instancecontroller.dba.entity.Image;
+import org.might.instancecontroller.dba.entity.*;
 import org.might.instancecontroller.services.impl.ComputeServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,18 @@ import java.util.Optional;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class ImageServiceTest {
+    @Autowired
+    private ConfigurationService configurationService;
+
+    @Autowired
+    private FunctionService functionService;
+
+    @Autowired
+    private FlavorService flavorService;
+
+    @Autowired
+    private ServerService serverService;
+
     @Autowired
     private ImageService imageService;
 
@@ -35,9 +48,30 @@ public class ImageServiceTest {
         return image;
     }
 
+    @After
     @Before
     public void cleanUpTable() {
-        for (Image image :
+        for (Server server :
+                serverService.getAll()) {
+            serverService.deleteServer(server);
+        }
+
+        for (Function function :
+                functionService.getAll()) {
+            functionService.deleteFunction(function);
+        }
+
+        for (Configuration configuration :
+                configurationService.getAll()) {
+            configurationService.deleteConfiguration(configuration);
+        }
+
+        for (Flavor flavor :
+                flavorService.getAll()) {
+            flavorService.deleteFlavor(flavor);
+        }
+
+        for (Image image:
                 imageService.getAll()) {
             imageService.deleteImage(image);
         }

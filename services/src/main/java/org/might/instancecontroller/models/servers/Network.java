@@ -2,8 +2,12 @@ package org.might.instancecontroller.models.servers;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.io.Serializable;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Network {
+public class Network implements Serializable {
+
+    private static final long serialVersionUID = -2179709433286405024L;
 
     private String macAddr;
     private int version;

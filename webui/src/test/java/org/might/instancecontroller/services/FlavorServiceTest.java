@@ -1,10 +1,11 @@
 package org.might.instancecontroller.services;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.might.instancecontroller.dba.entity.Flavor;
+import org.might.instancecontroller.dba.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,19 @@ import java.util.Optional;
 @RunWith(SpringRunner.class)
 public class FlavorServiceTest {
     @Autowired
+    private ConfigurationService configurationService;
+
+    @Autowired
+    private FunctionService functionService;
+
+    @Autowired
     private FlavorService flavorService;
+
+    @Autowired
+    private ServerService serverService;
+
+    @Autowired
+    private ImageService imageService;
 
     private static final String UPDATED_REF = "updatedReference";
     private static final String TEST_REF = "testReference";
@@ -33,11 +46,32 @@ public class FlavorServiceTest {
         return flavor;
     }
 
+    @After
     @Before
     public void cleanUpTable() {
+        for (Server server:
+                serverService.getAll()) {
+            serverService.deleteServer(server);
+        }
+
+        for (Function function :
+                functionService.getAll()) {
+            functionService.deleteFunction(function);
+        }
+
+        for (Configuration configuration :
+                configurationService.getAll()) {
+            configurationService.deleteConfiguration(configuration);
+        }
+
         for (Flavor flavor :
                 flavorService.getAll()) {
             flavorService.deleteFlavor(flavor);
+        }
+
+        for (Image image:
+                imageService.getAll()) {
+            imageService.deleteImage(image);
         }
     }
 

@@ -9,6 +9,8 @@ import java.util.List;
 @JsonIgnoreProperties
 public class Servers implements Serializable {
 
+    private static final long serialVersionUID = -2513310349377743466L;
+
     @JsonProperty("servers")
     private List<Server> servers;
 

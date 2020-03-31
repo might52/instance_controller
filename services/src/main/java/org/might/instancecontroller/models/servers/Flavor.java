@@ -1,8 +1,12 @@
 package org.might.instancecontroller.models.servers;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Flavor {
+public class Flavor implements Serializable {
+
+    private static final long serialVersionUID = -7641110751549841463L;
+
     private String id;
     private List<Link> links;
 

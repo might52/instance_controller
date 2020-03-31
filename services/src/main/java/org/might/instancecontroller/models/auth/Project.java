@@ -3,6 +3,9 @@ package org.might.instancecontroller.models.auth;
 import java.io.Serializable;
 
 public class Project implements Serializable {
+
+    private static final long serialVersionUID = 2739954702688440584L;
+
     private String name;
     private Domain domain;
 

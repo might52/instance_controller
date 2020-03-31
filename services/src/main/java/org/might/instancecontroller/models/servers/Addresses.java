@@ -3,12 +3,16 @@ package org.might.instancecontroller.models.servers;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 @JsonRootName("addresses")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Addresses {
+public class Addresses implements Serializable {
+
+    private static final long serialVersionUID = -5035490247255476817L;
+
     private Map<String, List<Network>> networks;
 
     public Map<String, List<Network>> getNetworks() {

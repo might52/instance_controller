@@ -12,7 +12,7 @@ public class Server {
     private String name;
     @Column(name = "serverId", unique = true)
     private String serverId;
-    @OneToOne(targetEntity = Function.class, optional = false)
+    @ManyToOne(targetEntity = Function.class, optional = false)
     private Function function;
 
     public Long getId() {

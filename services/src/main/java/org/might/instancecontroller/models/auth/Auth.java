@@ -7,6 +7,9 @@ import java.io.Serializable;
 
 @JsonRootName(value = "auth")
 public class Auth implements Serializable {
+
+    private static final long serialVersionUID = -5178464425661583285L;
+
     private Identity identity;
     private Scope scope;
 

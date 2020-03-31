@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Identity implements Serializable {
+
+    private static final long serialVersionUID = 6103096682277401834L;
+
     private List<String> methods;
     private Password password;
 

@@ -1,7 +1,12 @@
 package org.might.instancecontroller.models.servers;
 
-public class Link {
-     private String href;
+import java.io.Serializable;
+
+public class Link implements Serializable {
+
+    private static final long serialVersionUID = -5467907854893799481L;
+
+    private String href;
      private String rel;
 
     public String getHref() {

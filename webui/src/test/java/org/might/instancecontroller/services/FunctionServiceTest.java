@@ -5,10 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.might.instancecontroller.dba.entity.Configuration;
-import org.might.instancecontroller.dba.entity.Flavor;
-import org.might.instancecontroller.dba.entity.Function;
-import org.might.instancecontroller.dba.entity.Image;
+import org.might.instancecontroller.dba.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +18,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class FunctionServiceTest {
 
     @Autowired
-    private FunctionService functionService;
-
-    @Autowired
     private ConfigurationService configurationService;
 
     @Autowired
+    private FunctionService functionService;
+
+    @Autowired
     private FlavorService flavorService;
+
+    @Autowired
+    private ServerService serverService;
 
     @Autowired
     private ImageService imageService;
@@ -63,6 +63,11 @@ public class FunctionServiceTest {
     @After
     @Before
     public void cleanUpTable() {
+        for (Server server :
+                serverService.getAll()) {
+            serverService.deleteServer(server);
+        }
+
         for (Function function :
                 functionService.getAll()) {
             functionService.deleteFunction(function);
@@ -79,7 +84,7 @@ public class FunctionServiceTest {
         }
 
         for (Image image:
-             imageService.getAll()) {
+                imageService.getAll()) {
             imageService.deleteImage(image);
         }
     }

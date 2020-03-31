@@ -4,12 +4,16 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.might.instancecontroller.deserializers.CustomAddressesDeserializer;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 @JsonRootName(value = "server")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Server {
+public class Server implements Serializable {
+
+    private static final long serialVersionUID = 6042380591763567596L;
+
     @JsonProperty("OS-EXT-STS:task_state")
     private String taskState;
     @JsonDeserialize(using = CustomAddressesDeserializer.class)

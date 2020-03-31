@@ -36,7 +36,7 @@ export class ComputeService {
   }
 
   getServers(): Observable<Array<ServerJSON>> {
-    const url = `${this.compute_url}/all`;
+    const url = `${this.compute_url}/all_stub`;
     return this
       .httpClient
       .get<Array<ServerJSON>>(url)
