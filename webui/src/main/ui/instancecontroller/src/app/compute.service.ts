@@ -12,6 +12,7 @@ import { ServerJSON } from "./models/Server"
 export class ComputeService {
   instance_url = "http://localhost:8008";
   compute_url = `${this.instance_url}/api/v1/instance`;
+  get_all_url = "/all_stub";
 
   httpOptions = {
       headers:
@@ -36,7 +37,7 @@ export class ComputeService {
   }
 
   getServers(): Observable<Array<ServerJSON>> {
-    const url = `${this.compute_url}/all_stub`;
+    const url = `${this.compute_url}${this.get_all_url}`;
     return this
       .httpClient
       .get<Array<ServerJSON>>(url)

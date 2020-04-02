@@ -1,6 +1,6 @@
 insert into IMAGE (ID, REFERENCE) values (1, 'testImageReference' );
 insert into FLAVOR (ID, REFERENCE) values (1, 'testFlavorReference' );
-insert into CONFIGURATION (ID, STRIPT) values (1, 'testScriptConfiguration' );
+insert into CONFIGURATION (ID, SCRIPT) values (1, 'testScriptConfiguration' );
 INSERT INTO FUNCTION (ID,
                       NAME,
                       DESCRIPTION,
@@ -19,7 +19,7 @@ INSERT INTO FUNCTION (ID,
                                 1,
                                 1,
                                 FALSE,
-                                FALSE
+                                TRUE
                                );
 
 insert into SERVER (ID, NAME, SERVER_ID, FUNCTION_ID) values (

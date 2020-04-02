@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { InstanceService } from "../instance.service";
+import { Instance } from "../models/Instance";
 
 @Component({
   selector: 'app-endpoints',
@@ -7,11 +9,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EndpointsComponent implements OnInit {
 
-  title="Endpoints configuration";
+  title="Function configuration";
+  functions: Array<Instance>;
 
-  constructor() { }
+  constructor(private instanceService: InstanceService) { }
+
+  getInstances(): void {
+    this.instanceService.getInstances()
+      .subscribe(data => {
+        // let correctedData = [];
+        // data.forEach((el) => {
+        //   correctedData.push(Server.fromJSON(el));
+        // });
+        // this.servers = correctedData;
+        this.functions = data
+      });
+  }
 
   ngOnInit() {
+    this.getInstances();
   }
 
 }

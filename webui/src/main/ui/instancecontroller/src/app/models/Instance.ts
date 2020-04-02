@@ -21,7 +21,7 @@ export interface Function {
   name: string;
   description: string;
   prefix: string;
-  configuration: number;
+  configuration: Configuration;
   image: Image;
   flavor: Flavor;
   scaleInAbility: Boolean;
@@ -36,7 +36,7 @@ export interface FunctionServer {
 
 export interface Configuration {
   id: number;
-  scripts: string;
+  script: string;
 }
 
 export interface Flavor extends BaseRef{
