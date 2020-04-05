@@ -1,6 +1,7 @@
 export class Instance {
   function: Function;
   servers: Array<FunctionServer>;
+  isEnableEdit: Boolean;
   /*
     static fromJSON(json: InstanceJSON): Instance {
       let server = Object.create(Server.prototype);

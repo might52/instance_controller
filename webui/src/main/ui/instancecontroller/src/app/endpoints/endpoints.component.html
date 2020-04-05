@@ -28,7 +28,24 @@
                 class="form-control form-control-sm"
                 id="functionName"
                 placeholder="Name from DB"
-                disabled value="{{ func.function.name }}">
+                [(ngModel)]="func.function.name"
+                [disabled]="func.isEnableEdit">
+            </div>
+          </div>
+          <div class="form-group form-row" *ngIf="func">
+            <label
+              for="prefix"
+              class="col-sm-2 col-form-label col-form-label-sm">
+              Prefix
+            </label>
+            <div class="col">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                id="prefix"
+                placeholder="Prefix from DB"
+                [(ngModel)]="func.function.prefix"
+                [disabled]="func.isEnableEdit">
             </div>
           </div>
           <div class="form-group form-row" *ngIf="func">
@@ -42,7 +59,8 @@
                 class="form-control mt-2"
                 id="description"
                 placeholder="Description from DB"
-                disabled value="{{ func.function.description }}"></textarea>
+                [(ngModel)]="func.function.description"
+                [disabled]="func.isEnableEdit"></textarea>
             </div>
           </div>
         </td>
@@ -60,7 +78,8 @@
                 class="form-control form-control-sm"
                 id="flavorId"
                 placeholder="id from DB"
-                disabled value="{{ func.function.flavor.id }}">
+                [(ngModel)]="func.function.flavor.id"
+                [disabled]="func.isEnableEdit">
             </div>
           </div>
           <div class="form-group form-row" *ngIf="func">
@@ -75,7 +94,8 @@
                 class="form-control form-control-sm"
                 id="flavorLink"
                 placeholder="flavor href link from openstack"
-                disabled value="{{ func.function.flavor.reference }}">
+                [(ngModel)]="func.function.flavor.reference"
+                [disabled]="func.isEnableEdit">
             </div>
           </div>
         </td>
@@ -93,7 +113,8 @@
                 class="form-control form-control-sm"
                 id="imageId"
                 placeholder="id from openstack"
-                disabled value="{{ func.function.image.id }}">
+                [(ngModel)]="func.function.image.id"
+                [disabled]="func.isEnableEdit">
             </div>
           </div>
           <div class="form-group form-row" *ngIf="func">
@@ -108,7 +129,8 @@
                 class="form-control form-control-sm"
                 id="imageLink"
                 placeholder="image href link from openstack"
-                disabled value="{{ func.function.image.reference }}">
+                [(ngModel)]="func.function.image.reference"
+                [disabled]="func.isEnableEdit">
             </div>
           </div>
         </td>
@@ -126,7 +148,8 @@
                 class="form-control form-control-sm"
                 id="configurationId"
                 placeholder="id from DB"
-                disabled value="{{ func.function.configuration.id }}">
+                [(ngModel)]="func.function.configuration.id"
+                [disabled]="func.isEnableEdit">
             </div>
           </div>
           <div class="form-group form-row" *ngIf="func">
@@ -140,7 +163,8 @@
                 class="form-control mt-2"
                 id="script"
                 placeholder="script from DB"
-                disabled value="{{ func.function.configuration.script }}"></textarea>
+                [(ngModel)]="func.function.configuration.script"
+                [disabled]="func.isEnableEdit"></textarea>
             </div>
           </div>
         </td>
@@ -151,7 +175,8 @@
                 class="form-check-input"
                 type="checkbox"
                 id="scaleInAbility"
-                disabled [checked]="func.function.scaleInAbility">
+                [(ngModel)]="func.function.scaleInAbility"
+                [disabled]="func.isEnableEdit" [checked]="func.function.scaleInAbility">
               <label
                 class="form-check-label"
                 for="scaleInAbility">
@@ -165,7 +190,8 @@
                 class="form-check-input"
                 type="checkbox"
                 id="scaleOutAbility"
-                disabled [checked]="func.function.scaleOutAbility">
+                [(ngModel)]="func.function.scaleOutAbility"
+                [disabled]="func.isEnableEdit" [checked]="func.function.scaleOutAbility">
               <label
                 class="form-check-label"
                 for="scaleOutAbility">
@@ -175,16 +201,35 @@
           </div>
         </td>
         <td>
-          <p class="container btn-group form-row" *ngIf="func">
-            <button type="button" class="btn btn-sm btn-outline-primary">
+          <p class="container btn-group-vertical form-row" *ngIf="func">
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-success"
+              (click)="enableEdit(func.function.id)"
+            >
               Edit
+            </button>
+            <button
+              type="button"
+              class="mt-1 btn btn-sm btn-outline-primary"
+              (click)="saveChanges(func.function.id)"
+              [disabled]="func.isEnableEdit"
+            >
+              Save
+            </button>
+            <button
+              type="button"
+              class="mt-1 btn btn-sm btn-outline-danger"
+              (click)="cancelChanges(func.function.id)"
+              [disabled]="func.isEnableEdit"
+            >
+              Cancel
             </button>
           </p>
           <small class="ml-3 text-break text-monospace form-row" *ngIf="func">
             Function ID:
             {{ func.function.id }}
           </small>
-
         </td>
       </tr>
     </tbody>

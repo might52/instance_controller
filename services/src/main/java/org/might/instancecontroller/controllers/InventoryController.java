@@ -7,6 +7,8 @@ import org.might.instancecontroller.annotations.RequireConnection;
 import org.might.instancecontroller.models.servers.Server;
 import org.might.instancecontroller.services.ComputeService;
 import org.might.instancecontroller.services.ServerStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,8 @@ public class InventoryController {
     private final ComputeService computeService;
     private final String serversResponse;
     private final ObjectMapper jsonSerializer;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(InventoryController.class);
 
     @Autowired
     public InventoryController(ComputeService computeService) throws IOException {

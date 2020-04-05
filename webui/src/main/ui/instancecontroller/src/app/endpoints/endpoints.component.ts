@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { InstanceService } from "../instance.service";
-import { Instance } from "../models/Instance";
+import {Component, OnInit} from '@angular/core';
+import {InstanceService} from "../instance.service";
+import {Instance} from "../models/Instance";
 
 @Component({
   selector: 'app-endpoints',
@@ -22,12 +22,49 @@ export class EndpointsComponent implements OnInit {
         //   correctedData.push(Server.fromJSON(el));
         // });
         // this.servers = correctedData;
-        this.functions = data
+        data.forEach((el)=> {
+          el.isEnableEdit = true;
+        });
+        this.functions = data;
       });
+  }
+
+  getInstance(id: number): Instance {
+    let inst = new Instance();
+    this.instanceService.getInstance(id).subscribe(data => {
+      inst = data;
+    });
+
+    return inst;
+  }
+
+  enableEdit(id:number):void {
+    this.functions.forEach(el => {
+      if (el.function.id === id) {
+        el.isEnableEdit=!el.isEnableEdit;
+      }
+    })
+  }
+
+  cancelChanges(id:number):void {
+    this.functions.forEach(el => {
+      if (el.function.id == id) {
+        el.isEnableEdit=!el.isEnableEdit;
+      }
+      this.getInstances();
+    });
+  }
+
+  saveChanges(id:number):void {
+    this.functions.forEach(el => {
+      if (el.function.id == id) {
+        el.isEnableEdit=!el.isEnableEdit;
+        this.instanceService.saveInstance(id, el.function);
+      }
+    });
   }
 
   ngOnInit() {
     this.getInstances();
   }
-
 }
