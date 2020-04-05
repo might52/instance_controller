@@ -1,6 +1,9 @@
-insert into IMAGE (ID, REFERENCE) values (1, 'testImageReference' );
-insert into FLAVOR (ID, REFERENCE) values (1, 'testFlavorReference' );
-insert into CONFIGURATION (ID, SCRIPT) values (1, 'testScriptConfiguration' );
+insert into IMAGE (ID, REFERENCE) values (1, '1884fe82-552b-4053-a3f6-111f969407b9' );
+insert into FLAVOR (ID, REFERENCE) values (1, '0b239a96-de37-4123-8839-62d7e585098f' );
+insert into CONFIGURATION (ID, SCRIPT) values (1, 'cat /etc/zabbix/zabbix_agentd.conf | sed -r "s;Hostname=(.)*;Hostname=test;g" > /etc/zabbix/zabbix_agentd.conf_b
+mv /etc/zabbix/zabbix_agentd.conf_b /etc/zabbix/zabbix_agentd.conf -f
+systemctl restart zabbix-agent
+' );
 INSERT INTO FUNCTION (ID,
                       NAME,
                       DESCRIPTION,
@@ -12,9 +15,9 @@ INSERT INTO FUNCTION (ID,
                       SCALE_OUT_ABILITY
                       ) values (
                                 1,
-                                'testFunction',
-                                'testDescFunction',
-                                'testPrefixFunction',
+                                'webServerFunction',
+                                'Web server function',
+                                'webserv',
                                 1,
                                 1,
                                 1,
@@ -24,14 +27,14 @@ INSERT INTO FUNCTION (ID,
 
 insert into SERVER (ID, NAME, SERVER_ID, FUNCTION_ID) values (
                                                               1,
-                                                              'testPrefixFunction:testServer1',
-                                                              'testServerIdFrom openstack',
+                                                              'webserv:webserv1',
+                                                              'webserv:webserv1fromOpenstack',
                                                               1
                                                              );
 insert into SERVER (ID, NAME, SERVER_ID, FUNCTION_ID) values (
                                                                  2,
-                                                                 'testPrefixFunction:testServer2',
-                                                                 'testServerIdFrom openstack2',
+                                                                 'webserv:webserv2',
+                                                                 'webserv:webserv2fromOpenstack',
                                                                  1
                                                              );
 

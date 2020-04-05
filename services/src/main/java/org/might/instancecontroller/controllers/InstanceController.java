@@ -1,7 +1,6 @@
 package org.might.instancecontroller.controllers;
 
 import org.might.instancecontroller.dba.entity.Function;
-import org.might.instancecontroller.dba.entity.Image;
 import org.might.instancecontroller.models.function.FunctionModel;
 import org.might.instancecontroller.services.*;
 import org.slf4j.Logger;
