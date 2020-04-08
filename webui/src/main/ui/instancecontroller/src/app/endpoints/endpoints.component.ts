@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {InstanceService} from "../instance.service";
-import {Instance} from "../models/Instance";
+import { Component, OnInit } from '@angular/core';
+import { InstanceService } from "../instance.service";
+import { Instance } from "../models/Instance";
 
 @Component({
   selector: 'app-endpoints',
@@ -59,7 +59,7 @@ export class EndpointsComponent implements OnInit {
     this.functions.forEach(el => {
       if (el.function.id == id) {
         el.isEnableEdit=!el.isEnableEdit;
-        this.instanceService.saveInstance(id, el.function);
+        this.instanceService.saveInstance(el.function);
       }
     });
   }

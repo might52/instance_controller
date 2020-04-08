@@ -7,7 +7,6 @@ import org.might.instancecontroller.dba.entity.Function;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class FunctionModel implements Serializable {
 
@@ -19,14 +18,7 @@ public class FunctionModel implements Serializable {
 
     public FunctionModel(Function function, List<Server> serverList) {
         this.function = function;
-        this.serverList = agregateServers(serverList);
-    }
-
-    private List<Server> agregateServers(List<Server> serverList) {
-        return serverList
-                        .stream()
-                        .filter(el -> el.getFunction().equals(this.function))
-                        .collect(Collectors.toList());
+        this.serverList = serverList;
     }
 
     public Function getFunction() {

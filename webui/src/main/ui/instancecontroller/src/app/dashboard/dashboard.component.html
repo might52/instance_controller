@@ -1,7 +1,7 @@
 <div class="p-4 pt-4 shadow-sm bg-white">
-  <h2 class="display-4">{{title}}</h2>
+  <h2 class="display-4">{{ title }}</h2>
   <table class="table table-striped table-hover table-bordered bg-white">
-    <caption>{{title}}</caption>
+    <caption>{{ title }}</caption>
     <thead>
       <tr class="shadow-sm">
         <th scope="col">Description</th>
@@ -14,12 +14,12 @@
     <tbody>
       <tr *ngFor="let instance of instances">
         <td scope="row" class="text-break">
-          <p class="text-monospace m-0">
-            <small>
-              Name:
-              {{ instance.function.name }}
-            </small>
-          </p>
+          <div class="text-monospace m-0">
+              <small>
+                Name:
+                {{ instance.function.description }}
+              </small>
+          </div>
           <p class="text-monospace m-0">
             <small>
               Description:
@@ -36,37 +36,37 @@
         <td>
           <p class="text-monospace m-0">
             <small>
-
+              {{ instance.function.configuration.script }}
             </small>
           </p>
         </td>
         <td>
-          <p class="text-monospace m-0">
+          <p class="text-monospace m-0 text-break">
             <small>
               Flavor:
               {{ instance.function.flavor.reference }}
             </small>
           </p>
-          <p class="text-monospace m-0">
+          <p class="text-monospace m-0 text-break">
             <small>
               Image:
               {{ instance.function.image.reference }}
             </small>
           </p>
-          <p class="text-monospace m-0">
-            <small>
+          <p class="text-monospace m-0 text-break">
+            <small class="text-break">
               Configuration:
               {{ instance.function.configuration.script}}
             </small>
           </p>
           <hr>
-          <p class="text-monospace m-0">
+          <p class="text-monospace m-0 text-break">
             <small>
               Scale In ability:
               {{ instance.function.scaleInAbility }}
             </small>
           </p>
-          <p class="text-monospace m-0">
+          <p class="text-monospace m-0 text-break">
             <small>
               Scale Out ability:
               {{ instance.function.scaleOutAbility }}
@@ -91,11 +91,35 @@
         </td>
         <td>
           <div class="container btn-group-vertical">
-            <button *ngIf="instance.function.scaleInAbility" type="button" class="btn btn-sm btn-outline-primary">
-              Scale In
+            <button
+              *ngIf="instance.function"
+              type="button"
+              class="btn btn-sm btn-outline-success"
+              (click)="createNewInstance(instance.function.id)"
+            >
+              Create
             </button>
-            <button *ngIf="instance.function.scaleOutAbility" type="button" class="btn btn-sm btn-outline-secondary">
-              Scale Out
+            <button
+              *ngIf="instance.function"
+              type="button"
+              class="btn btn-sm btn-outline-danger"
+              (click)="deleteInstance()"
+            >
+              Delete
+            </button>
+            <button
+              *ngIf="instance.function.scaleInAbility"
+              type="button"
+              class="btn btn-sm btn-outline-primary"
+            >
+              In
+            </button>
+            <button
+              *ngIf="instance.function.scaleOutAbility"
+              type="button"
+              class="btn btn-sm btn-outline-secondary"
+            >
+              Out
             </button>
           </div>
         </td>

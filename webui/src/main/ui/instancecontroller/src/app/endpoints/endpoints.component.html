@@ -206,6 +206,7 @@
               type="button"
               class="btn btn-sm btn-outline-success"
               (click)="enableEdit(func.function.id)"
+              [disabled]="!func.isEnableEdit"
             >
               Edit
             </button>

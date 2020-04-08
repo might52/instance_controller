@@ -63,9 +63,9 @@ export class InstanceService {
       )
   }
 
-  saveInstance(id: number, func:Function): void {
-    const url = `${this.compute_url}/${id}`;
-    console.log(`FunctionID ${id} and url: ${url}`);
+  saveInstance(func:Function): void {
+    const url = `${this.compute_url}/`;
+    console.log(`FunctionID ${func.id} and url: ${url}`);
     this
       .httpClient
       .post(url, func)
@@ -75,7 +75,26 @@ export class InstanceService {
         }),
         tap(_ =>
           console.log(
-            `Save function, function id: ${id}`
+            `Save function, function id: ${func.id}`
+          )
+        ),
+        catchError(this.handleError<any>('saveFunction'))
+      ).subscribe();
+  }
+
+  createNewInstance(id: number): void {
+    const url = `${this.compute_url}/instantiate/${id}`;
+    console.log(`FunctionID ${id} and url: ${url}`);
+    this
+      .httpClient
+      .post(url, "")
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        tap(_ =>
+          console.log(
+            `Instantiate new instance of function, function id: ${id}`
           )
         ),
         catchError(this.handleError<any>('saveFunction'))

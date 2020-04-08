@@ -79,7 +79,7 @@ public class OSUtils implements Serializable {
         this.osNeutronUrl = osNeutronUrl;
     }
 
-    public String getOsComputeUrl() {
+    public String getServerDetailsUrl() {
         return new ArrayList<String>() {{
             add(osComputeUrl);
             add(SERVERS);
@@ -101,5 +101,12 @@ public class OSUtils implements Serializable {
                 this.getServerUrl(serverId),
                 ACTION
         );
+    }
+
+    public String getServersUrl() {
+        return new ArrayList<String>() {{
+            add(osComputeUrl);
+            add(SERVERS);
+        }}.stream().collect(Collectors.joining(SLASH));
     }
 }

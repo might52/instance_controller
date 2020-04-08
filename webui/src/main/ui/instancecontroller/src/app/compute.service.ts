@@ -12,7 +12,7 @@ import { ServerJSON } from "./models/Server"
 export class ComputeService {
   instance_url = "http://localhost:8008";
   compute_url = `${this.instance_url}/api/v1/instance`;
-  get_all_url = "/all_stub";
+  get_all_url = "/all";
 
   httpOptions = {
       headers:

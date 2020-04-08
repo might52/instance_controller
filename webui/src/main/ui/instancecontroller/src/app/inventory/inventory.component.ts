@@ -30,6 +30,10 @@ export class InventoryComponent implements OnInit {
       });
   }
 
+  refresh(): void {
+    this.getServers();
+  }
+
   serverAction(serverActions:ServerActions, serverId:String): void {
     console.log(`serverAction: ${serverActions}`);
     switch (serverActions) {
@@ -57,6 +61,7 @@ export class InventoryComponent implements OnInit {
         console.log(`serverAction: ${ServerActions} from default case`);
         break;
     }
+    this.getServers();
   }
 
   ngOnInit() {

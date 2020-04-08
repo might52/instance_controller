@@ -12,14 +12,14 @@ public class Servers implements Serializable {
     private static final long serialVersionUID = -2513310349377743466L;
 
     @JsonProperty("servers")
-    private List<Server> servers;
+    private List<OpenstackServer> openstackServers;
 
-    public List<Server> getServers() {
-        return servers;
+    public List<OpenstackServer> getOpenstackServers() {
+        return openstackServers;
     }
 
-    public void setServers(List<Server> servers) {
-        this.servers = servers;
+    public void setOpenstackServers(List<OpenstackServer> openstackServers) {
+        this.openstackServers = openstackServers;
     }
 
 }

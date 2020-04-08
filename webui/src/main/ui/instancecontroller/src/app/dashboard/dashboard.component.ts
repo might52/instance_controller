@@ -26,6 +26,16 @@ export class DashboardComponent implements OnInit {
       });
   }
 
+  createNewInstance(id: number): void {
+    this.instanceService.createNewInstance(id);
+    this.getInstances();
+  }
+
+
+  deleteInstance(): void {
+    this.getInstances();
+  }
+
   ngOnInit() {
     this.getInstances();
   }

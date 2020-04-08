@@ -1,11 +1,12 @@
 package org.might.instancecontroller.services.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.might.instancecontroller.services.BaseActions;
+import org.might.instancecontroller.models.function.ServerCreateModel;
+import org.might.instancecontroller.services.ServerActions;
 import org.might.instancecontroller.services.transport.RESTService;
 import org.might.instancecontroller.services.transport.impl.RestResponse;
 import org.might.instancecontroller.models.servers.Instance;
-import org.might.instancecontroller.models.servers.Server;
+import org.might.instancecontroller.models.servers.OpenstackServer;
 import org.might.instancecontroller.models.servers.Servers;
 import org.might.instancecontroller.services.ComputeService;
 import org.might.instancecontroller.services.transport.RestUtils;
@@ -29,15 +30,22 @@ public class ComputeServiceImpl implements ComputeService {
     /**
      * Template for message with server object.
      */
-    private static final String SERVER_TEMPLATE = "Server {}";
+    private static final String SERVER_TEMPLATE = "OpenstackServer {}";
     /**
      * Template for message with server list.
      */
-    private static final String SERVERS_TEMPLATE = "Server list {}";
+    private static final String SERVERS_TEMPLATE = "OpenstackServer list {}";
 
     private static final String SERVER_ACTION_TEMPLATE =
-            "Server {} perform action {}";
+            "OpenstackServer {} perform action {}";
 
+    private static final String SERVER_INSTANTIATE =
+                    "Name: {}, " +
+                    "Zone: {}, " +
+                    "ImageRef: {}, " +
+                    "FlavorRef: {}, " +
+                    "DiskConfig: {}, " +
+                    "Networks: {}";
     /**
      * OS utils bean.
      */
@@ -64,7 +72,7 @@ public class ComputeServiceImpl implements ComputeService {
      */
     public String getListServer() {
         RestResponse restResponse = restService.getRaw(
-                osUtils.getOsComputeUrl(),
+                osUtils.getServerDetailsUrl(),
                 RestUtils.getAuthHeaders(),
                 new TypeReference<>(){
                 });
@@ -74,34 +82,34 @@ public class ComputeServiceImpl implements ComputeService {
 
     /**
      * Return the server list.
-     * @return the List<Server>.
+     * @return the List<OpenstackServer>.
      */
-    public List<Server> getServerList() {
+    public List<OpenstackServer> getServerList() {
         Servers servers =
                 restService.get(
-                        osUtils.getOsComputeUrl(),
+                        osUtils.getServerDetailsUrl(),
                         RestUtils.getAuthHeaders(),
                         new TypeReference<Servers>() {
                         });
 
-        LOGGER.debug(SERVERS_TEMPLATE, servers.getServers());
-        return servers.getServers();
+        LOGGER.debug(SERVERS_TEMPLATE, servers.getOpenstackServers());
+        return servers.getOpenstackServers();
     }
 
     /**
      * Return the server by Id.
      * @param serverId
-     * @return the Server object.
+     * @return the OpenstackServer object.
      */
-    public Server getServer(final String serverId) {
+    public OpenstackServer getServer(final String serverId) {
         Instance instance =
                 restService.get(
                         osUtils.getServerUrl(serverId),
                         RestUtils.getAuthHeaders(),
                         new TypeReference<Instance>() {
                         });
-        LOGGER.debug(SERVER_TEMPLATE, instance.getServer());
-        return instance.getServer();
+        LOGGER.debug(SERVER_TEMPLATE, instance.getOpenstackServer());
+        return instance.getOpenstackServer();
     }
 
     /**
@@ -117,7 +125,7 @@ public class ComputeServiceImpl implements ComputeService {
                         new TypeReference<Instance>() {
                         });
         LOGGER.debug(SERVER_TEMPLATE, instance);
-        return instance.getServer().getStatus();
+        return instance.getOpenstackServer().getStatus();
     }
 
     /**
@@ -133,68 +141,90 @@ public class ComputeServiceImpl implements ComputeService {
                         new TypeReference<Instance>() {
                         });
         LOGGER.debug(SERVER_TEMPLATE, instance);
-        return instance.getServer().getName();
+        return instance.getOpenstackServer().getName();
     }
 
     @Override
-    public void stopServer(String serverId) {
-        LOGGER.debug(SERVER_ACTION_TEMPLATE, serverId, BaseActions.Stop.class);
+    public void stopServer(final String serverId) {
+        LOGGER.debug(SERVER_ACTION_TEMPLATE, serverId, ServerActions.Stop.class);
         restService.postRaw(osUtils.getServerUrlAction(serverId),
-                new BaseActions.Stop(),
+                new ServerActions.Stop(),
                 RestUtils.getAuthHeaders(),
                 new TypeReference<>() {
                 });
     }
 
     @Override
-    public void startServer(String serverId) {
-        LOGGER.debug(SERVER_ACTION_TEMPLATE, serverId, BaseActions.Start.class);
+    public void startServer(final String serverId) {
+        LOGGER.debug(SERVER_ACTION_TEMPLATE, serverId, ServerActions.Start.class);
         restService.postRaw(osUtils.getServerUrlAction(serverId),
-                new BaseActions.Start(),
+                new ServerActions.Start(),
                 RestUtils.getAuthHeaders(),
                 new TypeReference<>() {
                 });
     }
 
     @Override
-    public void hardReboot(String serverId) {
+    public void hardReboot(final String serverId) {
         LOGGER.debug(
                 SERVER_ACTION_TEMPLATE,
                 serverId,
-                BaseActions.HardReboot.class
+                ServerActions.HardReboot.class
         );
         restService.postRaw(osUtils.getServerUrlAction(serverId),
-                new BaseActions.HardReboot(),
+                new ServerActions.HardReboot(),
                 RestUtils.getAuthHeaders(),
                 new TypeReference<>() {
                 });
     }
 
     @Override
-    public void softReboot(String serverId) {
+    public void softReboot(final String serverId) {
         LOGGER.debug(
                 SERVER_ACTION_TEMPLATE,
                 serverId,
-                BaseActions.SoftReboot.class
+                ServerActions.SoftReboot.class
         );
         restService.postRaw(osUtils.getServerUrlAction(serverId),
-                new BaseActions.SoftReboot(),
+                new ServerActions.SoftReboot(),
                 RestUtils.getAuthHeaders(),
                 new TypeReference<>() {
                 });
     }
 
     @Override
-    public void deleteServer(String serverId) {
+    public void deleteServer(final String serverId) {
         LOGGER.debug(
                 SERVER_ACTION_TEMPLATE,
                 serverId,
-                BaseActions.DeleteServer.class
+                ServerActions.DeleteServer.class
         );
         restService.deleteRaw(osUtils.getServerUrl(serverId),
-                new BaseActions.DeleteServer(),
+                new ServerActions.DeleteServer(),
                 RestUtils.getAuthHeaders(),
                 new TypeReference<>() {
                 });
+    }
+
+    @Override
+    public OpenstackServer createServer(final ServerCreateModel serverCreateModel) {
+        LOGGER.debug(
+                SERVER_INSTANTIATE,
+                serverCreateModel.getName(),
+                serverCreateModel.getZone(),
+                serverCreateModel.getImageRef(),
+                serverCreateModel.getFlavorRef(),
+                serverCreateModel.getDiskConfig(),
+                serverCreateModel.getNetworks()
+        );
+        Instance instance = restService.post(
+                osUtils.getServersUrl(),
+                serverCreateModel,
+                RestUtils.getAuthHeaders(),
+                new TypeReference<Instance>() {
+                });
+
+        LOGGER.debug(SERVER_TEMPLATE, instance);
+        return instance.getOpenstackServer();
     }
 }

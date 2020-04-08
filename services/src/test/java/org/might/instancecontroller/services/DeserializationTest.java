@@ -39,21 +39,21 @@ public class DeserializationTest {
     @Test
     public void canGetServerStatus() throws IOException {
         Instance instance = this.jsonSerializer.readValue(this.serverResponse, new TypeReference<Instance>() {});
-        String status = instance.getServer().getStatus();
+        String status = instance.getOpenstackServer().getStatus();
         Assert.assertEquals(ServerStatus.ACTIVE, ServerStatus.getServerStatus(status));
     }
 
     @Test
     public void canGetServerName() throws IOException {
         Instance instance = this.jsonSerializer.readValue(this.serverResponse, new TypeReference<Instance>() {});
-        String name = instance.getServer().getName();
+        String name = instance.getOpenstackServer().getName();
         Assert.assertEquals("first_vm_node", name);
     }
 
     @Test
     public void canGetServerAddresses() throws IOException {
         Instance instance = this.jsonSerializer.readValue(this.serverResponse, new TypeReference<Instance>() {});
-        Assert.assertEquals(getEtalonInstance().getServer().getAddresses(), instance.getServer().getAddresses());
+        Assert.assertEquals(getEtalonInstance().getOpenstackServer().getAddresses(), instance.getOpenstackServer().getAddresses());
     }
 
     @Test
@@ -71,7 +71,7 @@ public class DeserializationTest {
      */
     private Instance getEtalonInstance() {
         Instance instance = new Instance();
-        Server server = new Server();
+        OpenstackServer openstackServer = new OpenstackServer();
         Addresses addresses = new Addresses();
         Map<String, List<Network>> networks = new HashMap<>();
         List<Network> networkList = new ArrayList<>() {{
@@ -93,8 +93,8 @@ public class DeserializationTest {
         }};
         networks.put("external_network", networkList);
         addresses.setNetworks(networks);
-        server.setAddresses(addresses);
-        instance.setServer(server);
+        openstackServer.setAddresses(addresses);
+        instance.setOpenstackServer(openstackServer);
         return instance;
     }
 }

@@ -1,8 +1,13 @@
 package org.might.instancecontroller.controllers;
 
+import org.might.instancecontroller.annotations.RequireConnection;
 import org.might.instancecontroller.dba.entity.Function;
+import org.might.instancecontroller.dba.entity.Server;
 import org.might.instancecontroller.models.function.FunctionModel;
+import org.might.instancecontroller.models.function.ServerCreateModel;
+import org.might.instancecontroller.models.servers.OpenstackServer;
 import org.might.instancecontroller.services.*;
+import org.might.instancecontroller.utils.FunctionHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,17 +63,19 @@ public class InstanceController {
             function = functionService.getFunctionById(id).get();
         }
 
-        return new FunctionModel(function, serverService.getAll());
+        return new FunctionModel(function, FunctionHelper.getFunctionServers(function));
     }
 
-    @PostMapping("/{id}")
-    public void saveFunction(
-            @PathVariable Long id, @RequestBody Function function) {
+    @PostMapping("/")
+    public void saveFunction(@RequestBody Function function) {
         LOGGER.debug("Function body: {}", function);
-        LOGGER.debug("Function id: {}", id);
-        LOGGER.debug("Compare function, is equals: {}", compareFunction(function));
+        LOGGER.debug("Function id: {}", function.getId());
+        LOGGER.debug("Compare function, is equals: {}", FunctionHelper.compareFunction(function));
         // TODO: add validations for servers, which is really work with function.
-        if (compareFunction(function)) {
+        if (FunctionHelper.compareFunction(function) &&
+                !FunctionHelper.getFunctionServers(function).isEmpty()) {
+            LOGGER.error("Function contains the instantiated servers or " +
+                    "functions are equal.");
             return;
         }
 
@@ -78,15 +85,36 @@ public class InstanceController {
         functionService.saveFunction(function);
     }
 
-    private Boolean compareFunction(Function function) {
-        Function functionFromDB;
-        if (this.functionService.getFunctionById(function.getId()).isPresent()) {
-            functionFromDB = this.functionService.getFunctionById(function.getId()).get();
+    @RequireConnection
+    @PostMapping("/instantiate/{id}")
+    public void instantiate(@PathVariable Long id) {
+        Function function;
+        if (this.functionService.getFunctionById(id).isPresent()) {
+            function = this.functionService.getFunctionById(id).get();
         } else {
-            return false;
+            return;
         }
-        return function.equals(functionFromDB);
 
+        ServerCreateModel serverCreateModel =
+                FunctionHelper.getServerCreateModelAutoNetwork(
+                        function
+                );
+        OpenstackServer openstackServer = this.computeService.createServer(
+                serverCreateModel
+        );
+
+        if (openstackServer != null) {
+            Server serverDba = new Server();
+            serverDba.setName(serverCreateModel.getName());
+            serverDba.setFunction(function);
+            serverDba.setServerId(openstackServer.getId());
+            serverService.saveServer(serverDba);
+        }
+
+        //TODO: add configuration set up.
+        //TODO: add the monitoring set up.
     }
+
+
 
 }

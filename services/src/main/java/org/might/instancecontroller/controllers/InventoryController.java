@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.might.instancecontroller.annotations.RequireConnection;
-import org.might.instancecontroller.models.servers.Server;
+import org.might.instancecontroller.models.servers.OpenstackServer;
 import org.might.instancecontroller.services.ComputeService;
 import org.might.instancecontroller.services.ServerStatus;
 import org.slf4j.Logger;
@@ -50,7 +50,7 @@ public class InventoryController {
 
     @RequireConnection
     @GetMapping("/all")
-    public List<Server> getServerList() {
+    public List<OpenstackServer> getServerList() {
         return computeService.getServerList();
     }
 
@@ -76,7 +76,7 @@ public class InventoryController {
 
     @RequireConnection
     @GetMapping("/{serverId}")
-    public Server getInstance(
+    public OpenstackServer getInstance(
             @PathVariable String serverId) {
         return computeService.getServer(serverId);
     }

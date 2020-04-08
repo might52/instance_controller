@@ -10,7 +10,7 @@ import java.util.Map;
 
 @JsonRootName(value = "server")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Server implements Serializable {
+public class OpenstackServer implements Serializable {
 
     private static final long serialVersionUID = 6042380591763567596L;
 
@@ -77,7 +77,7 @@ public class Server implements Serializable {
     @JsonProperty("metadata")
     private Map<String,String> metadata;
 
-    public Server() {
+    public OpenstackServer() {
     }
 
     public String getTaskState() {
