@@ -16,13 +16,17 @@ import java.util.stream.Collectors;
 @Service
 public class FunctionHelper {
 
-    private static final String COLON = ":";
+    private static final String UNDERSCORE = "_";
     private static final String DISK_CONFIG = "AUTO";
     private static final String ZONA = "nova";
-    private static final String UUID_PRIVATE = "cb9cb58f-40a5-48dd-817e-b97730dd7f27";
-    private static final String UUID_PUBLIC = "df1fa7d3-3cee-4f95-9590-cef671fab31f";
+    public static final String NETWORK_NAME_PRIVATE = "internal_network";
+    public static final String NETWORK_NAME_PUBLIC = "external_network";
+    public static final String UUID_PRIVATE = "cb9cb58f-40a5-48dd-817e-b97730dd7f27";
+    public static final String UUID_PUBLIC = "df1fa7d3-3cee-4f95-9590-cef671fab31f";
     private static FunctionService FUNCTION_SERVICE;
     private static ServerService SERVER_SERVICE;
+
+
 
     public static Boolean compareFunction(Function function) {
         Function functionFromDB;
@@ -83,17 +87,17 @@ public class FunctionHelper {
                 .collect(Collectors.toList());
         if (serverList.isEmpty()) {
             return function.getName() +
-                    COLON +
+                    UNDERSCORE +
                     function.getPrefix() +
-                    COLON +
+                    UNDERSCORE +
                     "1";
         }
 
         int size = serverList.size() + 1;
         return function.getName() +
-                COLON +
+                UNDERSCORE +
                 function.getPrefix() +
-                COLON +
+                UNDERSCORE +
                 size;
     }
 

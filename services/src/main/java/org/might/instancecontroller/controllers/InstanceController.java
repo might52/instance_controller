@@ -26,8 +26,16 @@ public class InstanceController {
     private final ConfigurationService configurationService;
     private final FunctionService functionService;
     private final ServerService serverService;
+    private final ConfigurationVMService configurationVMService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InstanceController.class);
+    private static final String FUNCTION_TEMPLATE = "Get function - " +
+            "Id: {}, " +
+            "Name: {}, " +
+            "Image: {}, " +
+            "Flavor: {}, " +
+            "Description: {}, " +
+            "Configuration: {}";
 
     @Autowired
     public InstanceController(ComputeService computeService,
@@ -35,13 +43,15 @@ public class InstanceController {
                               FlavorService flavorService,
                               ConfigurationService configurationService,
                               FunctionService functionService,
-                              ServerService serverService) {
+                              ServerService serverService,
+                              ConfigurationVMService configurationVMService) {
         this.computeService = computeService;
         this.imageService = imageService;
         this.flavorService = flavorService;
         this.configurationService = configurationService;
         this.functionService = functionService;
         this.serverService = serverService;
+        this.configurationVMService = configurationVMService;
     }
 
     @GetMapping("/all")
@@ -87,11 +97,19 @@ public class InstanceController {
 
     @RequireConnection
     @PostMapping("/instantiate/{id}")
-    public void instantiate(@PathVariable Long id) {
+    public void instantiate(@PathVariable Long id) throws InterruptedException {
         Function function;
         if (this.functionService.getFunctionById(id).isPresent()) {
             function = this.functionService.getFunctionById(id).get();
+            LOGGER.debug(FUNCTION_TEMPLATE,
+                    function.getId(),
+                    function.getName(),
+                    function.getImage().getReference(),
+                    function.getFlavor().getReference(),
+                    function.getDescription(),
+                    function.getConfiguration().getScript());
         } else {
+            LOGGER.error("Function with Id: {} did't find at DBs", id);
             return;
         }
 
@@ -99,11 +117,18 @@ public class InstanceController {
                 FunctionHelper.getServerCreateModelAutoNetwork(
                         function
                 );
-        OpenstackServer openstackServer = this.computeService.createServer(
-                serverCreateModel
-        );
+        LOGGER.debug("Server template for creation instance: {} ", serverCreateModel);
+        OpenstackServer openstackServer =
+                this.computeService.createServer(
+                        serverCreateModel
+                );
 
         if (openstackServer != null) {
+            LOGGER.debug(
+                    "Save the server: {} and Id: {} at DBs",
+                    serverCreateModel.getName(),
+                    openstackServer.getId()
+            );
             Server serverDba = new Server();
             serverDba.setName(serverCreateModel.getName());
             serverDba.setFunction(function);
@@ -111,10 +136,28 @@ public class InstanceController {
             serverService.saveServer(serverDba);
         }
 
-        //TODO: add configuration set up.
+        //TODO: add configuration set up, wait 15 minutes.
+        LOGGER.debug("Waiting for instantiation the VM: {} minutes.", 900000 / 60 / 1000);
+        Thread.sleep(900000);
+        if (openstackServer != null) {
+            openstackServer = computeService.getServer(openstackServer.getId());
+            LOGGER.debug("Start configuration VM for monitoring: {}, ip address: {}",
+                    openstackServer.getId(),
+                    openstackServer.getAddresses()
+                    .getNetworks()
+                    .get(FunctionHelper.NETWORK_NAME_PUBLIC)
+                    .get(0)
+                    .getAddr());
+            configurationVMService.setUpVM(openstackServer
+                    .getAddresses()
+                    .getNetworks()
+                    .get(FunctionHelper.NETWORK_NAME_PUBLIC)
+                    .get(0)
+                    .getAddr(),
+                    openstackServer.getName());
+        }
         //TODO: add the monitoring set up.
+
     }
-
-
 
 }

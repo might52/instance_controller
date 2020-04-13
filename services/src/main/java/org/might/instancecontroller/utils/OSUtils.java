@@ -42,6 +42,11 @@ public class OSUtils implements Serializable {
     private String osComputeUrl;
     @Value("${os.neutron.url}")
     private String osNeutronUrl;
+    @Value("${vm.user}")
+    private String vmUserName;
+    @Value("${vm.pass}")
+    private String vmPassword;
+
 
     public String getOsUsername() {
         return osUsername;
@@ -77,6 +82,14 @@ public class OSUtils implements Serializable {
 
     public void setOsNeutronUrl(String osNeutronUrl) {
         this.osNeutronUrl = osNeutronUrl;
+    }
+
+    public String getVmUserName() {
+        return vmUserName;
+    }
+
+    public String getVmPassword() {
+        return vmPassword;
     }
 
     public String getServerDetailsUrl() {

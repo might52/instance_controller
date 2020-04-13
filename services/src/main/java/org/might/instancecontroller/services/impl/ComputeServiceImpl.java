@@ -208,6 +208,7 @@ public class ComputeServiceImpl implements ComputeService {
 
     @Override
     public OpenstackServer createServer(final ServerCreateModel serverCreateModel) {
+        LOGGER.debug("Start creation server:");
         LOGGER.debug(
                 SERVER_INSTANTIATE,
                 serverCreateModel.getName(),
@@ -224,7 +225,7 @@ public class ComputeServiceImpl implements ComputeService {
                 new TypeReference<Instance>() {
                 });
 
-        LOGGER.debug(SERVER_TEMPLATE, instance);
+        LOGGER.debug(SERVER_TEMPLATE, instance.getOpenstackServer());
         return instance.getOpenstackServer();
     }
 }
