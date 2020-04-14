@@ -148,14 +148,19 @@ public class InstanceController {
                     .get(FunctionHelper.NETWORK_NAME_PUBLIC)
                     .get(0)
                     .getAddr());
-            configurationVMService.setUpVM(openstackServer
-                    .getAddresses()
-                    .getNetworks()
-                    .get(FunctionHelper.NETWORK_NAME_PUBLIC)
-                    .get(0)
-                    .getAddr(),
-                    openstackServer.getName());
+
+            String scripts = FunctionHelper.getScriptsForFunction(function, openstackServer.getName());
+            configurationVMService.setUpVM(
+                    openstackServer
+                            .getAddresses()
+                            .getNetworks()
+                            .get(FunctionHelper.NETWORK_NAME_PUBLIC)
+                            .get(0)
+                            .getAddr(),
+                    scripts
+            );
         }
+
         //TODO: add the monitoring set up.
 
     }

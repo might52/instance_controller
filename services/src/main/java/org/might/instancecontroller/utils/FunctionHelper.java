@@ -6,15 +6,21 @@ import org.might.instancecontroller.models.function.NetworkModel;
 import org.might.instancecontroller.models.function.ServerCreateModel;
 import org.might.instancecontroller.services.FunctionService;
 import org.might.instancecontroller.services.ServerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
 
 @Service
 public class FunctionHelper {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(FunctionHelper.class);
 
     private static final String UNDERSCORE = "_";
     private static final String DISK_CONFIG = "AUTO";
@@ -23,12 +29,17 @@ public class FunctionHelper {
     public static final String NETWORK_NAME_PUBLIC = "external_network";
     public static final String UUID_PRIVATE = "cb9cb58f-40a5-48dd-817e-b97730dd7f27";
     public static final String UUID_PUBLIC = "df1fa7d3-3cee-4f95-9590-cef671fab31f";
+    private static final String FUNCTION_NAME_PATTERN = "(function_name)";
     private static FunctionService FUNCTION_SERVICE;
     private static ServerService SERVER_SERVICE;
 
 
-
-    public static Boolean compareFunction(Function function) {
+    /**
+     * Compare the functions.
+     * @param function
+     * @return Boolean
+     */
+    public static boolean compareFunction(Function function) {
         Function functionFromDB;
         if (FUNCTION_SERVICE.getFunctionById(function.getId()).isPresent()) {
             functionFromDB = FUNCTION_SERVICE.getFunctionById(function.getId()).get();
@@ -75,6 +86,19 @@ public class FunctionHelper {
     }
 
     /**
+     * Return prepared scripts for configuration VM.
+     * @param function
+     * @return String.
+     */
+    public static String getScriptsForFunction(Function function, String serverName) {
+        String scripts = Pattern.compile(FUNCTION_NAME_PATTERN, Pattern.CASE_INSENSITIVE)
+                .matcher(function.getConfiguration().getScript())
+                .replaceAll(serverName);
+        LOGGER.debug("Generated scripts to set up vm: {}", scripts);
+        return scripts;
+    }
+
+    /**
      * Return name for new Instance of the function.
      * @param function
      * @return
@@ -85,20 +109,14 @@ public class FunctionHelper {
                 .stream()
                 .filter(el -> el.getFunction().equals(function))
                 .collect(Collectors.toList());
-        if (serverList.isEmpty()) {
-            return function.getName() +
-                    UNDERSCORE +
-                    function.getPrefix() +
-                    UNDERSCORE +
-                    "1";
-        }
-
-        int size = serverList.size() + 1;
-        return function.getName() +
+        int size = serverList.isEmpty() ? 1 : serverList.size() + 1;
+        String serverName = function.getName() +
                 UNDERSCORE +
                 function.getPrefix() +
                 UNDERSCORE +
                 size;
+        LOGGER.debug("Prepared server name: {}", serverName);
+        return serverName;
     }
 
     @Autowired
@@ -107,5 +125,6 @@ public class FunctionHelper {
         FunctionHelper.FUNCTION_SERVICE = FUNCTION_SERVICE;
         FunctionHelper.SERVER_SERVICE = SERVER_SERVICE;
     }
+
 
 }

@@ -8,7 +8,7 @@ public class Configuration {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "script")
+    @Column(name = "script", length = 500)
     private String script;
 
     public Long getId() {

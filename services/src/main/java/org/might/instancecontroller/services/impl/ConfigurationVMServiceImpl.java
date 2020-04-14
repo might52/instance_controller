@@ -25,15 +25,8 @@ public class ConfigurationVMServiceImpl implements ConfigurationVMService {
     private static String CONNECTION_STRING_TEMPLATE="{}:{}:{}";
 
 
-    public boolean setUpVM(String host, String vmHostname) {
-        StringBuilder commands = new StringBuilder();
-        commands.append("systemctl stop zabbix-agent");
-        commands.append(" && cat /etc/zabbix/zabbix_agentd.conf | sed -r 's;Hostname=(.)*;Hostname=");
-        commands.append(vmHostname);
-        commands.append(";g' > /etc/zabbix/zabbix_agentd.conf_b");
-        commands.append(" && mv /etc/zabbix/zabbix_agentd.conf_b /etc/zabbix/zabbix_agentd.conf -f");
-        commands.append(" && systemctl start zabbix-agent");
-        return executeCommand(host, commands.toString());
+    public boolean setUpVM(String host, String scripts) {
+        return executeCommand(host, scripts);
     }
 
     private static boolean executeCommand(String host, String commands) {
