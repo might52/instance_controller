@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 @Service
-public class OSUtils implements Serializable {
+public class SettingsHelper implements Serializable {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(OSUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SettingsHelper.class);
 
-    public static final String TOKEN = "X-Subject-Token";
-    public static final String TONKEN_NAME = "X-Auth-Token";
+    public static final String OS_TOKEN = "X-Subject-Token";
+    public static final String OS_TOKEN_NAME = "X-Auth-Token";
     public static final String TIMEOUT = "Keep-Alive";
 
     private static final String SERVERS = "servers";
@@ -23,6 +23,8 @@ public class OSUtils implements Serializable {
     private static final String ACTION = "action";
 
     private static final String SLASH = "/";
+
+    private static final long serialVersionUID = 2230912249116629395L;
 
     @Value("${os.username}")
     private String osUsername;
@@ -46,7 +48,10 @@ public class OSUtils implements Serializable {
     private String vmUserName;
     @Value("${vm.pass}")
     private String vmPassword;
-
+    @Value("${zabbix.auth.token}")
+    private String zabbixAuthToken;
+    @Value("${zabbix.url}")
+    private String zabbixUrl;
 
     public String getOsUsername() {
         return osUsername;
@@ -72,24 +77,20 @@ public class OSUtils implements Serializable {
         return osProjectDomainName;
     }
 
-    public String getOsIdentityApiVersion() {
-        return osIdentityApiVersion;
-    }
-
-    public String getOsNeutronUrl() {
-        return osNeutronUrl;
-    }
-
-    public void setOsNeutronUrl(String osNeutronUrl) {
-        this.osNeutronUrl = osNeutronUrl;
-    }
-
     public String getVmUserName() {
         return vmUserName;
     }
 
     public String getVmPassword() {
         return vmPassword;
+    }
+
+    public String getZabbixAuthToken() {
+        return zabbixAuthToken;
+    }
+
+    public String getZabbixUrl() {
+        return zabbixUrl;
     }
 
     public String getServerDetailsUrl() {
@@ -121,5 +122,8 @@ public class OSUtils implements Serializable {
             add(osComputeUrl);
             add(SERVERS);
         }}.stream().collect(Collectors.joining(SLASH));
+    }
+
+    private SettingsHelper() {
     }
 }

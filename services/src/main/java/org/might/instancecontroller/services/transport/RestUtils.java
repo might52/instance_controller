@@ -1,7 +1,7 @@
 package org.might.instancecontroller.services.transport;
 
 import org.might.instancecontroller.utils.AuthSessionBean;
-import org.might.instancecontroller.utils.OSUtils;
+import org.might.instancecontroller.utils.SettingsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ public class RestUtils {
 
     public static MultivaluedMap getAuthHeaders() {
         MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
-        headers.putSingle(OSUtils.TONKEN_NAME, AUTH_SESSION_BEAN.getToken());
+        headers.putSingle(SettingsHelper.OS_TOKEN_NAME, AUTH_SESSION_BEAN.getToken());
         return headers;
     }
 

@@ -2,7 +2,7 @@ package org.might.instancecontroller.services.impl;
 
 import com.jcraft.jsch.*;
 import org.might.instancecontroller.services.ConfigurationVMService;
-import org.might.instancecontroller.utils.OSUtils;
+import org.might.instancecontroller.utils.SettingsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 public class ConfigurationVMServiceImpl implements ConfigurationVMService {
 
-    private static OSUtils OS_UTILS;
+    private static SettingsHelper SETTINGS_HELPER;
 
     private static final int SSH_PORT = 22;
     private static final int CONNECTION_TIMEOUT = 10000;
@@ -32,8 +32,8 @@ public class ConfigurationVMServiceImpl implements ConfigurationVMService {
     private static boolean executeCommand(String host, String commands) {
         JSch jSch = new JSch();
         try {
-            Session session = jSch.getSession(OS_UTILS.getVmUserName(), host, SSH_PORT);
-            session.setPassword(OS_UTILS.getVmPassword());
+            Session session = jSch.getSession(SETTINGS_HELPER.getVmUserName(), host, SSH_PORT);
+            session.setPassword(SETTINGS_HELPER.getVmPassword());
             session.setConfig("StrictHostKeyChecking", "no");
             session.connect(CONNECTION_TIMEOUT);
             Channel channel = session.openChannel("exec");
@@ -104,7 +104,7 @@ public class ConfigurationVMServiceImpl implements ConfigurationVMService {
     }*/
 
     @Autowired
-    public ConfigurationVMServiceImpl(OSUtils osUtils) {
-        this.OS_UTILS = osUtils;
+    public ConfigurationVMServiceImpl(SettingsHelper settingsHelper) {
+        this.SETTINGS_HELPER = settingsHelper;
     }
 }

@@ -27,6 +27,7 @@ public class InstanceController {
     private final FunctionService functionService;
     private final ServerService serverService;
     private final ConfigurationVMService configurationVMService;
+    private final MonitoringService monitoringService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InstanceController.class);
     private static final String FUNCTION_TEMPLATE = "Get function - " +
@@ -44,7 +45,8 @@ public class InstanceController {
                               ConfigurationService configurationService,
                               FunctionService functionService,
                               ServerService serverService,
-                              ConfigurationVMService configurationVMService) {
+                              ConfigurationVMService configurationVMService,
+                              MonitoringService monitoringService) {
         this.computeService = computeService;
         this.imageService = imageService;
         this.flavorService = flavorService;
@@ -52,6 +54,7 @@ public class InstanceController {
         this.functionService = functionService;
         this.serverService = serverService;
         this.configurationVMService = configurationVMService;
+        this.monitoringService = monitoringService;
     }
 
     @GetMapping("/all")
@@ -110,7 +113,12 @@ public class InstanceController {
                     function.getConfiguration().getScript());
         } else {
             LOGGER.error("Function with Id: {} did't find at DBs", id);
-            return;
+            throw new RuntimeException(
+                    String.format(
+                            "Function with Id: %s did't find at DBs",
+                            id
+                    )
+            );
         }
 
         ServerCreateModel serverCreateModel =
@@ -123,45 +131,63 @@ public class InstanceController {
                         serverCreateModel
                 );
 
-        if (openstackServer != null) {
-            LOGGER.debug(
-                    "Save the server: {} and Id: {} at DBs",
-                    serverCreateModel.getName(),
-                    openstackServer.getId()
+        if (openstackServer == null) {
+            LOGGER.error(
+                    "Something went wrong during server creation: {}",
+                    serverCreateModel.getName()
             );
-            Server serverDba = new Server();
-            serverDba.setName(serverCreateModel.getName());
-            serverDba.setFunction(function);
-            serverDba.setServerId(openstackServer.getId());
-            serverService.saveServer(serverDba);
+            throw new RuntimeException(
+                    String.format(
+                            "Something went wrong during server creation. " +
+                            "Name: %s, " +
+                            "ImageRef: %s, " +
+                            "FlavorRef: %s",
+                            serverCreateModel.getName(),
+                            serverCreateModel.getImageRef(),
+                            serverCreateModel.getFlavorRef()
+                    )
+            );
         }
+
+        LOGGER.debug(
+                "Save the server: {} and Id: {} at DBs",
+                serverCreateModel.getName(),
+                openstackServer.getId()
+        );
+
+        Server serverDba = new Server();
+        serverDba.setName(serverCreateModel.getName());
+        serverDba.setFunction(function);
+        serverDba.setServerId(openstackServer.getId());
+        serverService.saveServer(serverDba);
+
 
         //TODO: add configuration set up, wait 15 minutes.
         LOGGER.debug("Waiting for instantiation the VM: {} minutes.", 900000 / 60 / 1000);
         Thread.sleep(900000);
-        if (openstackServer != null) {
-            openstackServer = computeService.getServer(openstackServer.getId());
-            LOGGER.debug("Start configuration VM for monitoring: {}, ip address: {}",
-                    openstackServer.getId(),
-                    openstackServer.getAddresses()
-                    .getNetworks()
-                    .get(FunctionHelper.NETWORK_NAME_PUBLIC)
-                    .get(0)
-                    .getAddr());
+        LOGGER.debug("Get full server(vm) data from Openstack: {}.", openstackServer.getId());
+        openstackServer = computeService.getServer(openstackServer.getId());
+        LOGGER.debug("Start configuration VM for monitoring: {}, ip address: {}",
+                openstackServer.getId(),
+                openstackServer.getAddresses()
+                .getNetworks()
+                .get(FunctionHelper.NETWORK_NAME_PUBLIC)
+                .get(0)
+                .getAddr());
 
-            String scripts = FunctionHelper.getScriptsForFunction(function, openstackServer.getName());
-            configurationVMService.setUpVM(
-                    openstackServer
-                            .getAddresses()
-                            .getNetworks()
-                            .get(FunctionHelper.NETWORK_NAME_PUBLIC)
-                            .get(0)
-                            .getAddr(),
-                    scripts
-            );
-        }
+        String scripts = FunctionHelper.getScriptsForFunction(function, openstackServer.getName());
+        configurationVMService.setUpVM(
+                openstackServer
+                        .getAddresses()
+                        .getNetworks()
+                        .get(FunctionHelper.NETWORK_NAME_PUBLIC)
+                        .get(0)
+                        .getAddr(),
+                scripts
+        );
 
         //TODO: add the monitoring set up.
+        monitoringService.setUpMonitoring(openstackServer);
 
     }
 

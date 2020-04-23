@@ -2,11 +2,11 @@ package org.might.instancecontroller.services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Assert;
 import org.junit.Test;
 import org.might.instancecontroller.models.servers.*;
+import org.might.instancecontroller.services.transport.ObjectMapper;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

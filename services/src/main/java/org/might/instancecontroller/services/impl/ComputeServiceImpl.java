@@ -10,7 +10,7 @@ import org.might.instancecontroller.models.servers.OpenstackServer;
 import org.might.instancecontroller.models.servers.Servers;
 import org.might.instancecontroller.services.ComputeService;
 import org.might.instancecontroller.services.transport.RestUtils;
-import org.might.instancecontroller.utils.OSUtils;
+import org.might.instancecontroller.utils.SettingsHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +49,7 @@ public class ComputeServiceImpl implements ComputeService {
     /**
      * OS utils bean.
      */
-    private OSUtils osUtils;
+    private SettingsHelper settingsHelper;
     /**
      * Rest service bean.
      */
@@ -57,13 +57,13 @@ public class ComputeServiceImpl implements ComputeService {
 
     /** Default constructor.
      * @param restService
-     * @param osUtils
+     * @param settingsHelper
      */
     @Autowired
     public ComputeServiceImpl(final RESTService restService,
-                              final OSUtils osUtils) {
+                              final SettingsHelper settingsHelper) {
         this.restService = restService;
-        this.osUtils = osUtils;
+        this.settingsHelper = settingsHelper;
     }
 
     /**
@@ -72,7 +72,7 @@ public class ComputeServiceImpl implements ComputeService {
      */
     public String getListServer() {
         RestResponse restResponse = restService.getRaw(
-                osUtils.getServerDetailsUrl(),
+                settingsHelper.getServerDetailsUrl(),
                 RestUtils.getAuthHeaders(),
                 new TypeReference<>(){
                 });
@@ -87,7 +87,7 @@ public class ComputeServiceImpl implements ComputeService {
     public List<OpenstackServer> getServerList() {
         Servers servers =
                 restService.get(
-                        osUtils.getServerDetailsUrl(),
+                        settingsHelper.getServerDetailsUrl(),
                         RestUtils.getAuthHeaders(),
                         new TypeReference<Servers>() {
                         });
@@ -104,7 +104,7 @@ public class ComputeServiceImpl implements ComputeService {
     public OpenstackServer getServer(final String serverId) {
         Instance instance =
                 restService.get(
-                        osUtils.getServerUrl(serverId),
+                        settingsHelper.getServerUrl(serverId),
                         RestUtils.getAuthHeaders(),
                         new TypeReference<Instance>() {
                         });
@@ -120,7 +120,7 @@ public class ComputeServiceImpl implements ComputeService {
     public String getServerStatus(final String serverId) {
         Instance instance =
                 restService.get(
-                        osUtils.getServerUrl(serverId),
+                        settingsHelper.getServerUrl(serverId),
                         RestUtils.getAuthHeaders(),
                         new TypeReference<Instance>() {
                         });
@@ -136,7 +136,7 @@ public class ComputeServiceImpl implements ComputeService {
     public String getServerName(final String serverId) {
         Instance instance =
                 restService.get(
-                        osUtils.getServerUrl(serverId),
+                        settingsHelper.getServerUrl(serverId),
                         RestUtils.getAuthHeaders(),
                         new TypeReference<Instance>() {
                         });
@@ -147,7 +147,7 @@ public class ComputeServiceImpl implements ComputeService {
     @Override
     public void stopServer(final String serverId) {
         LOGGER.debug(SERVER_ACTION_TEMPLATE, serverId, ServerActions.Stop.class);
-        restService.postRaw(osUtils.getServerUrlAction(serverId),
+        restService.postRaw(settingsHelper.getServerUrlAction(serverId),
                 new ServerActions.Stop(),
                 RestUtils.getAuthHeaders(),
                 new TypeReference<>() {
@@ -157,7 +157,7 @@ public class ComputeServiceImpl implements ComputeService {
     @Override
     public void startServer(final String serverId) {
         LOGGER.debug(SERVER_ACTION_TEMPLATE, serverId, ServerActions.Start.class);
-        restService.postRaw(osUtils.getServerUrlAction(serverId),
+        restService.postRaw(settingsHelper.getServerUrlAction(serverId),
                 new ServerActions.Start(),
                 RestUtils.getAuthHeaders(),
                 new TypeReference<>() {
@@ -171,7 +171,7 @@ public class ComputeServiceImpl implements ComputeService {
                 serverId,
                 ServerActions.HardReboot.class
         );
-        restService.postRaw(osUtils.getServerUrlAction(serverId),
+        restService.postRaw(settingsHelper.getServerUrlAction(serverId),
                 new ServerActions.HardReboot(),
                 RestUtils.getAuthHeaders(),
                 new TypeReference<>() {
@@ -185,7 +185,7 @@ public class ComputeServiceImpl implements ComputeService {
                 serverId,
                 ServerActions.SoftReboot.class
         );
-        restService.postRaw(osUtils.getServerUrlAction(serverId),
+        restService.postRaw(settingsHelper.getServerUrlAction(serverId),
                 new ServerActions.SoftReboot(),
                 RestUtils.getAuthHeaders(),
                 new TypeReference<>() {
@@ -199,7 +199,7 @@ public class ComputeServiceImpl implements ComputeService {
                 serverId,
                 ServerActions.DeleteServer.class
         );
-        restService.deleteRaw(osUtils.getServerUrl(serverId),
+        restService.deleteRaw(settingsHelper.getServerUrl(serverId),
                 new ServerActions.DeleteServer(),
                 RestUtils.getAuthHeaders(),
                 new TypeReference<>() {
@@ -219,7 +219,7 @@ public class ComputeServiceImpl implements ComputeService {
                 serverCreateModel.getNetworks()
         );
         Instance instance = restService.post(
-                osUtils.getServersUrl(),
+                settingsHelper.getServersUrl(),
                 serverCreateModel,
                 RestUtils.getAuthHeaders(),
                 new TypeReference<Instance>() {

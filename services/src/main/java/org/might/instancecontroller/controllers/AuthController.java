@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 
-import static org.might.instancecontroller.utils.OSUtils.TIMEOUT;
-import static org.might.instancecontroller.utils.OSUtils.TOKEN;
+import static org.might.instancecontroller.utils.SettingsHelper.TIMEOUT;
+import static org.might.instancecontroller.utils.SettingsHelper.OS_TOKEN;
 
 @RestController
 @RequestMapping("auth")
@@ -31,7 +31,7 @@ public class AuthController {
     @GetMapping("/token")
     public Object auth(HttpServletResponse response) {
         RestResponse restResponse = (RestResponse) keystoneService.authenticate();
-        response.addHeader(TOKEN, restResponse.getHeaders().getFirst(TOKEN));
+        response.addHeader(OS_TOKEN, restResponse.getHeaders().getFirst(OS_TOKEN));
         response.addHeader(TIMEOUT, restResponse.getHeaders().getFirst(TIMEOUT));
         return restResponse.getStringEntity();
     }
