@@ -5,7 +5,7 @@ import org.might.instancecontroller.models.monitoring.HostCreateModel;
 import org.might.instancecontroller.models.servers.OpenstackServer;
 import org.might.instancecontroller.services.MonitoringService;
 import org.might.instancecontroller.services.transport.RESTService;
-import org.might.instancecontroller.services.transport.RestUtils;
+import org.might.instancecontroller.utils.FunctionHelper;
 import org.might.instancecontroller.utils.MonitoringHelper;
 import org.might.instancecontroller.utils.SettingsHelper;
 import org.slf4j.Logger;
@@ -34,23 +34,27 @@ public class MonitoringServiceImpl implements MonitoringService {
     }
 
     @Override
-    public boolean setUpMonitoring(final OpenstackServer openstackServer) {
-        LOGGER.debug("Start set up VM to Monitoring: {}", openstackServer.getId());
+    public void setUpMonitoring(final OpenstackServer openstackServer) {
+        LOGGER.debug("Perform set up monitoring for vm {}, ip address: {}, hostname: {}",
+                openstackServer.getId(),
+                openstackServer.getAddresses()
+                        .getNetworks()
+                        .get(FunctionHelper.NETWORK_NAME_PUBLIC)
+                        .get(0)
+                        .getAddr(),
+                openstackServer.getName()
+        );
         HostCreateModel hostCreateModel = MonitoringHelper.getHostCreateModel(openstackServer);
-        LOGGER.debug("hostCreateModel: {}", hostCreateModel);
         Object object = restService.postRaw(
                 settingsHelper.getZabbixUrl(),
                 hostCreateModel,
-                RestUtils.getAuthHeaders(),
+                null,
                 new TypeReference<>() {
-
                 });
         LOGGER.debug("performed the setUp monitoring: {}", object);
-        return false;
     }
 
     @Override
-    public boolean removeMonitoring() {
-        return false;
+    public void removeMonitoring() {
     }
 }

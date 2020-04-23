@@ -3,6 +3,8 @@ package org.might.instancecontroller.services.impl;
 import com.jcraft.jsch.*;
 import org.might.instancecontroller.services.ConfigurationVMService;
 import org.might.instancecontroller.utils.SettingsHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,16 +19,22 @@ import java.util.List;
 public class ConfigurationVMServiceImpl implements ConfigurationVMService {
 
     private static SettingsHelper SETTINGS_HELPER;
-
     private static final int SSH_PORT = 22;
     private static final int CONNECTION_TIMEOUT = 10000;
     private static final int BUFFER_SIZE = 1024;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigurationVMServiceImpl.class);
 
-    private static String CONNECTION_STRING_TEMPLATE="{}:{}:{}";
-
-
-    public boolean setUpVM(String host, String scripts) {
-        return executeCommand(host, scripts);
+    public void setUpVM(String host, String scripts) {
+        LOGGER.debug("Start configuration VM for monitoring, ip address: {}, scripts: {}", host, scripts);
+        if (!executeCommand(host, scripts)) {
+            throw new RuntimeException(
+                    String.format(
+                            "Something wen't wrong during configuration VM: %s, scripts: %s",
+                            host,
+                            scripts
+                    )
+            );
+        }
     }
 
     private static boolean executeCommand(String host, String commands) {
@@ -56,6 +64,7 @@ public class ConfigurationVMServiceImpl implements ConfigurationVMService {
                             ex.getLocalizedMessage()
                     )
             );
+            return false;
         }
 
         return true;

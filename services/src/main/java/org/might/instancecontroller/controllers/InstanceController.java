@@ -30,7 +30,7 @@ public class InstanceController {
     private final MonitoringService monitoringService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InstanceController.class);
-    private static final String FUNCTION_TEMPLATE = "Get function - " +
+    private static final String FUNCTION_TEMPLATE = "Got function - " +
             "Id: {}, " +
             "Name: {}, " +
             "Image: {}, " +
@@ -104,13 +104,6 @@ public class InstanceController {
         Function function;
         if (this.functionService.getFunctionById(id).isPresent()) {
             function = this.functionService.getFunctionById(id).get();
-            LOGGER.debug(FUNCTION_TEMPLATE,
-                    function.getId(),
-                    function.getName(),
-                    function.getImage().getReference(),
-                    function.getFlavor().getReference(),
-                    function.getDescription(),
-                    function.getConfiguration().getScript());
         } else {
             LOGGER.error("Function with Id: {} did't find at DBs", id);
             throw new RuntimeException(
@@ -121,33 +114,23 @@ public class InstanceController {
             );
         }
 
+        LOGGER.debug(FUNCTION_TEMPLATE,
+                function.getId(),
+                function.getName(),
+                function.getImage().getReference(),
+                function.getFlavor().getReference(),
+                function.getDescription(),
+                function.getConfiguration().getScript());
+
         ServerCreateModel serverCreateModel =
                 FunctionHelper.getServerCreateModelAutoNetwork(
                         function
                 );
-        LOGGER.debug("Server template for creation instance: {} ", serverCreateModel);
+
         OpenstackServer openstackServer =
                 this.computeService.createServer(
                         serverCreateModel
                 );
-
-        if (openstackServer == null) {
-            LOGGER.error(
-                    "Something went wrong during server creation: {}",
-                    serverCreateModel.getName()
-            );
-            throw new RuntimeException(
-                    String.format(
-                            "Something went wrong during server creation. " +
-                            "Name: %s, " +
-                            "ImageRef: %s, " +
-                            "FlavorRef: %s",
-                            serverCreateModel.getName(),
-                            serverCreateModel.getImageRef(),
-                            serverCreateModel.getFlavorRef()
-                    )
-            );
-        }
 
         LOGGER.debug(
                 "Save the server: {} and Id: {} at DBs",
@@ -161,21 +144,12 @@ public class InstanceController {
         serverDba.setServerId(openstackServer.getId());
         serverService.saveServer(serverDba);
 
-
         //TODO: add configuration set up, wait 15 minutes.
         LOGGER.debug("Waiting for instantiation the VM: {} minutes.", 900000 / 60 / 1000);
         Thread.sleep(900000);
-        LOGGER.debug("Get full server(vm) data from Openstack: {}.", openstackServer.getId());
-        openstackServer = computeService.getServer(openstackServer.getId());
-        LOGGER.debug("Start configuration VM for monitoring: {}, ip address: {}",
-                openstackServer.getId(),
-                openstackServer.getAddresses()
-                .getNetworks()
-                .get(FunctionHelper.NETWORK_NAME_PUBLIC)
-                .get(0)
-                .getAddr());
 
-        String scripts = FunctionHelper.getScriptsForFunction(function, openstackServer.getName());
+        openstackServer = computeService.getServer(openstackServer.getId());
+
         configurationVMService.setUpVM(
                 openstackServer
                         .getAddresses()
@@ -183,12 +157,12 @@ public class InstanceController {
                         .get(FunctionHelper.NETWORK_NAME_PUBLIC)
                         .get(0)
                         .getAddr(),
-                scripts
+                FunctionHelper.getScriptsForFunction(
+                        function,
+                        openstackServer.getName()
+                )
         );
-
-        //TODO: add the monitoring set up.
         monitoringService.setUpMonitoring(openstackServer);
-
     }
 
 }
