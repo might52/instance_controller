@@ -1,5 +1,6 @@
 package org.might.instancecontroller.utils;
 
+import org.might.instancecontroller.dba.entity.Server;
 import org.might.instancecontroller.models.monitoring.*;
 import org.might.instancecontroller.models.servers.OpenstackServer;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ public class MonitoringHelper implements Serializable {
 
     private static final long serialVersionUID = -5644549449534208641L;
     private static final String HOST_CREATE_METHOD = "host.create";
+    private static final String HOST_DELETION_METHOD = "host.delete";
     private static final String JSON_RPC = "2.0";
     private static final int DEFAULT_ID = 1;
     private static final String FIRST_GROUP = "2";
@@ -32,6 +34,11 @@ public class MonitoringHelper implements Serializable {
 
     private static SettingsHelper SETTING_HELPER;
 
+    /**
+     * Creation model by {@link OpenstackServer}.
+     * @param openstackServer
+     * @return {@link HostCreateModel}
+     */
     public static HostCreateModel getHostCreateModel(final OpenstackServer openstackServer) {
         HostCreateModel hostCreateModel = new HostCreateModel();
         hostCreateModel.setId(DEFAULT_ID);
@@ -78,6 +85,23 @@ public class MonitoringHelper implements Serializable {
         );
 
         return hostCreateModel;
+    }
+
+    /**
+     * Return {@link HostDeletionModel}.
+     * @param server server from DB.
+     * @return {@link HostDeletionModel}
+     */
+    public static HostDeletionModel getHostDeletionModel(Server server) {
+        HostDeletionModel hostDeletionModel = new HostDeletionModel();
+        hostDeletionModel.setId(DEFAULT_ID);
+        hostDeletionModel.setAuth(MonitoringHelper.SETTING_HELPER.getZabbixAuthToken());
+        hostDeletionModel.setJsonrpc(JSON_RPC);
+        hostDeletionModel.setMethod(HOST_DELETION_METHOD);
+        hostDeletionModel.setParams(new ArrayList<>() {{
+            add(server.getMonitoringId().toString());
+        }});
+        return hostDeletionModel;
     }
 
     @Autowired

@@ -93,6 +93,10 @@ public class SettingsHelper implements Serializable {
         return zabbixUrl;
     }
 
+    /**
+     * Get server details string url.
+     * @return
+     */
     public String getServerDetailsUrl() {
         return new ArrayList<String>() {{
             add(osComputeUrl);
@@ -101,6 +105,11 @@ public class SettingsHelper implements Serializable {
         }}.stream().collect(Collectors.joining(SLASH));
     }
 
+    /**
+     * Get server url by id.
+     * @param serverId
+     * @return
+     */
     public String getServerUrl(String serverId) {
         return new ArrayList<String>() {{
             add(osComputeUrl);
@@ -109,6 +118,11 @@ public class SettingsHelper implements Serializable {
         }}.stream().collect(Collectors.joining(SLASH));
     }
 
+    /**
+     * Get server action url by id.
+     * @param serverId
+     * @return
+     */
     public String getServerUrlAction(String serverId) {
         return String.join(
                 SLASH,
@@ -117,6 +131,10 @@ public class SettingsHelper implements Serializable {
         );
     }
 
+    /**
+     * Get servers url.
+     * @return
+     */
     public String getServersUrl() {
         return new ArrayList<String>() {{
             add(osComputeUrl);

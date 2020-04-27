@@ -1,4 +1,4 @@
-<div class="p-4 pt-4 shadow-sm bg-white">
+<div class="p-4 pt-4 shadow-sm bg-white" xmlns="http://www.w3.org/1999/html">
   <h2 class="display-4">{{ title }}</h2>
   <table class="table table-striped table-hover table-bordered bg-white">
     <caption>{{ title }}</caption>
@@ -6,7 +6,6 @@
       <tr class="shadow-sm">
         <th scope="col">Description</th>
         <th scope="col">Events</th>
-        <th scope="col">Technical Information</th>
         <th scope="col">Servers</th>
         <th scope="col">Actions</th>
       </tr>
@@ -35,58 +34,43 @@
         </td>
         <td>
           <p class="text-monospace m-0">
-            <small>
-              {{ instance.function.configuration.script }}
-            </small>
+            here will be the summary status of the servers.
           </p>
-        </td>
-        <td>
-          <p class="text-monospace m-0 text-break">
-            <small>
-              Flavor:
-              {{ instance.function.flavor.reference }}
-            </small>
-          </p>
-          <p class="text-monospace m-0 text-break">
-            <small>
-              Image:
-              {{ instance.function.image.reference }}
-            </small>
-          </p>
-          <p class="text-monospace m-0 text-break">
-            <small class="text-break">
-              Configuration:
-              {{ instance.function.configuration.script}}
-            </small>
-          </p>
-          <hr>
-          <p class="text-monospace m-0 text-break">
-            <small>
-              Scale In ability:
-              {{ instance.function.scaleInAbility }}
-            </small>
-          </p>
-          <p class="text-monospace m-0 text-break">
-            <small>
-              Scale Out ability:
-              {{ instance.function.scaleOutAbility }}
-            </small>
-          </p>
-          <hr>
         </td>
         <td>
           <div class="container-md">
             <div *ngIf="instance.servers">
-              <div class=ml-2 *ngFor="let server of instance.servers">
-                <p class="text-monospace m-0">
-                  <small>Name: {{ server.name }}</small>
-                </p>
-                <p class="text-monospace m-0">
-                  <small>ServerId: {{ server.serverId }}</small>
-                </p>
-                <p class="text-monospace m-0">
-                  <small>MonitoringId: {{ server.monitoringId }}</small>
-                </p>
+              <div class=ml-0 *ngFor="let server of instance.servers">
+                <div class="container">
+                  <p class="text-monospace m-0">
+                    <small>Name: {{ server.name }}</small>
+                  </p>
+                </div>
+                <div class="container">
+                  <p class="text-monospace m-0">
+                    <small>ServerId: {{ server.serverId }}</small>
+                  </p>
+                </div>
+                <div class="container">
+                  <p class="text-monospace m-0">
+                    <small>MonitoringId: {{ server.monitoringId }}</small>
+                  </p>
+                </div>
+                <div class="container">
+                  <p class="text-monospace m-0">
+                    <small>Status: {{ server }}</small>
+                  </p>
+                </div>
+                <div class="d-flex flex-row-reverse">
+                  <button
+                    *ngIf="server"
+                    type="button"
+                    class="btn btn-sm btn-dark"
+                    (click)="releaseInstance(server.id, instance.function.id)"
+                  >
+                    Release
+                  </button>
+                </div>
                 <hr>
               </div>
             </div>
@@ -100,16 +84,17 @@
               class="btn btn-sm btn-outline-success"
               (click)="createNewInstance(instance.function.id)"
             >
-              Create
+              Instantiate
             </button>
             <button
-              *ngIf="instance.function"
+              *ngIf="instance.servers.length > 0"
               type="button"
               class="btn btn-sm btn-outline-danger"
-              (click)="deleteInstance()"
+              (click)="releaseLastInstance(instance.function.id)"
             >
-              Delete
+              Release
             </button>
+<!--
             <button
               *ngIf="instance.function.scaleInAbility"
               type="button"
@@ -124,6 +109,7 @@
             >
               Out
             </button>
+-->
           </div>
         </td>
       </tr>

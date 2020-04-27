@@ -30,7 +30,7 @@ public class AuthController {
 
     @GetMapping("/token")
     public Object auth(HttpServletResponse response) {
-        RestResponse restResponse = (RestResponse) keystoneService.authenticate();
+        RestResponse restResponse = keystoneService.authenticate();
         response.addHeader(OS_TOKEN, restResponse.getHeaders().getFirst(OS_TOKEN));
         response.addHeader(TIMEOUT, restResponse.getHeaders().getFirst(TIMEOUT));
         return restResponse.getStringEntity();

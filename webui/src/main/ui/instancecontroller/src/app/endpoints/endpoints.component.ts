@@ -29,15 +29,6 @@ export class EndpointsComponent implements OnInit {
       });
   }
 
-  getInstance(id: number): Instance {
-    let inst = new Instance();
-    this.instanceService.getInstance(id).subscribe(data => {
-      inst = data;
-    });
-
-    return inst;
-  }
-
   enableEdit(id:number):void {
     this.functions.forEach(el => {
       if (el.function.id === id) {

@@ -13,6 +13,10 @@ public class RestUtils {
 
     private static AuthSessionBean AUTH_SESSION_BEAN;
 
+    /**
+     * Get auth headers for Openstack communication.
+     * @return {@link MultivaluedHashMap}
+     */
     public static MultivaluedMap getAuthHeaders() {
         MultivaluedMap<String, String> headers = new MultivaluedHashMap<>();
         headers.putSingle(SettingsHelper.OS_TOKEN_NAME, AUTH_SESSION_BEAN.getToken());

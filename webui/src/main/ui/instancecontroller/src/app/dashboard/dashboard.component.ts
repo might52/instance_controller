@@ -31,7 +31,6 @@ export class DashboardComponent implements OnInit {
     this.getInstances();
   }
 
-
   deleteInstance(): void {
     this.getInstances();
   }
@@ -40,4 +39,13 @@ export class DashboardComponent implements OnInit {
     this.getInstances();
   }
 
+  releaseInstance(serverId: number, functionId: number) {
+    this.instanceService.releaseInstance(serverId, functionId);
+    this.getInstances();
+  }
+
+  releaseLastInstance(functionId: number) {
+    this.instanceService.releaseLastInstance(functionId);
+    this.getInstances();
+  }
 }

@@ -38,6 +38,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
     private static final String URL_MESSAGE_TEMPLATE = "Request url: %s";
     private static final String REQUEST_BODY_MESSAGE_TEMPLATE =
             "Request body: %s";
+    private static final long serialVersionUID = 6125278665108890171L;
 
     private Client restClient;
     private ObjectMapper objectMapper;
@@ -78,7 +79,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     //endregion
 
-    //region requests
+    //region Requests
 
     //region GET
     /**
@@ -245,7 +246,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
      * @param data request body.
      * @param headers headers for request.
      * @param type type of required object.
-     * @param <T>
+     * @param <T> type of returned object.
      * @return return required object.
      */
     public <T> T delete(String endpointUrl,
@@ -268,7 +269,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
      * @param data request body.
      * @param headers headers for request.
      * @param type type of required object.
-     * @param <T>
+     * @param <T> type of returned object.
      * @return RestResponse.
      */
     public <T> RestResponse deleteRaw(String endpointUrl,

@@ -35,6 +35,9 @@ export class InstanceService {
     };
   }
 
+  /**
+   * Return list of {@link Instance} Instances.
+   */
   getInstances(): Observable<Array<Instance>> {
     const url = `${this.compute_url}/all`;
     return this
@@ -49,8 +52,12 @@ export class InstanceService {
       );
   }
 
-  getInstance(id: number): Observable<Instance> {
-    const url = `${this.compute_url}/${id}`;
+  /**
+   * Return the {@link Instance} by Id.
+   * @param functionId function id.
+   */
+  getInstance(functionId: number): Observable<Instance> {
+    const url = `${this.compute_url}/${functionId}`;
     return this
       .httpClient
       .get<Instance>(url)
@@ -82,9 +89,9 @@ export class InstanceService {
       ).subscribe();
   }
 
-  createNewInstance(id: number): void {
-    const url = `${this.compute_url}/instantiate/${id}`;
-    console.log(`FunctionID ${id} and url: ${url}`);
+  createNewInstance(functionId: number): void {
+    const url = `${this.compute_url}/instantiate/${functionId}`;
+    console.log(`FunctionID ${functionId} and url: ${url}`);
     this
       .httpClient
       .post(url, "")
@@ -94,11 +101,50 @@ export class InstanceService {
         }),
         tap(_ =>
           console.log(
-            `Instantiate new instance of function, function id: ${id}`
+            `Instantiate new instance of function, function id: ${functionId}`
           )
         ),
         catchError(this.handleError<any>('saveFunction'))
       ).subscribe();
+  }
+
+  releaseInstance(serverId: number, functionId: number) {
+    const url = `${this.compute_url}/instantiate/${functionId}/${serverId}`;
+    console.log(`ServerId ${serverId}, FunctionId ${functionId} and url: ${url}`);
+    this
+      .httpClient
+      .delete(url)
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        tap(_ =>
+          console.log(
+            `Release instance(server id): ${serverId} of function: ${functionId}`
+          )
+        ),
+        catchError(this.handleError<any>('releaseInstance'))
+      ).subscribe();
+  }
+
+  releaseLastInstance(functionId: number) {
+    const url = `${this.compute_url}/instantiate/${functionId}`;
+    console.log(`Release FunctionId ${functionId} and url: ${url}`);
+    this
+      .httpClient
+      .delete(url)
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        tap(_ =>
+          console.log(
+            `Release last instance of function: ${functionId}`
+          )
+        ),
+        catchError(this.handleError<any>('releaseLastInstance'))
+      ).subscribe();
+
   }
 
 }

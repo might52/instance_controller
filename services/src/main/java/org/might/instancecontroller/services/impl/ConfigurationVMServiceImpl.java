@@ -24,6 +24,11 @@ public class ConfigurationVMServiceImpl implements ConfigurationVMService {
     private static final int BUFFER_SIZE = 1024;
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigurationVMServiceImpl.class);
 
+    /**
+     * Perform configuration part on the VM via SSH.
+     * @param host server IP address or hostname.
+     * @param scripts configuration scripts.
+     */
     public void setUpVM(String host, String scripts) {
         LOGGER.debug("Start configuration VM for monitoring, ip address: {}, scripts: {}", host, scripts);
         if (!executeCommand(host, scripts)) {
@@ -37,6 +42,12 @@ public class ConfigurationVMServiceImpl implements ConfigurationVMService {
         }
     }
 
+    /**
+     * Perform execution commands via SSH.
+     * @param host server IP address or hostname.
+     * @param commands configuration commands.
+     * @return result of execution.
+     */
     private static boolean executeCommand(String host, String commands) {
         JSch jSch = new JSch();
         try {
@@ -70,6 +81,13 @@ public class ConfigurationVMServiceImpl implements ConfigurationVMService {
         return true;
     }
 
+    /**
+     * Return result of execution commands.
+     * @param channel {@link Channel}
+     * @param inputStream {@link InputStream}
+     * @param encoding {@link String}
+     * @return representation of commands execution.
+     */
     private static String readResponse(Channel channel, InputStream inputStream, String encoding) {
         try {
             ByteArrayOutputStream result = new ByteArrayOutputStream();
@@ -89,28 +107,6 @@ public class ConfigurationVMServiceImpl implements ConfigurationVMService {
                     e);
         }
     }
-/*
-    private static String readResponse(Channel channel, InputStream in)
-            throws IOException {
-        StringBuilder result = new StringBuilder();
-        byte[] tmp = new byte[BUFFER_SIZE];
-        while (true) {
-            while (in.available() > 0) {
-                int i = in.read(tmp, 0, BUFFER_SIZE);
-                if (i < 0) {
-                    break;
-                }
-                result.append(new String(tmp, 0, i));
-            }
-            if (channel.isClosed()) {
-                int exitStatus = channel.getExitStatus();
-                System.out.println("exit-status: " + exitStatus);
-                break;
-            }
-//            trySleep(1000);
-        }
-        return result.toString();
-    }*/
 
     @Autowired
     public ConfigurationVMServiceImpl(SettingsHelper settingsHelper) {

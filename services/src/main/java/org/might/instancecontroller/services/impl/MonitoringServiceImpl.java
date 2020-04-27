@@ -1,7 +1,9 @@
 package org.might.instancecontroller.services.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.might.instancecontroller.dba.entity.Server;
 import org.might.instancecontroller.models.monitoring.HostCreateModel;
+import org.might.instancecontroller.models.monitoring.HostDeletionModel;
 import org.might.instancecontroller.models.monitoring.HostResponse;
 import org.might.instancecontroller.models.servers.OpenstackServer;
 import org.might.instancecontroller.services.MonitoringService;
@@ -24,7 +26,8 @@ public class MonitoringServiceImpl implements MonitoringService {
             MonitoringServiceImpl.class
     );
 
-    private static final String MONITORING_TEMPLATE = "performed the setUp monitoring, hostId: {}";
+    private static final String MONITORING_CREATION_TEMPLATE = "performed the setUp monitoring, hostId: {}";
+    private static final String MONITORING_DELETION_TEMPLATE = "performed the remove monitoring, hostId: {}";
     private RESTService restService;
     private SettingsHelper settingsHelper;
 
@@ -53,12 +56,27 @@ public class MonitoringServiceImpl implements MonitoringService {
                 null,
                 new TypeReference<HostResponse>() {
                 });
-        LOGGER.debug(MONITORING_TEMPLATE, hostResponse.getResult().getHostids().get(0));
+        LOGGER.debug(MONITORING_CREATION_TEMPLATE, hostResponse.getResult().getHostids().get(0));
         return hostResponse;
     }
 
     @Override
-    public HostResponse removeMonitoring() {
-        return null;
+    public HostResponse removeMonitoring(Server server) {
+        LOGGER.debug("Removing server with id: {} " +
+                        "in monitoring system with HostId: {} " +
+                        "and OpesntackId: {}",
+                server.getId(),
+                server.getMonitoringId(),
+                server.getServerId()
+        );
+        HostDeletionModel hostDeletionModel = MonitoringHelper.getHostDeletionModel(server);
+        HostResponse hostResponse = restService.post(
+                settingsHelper.getZabbixUrl(),
+                hostDeletionModel,
+                null,
+                new TypeReference<HostResponse>() {
+                });
+        LOGGER.debug(MONITORING_DELETION_TEMPLATE, hostResponse.getResult().getHostids().get(0));
+        return hostResponse;
     }
 }
