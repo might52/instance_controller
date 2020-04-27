@@ -3,9 +3,7 @@ package org.might.instancecontroller.services.transport.impl;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.*;
 import org.might.instancecontroller.services.transport.ObjectMapper;
 import org.might.instancecontroller.services.transport.RESTService;
 import com.sun.jersey.api.client.Client;
@@ -42,7 +40,9 @@ public class RESTServiceImpl implements RESTService, Serializable {
             "Request body: %s";
 
     private Client restClient;
-    private ObjectMapper jsonSerializer;
+    private ObjectMapper objectMapper;
+    private ObjectReader objectReader;
+    private ObjectWriter objectWriter;
 
     //endregion
 
@@ -58,11 +58,13 @@ public class RESTServiceImpl implements RESTService, Serializable {
      * Initialisation of the serializer.
      */
     private void initSerializer() {
-        this.jsonSerializer = new ObjectMapper();
-        this.jsonSerializer.enable(
+        // TODO: make writer and reader thread safe.
+        //  Need to use ObjectReader and ObjectWriter.
+        this.objectMapper = new ObjectMapper();
+        this.objectMapper.enable(
                 SerializationFeature.WRAP_ROOT_VALUE
         );
-        this.jsonSerializer.enable(
+        this.objectMapper.enable(
                 DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT
         );
     }
@@ -332,7 +334,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
                                 TypeReference<T> type
     ) {
         try {
-            return jsonSerializer.readValue(restResponse.getStringEntity(), type);
+            return objectMapper.readValue(restResponse.getStringEntity(), type);
         } catch (JsonParseException ex) {
             LOGGER.error(String.format("JSON parse exception occurred: %s", ex.getMessage()));
         } catch (JsonMappingException ex) {
@@ -389,7 +391,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
     private String getEntityString(Object object) {
         String result = "";
         try {
-            result = jsonSerializer.writeValueAsString(object);
+            result = objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException ex) {
 
         }

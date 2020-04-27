@@ -14,6 +14,8 @@ public class Server {
     private String serverId;
     @ManyToOne(targetEntity = Function.class, optional = false)
     private Function function;
+    @Column(name = "monitoringId", unique = true)
+    private Long monitoringId;
 
     public Long getId() {
         return id;
@@ -47,6 +49,13 @@ public class Server {
         this.function = function;
     }
 
+    public Long getMonitoringId() {
+        return monitoringId;
+    }
+
+    public void setMonitoringId(Long monitoringId) {
+        this.monitoringId = monitoringId;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -70,5 +79,6 @@ public class Server {
 
         return getFunction().equals(server.getFunction());
     }
+
 
 }

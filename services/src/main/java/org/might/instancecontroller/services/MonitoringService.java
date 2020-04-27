@@ -1,8 +1,9 @@
 package org.might.instancecontroller.services;
 
+import org.might.instancecontroller.models.monitoring.HostResponse;
 import org.might.instancecontroller.models.servers.OpenstackServer;
 
 public interface MonitoringService {
-    void setUpMonitoring(OpenstackServer openstackServer);
-    void removeMonitoring();
+    HostResponse setUpMonitoring(OpenstackServer openstackServer);
+    HostResponse removeMonitoring();
 }

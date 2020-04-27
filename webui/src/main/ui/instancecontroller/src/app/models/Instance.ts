@@ -33,6 +33,7 @@ export interface FunctionServer {
   id: number;
   name: string;
   serverId: string;
+  monitoringId: number;
 }
 
 export interface Configuration {

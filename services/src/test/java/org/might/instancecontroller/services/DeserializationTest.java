@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Assert;
 import org.junit.Test;
+import org.might.instancecontroller.models.monitoring.HostResponse;
+import org.might.instancecontroller.models.monitoring.HostResult;
 import org.might.instancecontroller.models.servers.*;
 import org.might.instancecontroller.services.transport.ObjectMapper;
 
@@ -22,11 +24,17 @@ public class DeserializationTest {
 
     private final String serversReponse;
     private final String serverResponse;
+    private final String creationResponse;
+    private final String deletionResponse;
     private final ObjectMapper jsonSerializer;
+
+    private final static String HOST_ID = "10275";
 
     public DeserializationTest() throws IOException {
         this.serverResponse = Files.readString(Paths.get("src/main/resources/Jsons/Server.json"), StandardCharsets.UTF_8);
         this.serversReponse = Files.readString(Paths.get("src/main/resources/Jsons/Servers.json"), StandardCharsets.UTF_8);
+        this.creationResponse = Files.readString(Paths.get("src/main/resources/Jsons/MonitoringCreationResult.json"), StandardCharsets.UTF_8);
+        this.deletionResponse = Files.readString(Paths.get("src/main/resources/Jsons/MonitoringDeletionResult.json"), StandardCharsets.UTF_8);
         this.jsonSerializer = new ObjectMapper();
         this.jsonSerializer.enable(SerializationFeature.WRAP_ROOT_VALUE);
         this.jsonSerializer.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
@@ -63,6 +71,28 @@ public class DeserializationTest {
                         this.serversReponse,
                         new TypeReference<Servers>() {});
         Assert.assertNotNull(instances);
+    }
+
+    @Test
+    public void canGetMonitoringCreationResult() throws IOException {
+        HostResponse hostResponse =
+                this.jsonSerializer.readValue(
+                        this.creationResponse,
+                        new TypeReference<HostResponse>() {
+                        }
+                );
+        Assert.assertEquals(HOST_ID, hostResponse.getResult().getHostids().get(0));
+    }
+
+    @Test
+    public void canGetMonitoringDeletionResult() throws IOException {
+        HostResponse hostResponse =
+                this.jsonSerializer.readValue(
+                        this.deletionResponse,
+                        new TypeReference<HostResponse>() {
+                        }
+                );
+        Assert.assertEquals(HOST_ID, hostResponse.getResult().getHostids().get(0));
     }
 
     /**

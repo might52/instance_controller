@@ -35,9 +35,11 @@ public class ServerServiceTest {
 
     private static final String UPDATED_SERVER_NAME = "updated_server_name";
     private static final String UPDATED_SERVER_SERVER_ID = "updated_server_id";
+    private static final Long UPDATED_MONITORING_ID = 10258L;
 
     private static final String TEST_SERVER_NAME = "test_server_name";
     private static final String TEST_SERVER_SERVER_ID = "test_server_id";
+    private static final Long TEST_MONITORING_ID = 10257L;
 
     private static final String TEST_FUNCTION_NAME = "test_func_name";
     private static final String TEST_FUNCTION_DESC = "test_func_desc";
@@ -59,6 +61,7 @@ public class ServerServiceTest {
             "Server ID: {}, " +
             "name: {}, " +
             "serverId: {}, " +
+            "monitoringId: {}" +
             "function: {}";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(
@@ -99,6 +102,7 @@ public class ServerServiceTest {
         server.setName(TEST_SERVER_NAME);
         server.setServerId(TEST_SERVER_SERVER_ID);
         server.setFunction(prepareTestFunction());
+        server.setMonitoringId(TEST_MONITORING_ID);
         return server;
     }
 
@@ -230,6 +234,7 @@ public class ServerServiceTest {
                 server.getId(),
                 server.getName(),
                 server.getServerId(),
+                server.getMonitoringId(),
                 server.getFunction().getId());
         Assert.assertEquals(prepareTestServer(), server);
     }
@@ -242,6 +247,7 @@ public class ServerServiceTest {
                 server.getId(),
                 server.getName(),
                 server.getServerId(),
+                server.getMonitoringId(),
                 server.getFunction().getId());
         server.setName(UPDATED_SERVER_NAME);
         serverService.saveServer(server);
@@ -249,6 +255,7 @@ public class ServerServiceTest {
                 server.getId(),
                 server.getName(),
                 server.getServerId(),
+                server.getMonitoringId(),
                 server.getFunction().getId());
         Assert.assertEquals(UPDATED_SERVER_NAME, server.getName());
     }
@@ -268,8 +275,29 @@ public class ServerServiceTest {
                 server.getId(),
                 server.getName(),
                 server.getServerId(),
+                server.getMonitoringId(),
                 server.getFunction().getId());
         Assert.assertEquals(UPDATED_SERVER_SERVER_ID, server.getServerId());
+    }
+
+    @Test
+    public void canChangeMonitoringId() {
+        Server server = prepareTestServer();
+        serverService.saveServer(server);
+        LOGGER.debug(SERVER_TEMPLATE,
+                server.getId(),
+                server.getName(),
+                server.getServerId(),
+                server.getFunction().getId());
+        server.setMonitoringId(UPDATED_MONITORING_ID);
+        serverService.saveServer(server);
+        LOGGER.debug(SERVER_TEMPLATE,
+                server.getId(),
+                server.getName(),
+                server.getServerId(),
+                server.getMonitoringId(),
+                server.getFunction().getId());
+        Assert.assertEquals(UPDATED_MONITORING_ID, server.getMonitoringId());
     }
 
     @Test
@@ -280,6 +308,7 @@ public class ServerServiceTest {
                 server.getId(),
                 server.getName(),
                 server.getServerId(),
+                server.getMonitoringId(),
                 server.getFunction().getId());
         server.setFunction(prepareUpdatedTestFunction());
         serverService.saveServer(server);
@@ -287,6 +316,7 @@ public class ServerServiceTest {
                 server.getId(),
                 server.getName(),
                 server.getServerId(),
+                server.getMonitoringId(),
                 server.getFunction().getId());
         Assert.assertEquals(UPDATED_FUNCTION_NAME, server.getFunction().getName());
     }
@@ -299,6 +329,7 @@ public class ServerServiceTest {
                 server.getId(),
                 server.getName(),
                 server.getServerId(),
+                server.getMonitoringId(),
                 server.getFunction().getId());
         serverService.saveServer(server);
 

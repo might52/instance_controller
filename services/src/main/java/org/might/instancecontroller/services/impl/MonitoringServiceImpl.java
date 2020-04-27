@@ -2,6 +2,7 @@ package org.might.instancecontroller.services.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.might.instancecontroller.models.monitoring.HostCreateModel;
+import org.might.instancecontroller.models.monitoring.HostResponse;
 import org.might.instancecontroller.models.servers.OpenstackServer;
 import org.might.instancecontroller.services.MonitoringService;
 import org.might.instancecontroller.services.transport.RESTService;
@@ -23,6 +24,7 @@ public class MonitoringServiceImpl implements MonitoringService {
             MonitoringServiceImpl.class
     );
 
+    private static final String MONITORING_TEMPLATE = "performed the setUp monitoring, hostId: {}";
     private RESTService restService;
     private SettingsHelper settingsHelper;
 
@@ -34,7 +36,7 @@ public class MonitoringServiceImpl implements MonitoringService {
     }
 
     @Override
-    public void setUpMonitoring(final OpenstackServer openstackServer) {
+    public HostResponse setUpMonitoring(final OpenstackServer openstackServer) {
         LOGGER.debug("Perform set up monitoring for vm {}, ip address: {}, hostname: {}",
                 openstackServer.getId(),
                 openstackServer.getAddresses()
@@ -45,16 +47,18 @@ public class MonitoringServiceImpl implements MonitoringService {
                 openstackServer.getName()
         );
         HostCreateModel hostCreateModel = MonitoringHelper.getHostCreateModel(openstackServer);
-        Object object = restService.postRaw(
+        HostResponse hostResponse = restService.post(
                 settingsHelper.getZabbixUrl(),
                 hostCreateModel,
                 null,
-                new TypeReference<>() {
+                new TypeReference<HostResponse>() {
                 });
-        LOGGER.debug("performed the setUp monitoring: {}", object);
+        LOGGER.debug(MONITORING_TEMPLATE, hostResponse.getResult().getHostids().get(0));
+        return hostResponse;
     }
 
     @Override
-    public void removeMonitoring() {
+    public HostResponse removeMonitoring() {
+        return null;
     }
 }

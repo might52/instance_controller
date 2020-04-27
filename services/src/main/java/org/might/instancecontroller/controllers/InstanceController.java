@@ -5,6 +5,7 @@ import org.might.instancecontroller.dba.entity.Function;
 import org.might.instancecontroller.dba.entity.Server;
 import org.might.instancecontroller.models.function.FunctionModel;
 import org.might.instancecontroller.models.function.ServerCreateModel;
+import org.might.instancecontroller.models.monitoring.HostResponse;
 import org.might.instancecontroller.models.servers.OpenstackServer;
 import org.might.instancecontroller.services.*;
 import org.might.instancecontroller.utils.FunctionHelper;
@@ -30,13 +31,6 @@ public class InstanceController {
     private final MonitoringService monitoringService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InstanceController.class);
-    private static final String FUNCTION_TEMPLATE = "Got function - " +
-            "Id: {}, " +
-            "Name: {}, " +
-            "Image: {}, " +
-            "Flavor: {}, " +
-            "Description: {}, " +
-            "Configuration: {}";
 
     @Autowired
     public InstanceController(ComputeService computeService,
@@ -101,27 +95,7 @@ public class InstanceController {
     @RequireConnection
     @PostMapping("/instantiate/{id}")
     public void instantiate(@PathVariable Long id) throws InterruptedException {
-        Function function;
-        if (this.functionService.getFunctionById(id).isPresent()) {
-            function = this.functionService.getFunctionById(id).get();
-        } else {
-            LOGGER.error("Function with Id: {} did't find at DBs", id);
-            throw new RuntimeException(
-                    String.format(
-                            "Function with Id: %s did't find at DBs",
-                            id
-                    )
-            );
-        }
-
-        LOGGER.debug(FUNCTION_TEMPLATE,
-                function.getId(),
-                function.getName(),
-                function.getImage().getReference(),
-                function.getFlavor().getReference(),
-                function.getDescription(),
-                function.getConfiguration().getScript());
-
+        Function function = FunctionHelper.getFunctionById(id);
         ServerCreateModel serverCreateModel =
                 FunctionHelper.getServerCreateModelAutoNetwork(
                         function
@@ -162,7 +136,39 @@ public class InstanceController {
                         openstackServer.getName()
                 )
         );
-        monitoringService.setUpMonitoring(openstackServer);
+        HostResponse hostResponse = monitoringService.setUpMonitoring(openstackServer);
+        serverDba.setMonitoringId(Long.parseLong(hostResponse.getResult().getHostids().get(0)));
+        serverService.saveServer(serverDba);
+    }
+
+    @RequireConnection
+    @DeleteMapping("/instantiate/{id}")
+    public void release(@PathVariable Long id) {
+        Function function = FunctionHelper.getFunctionById(id);
+//        OpenstackServer openstackServer =
+//                this.computeService.createServer(
+//                        serverCreateModel
+//                );
+
+        //TODO: add configuration set up, wait 15 minutes.
+//        LOGGER.debug("Waiting for instantiation the VM: {} minutes.", 900000 / 60 / 1000);
+//        Thread.sleep(900000);
+//
+//        openstackServer = computeService.getServer(openstackServer.getId());
+//
+//        configurationVMService.setUpVM(
+//                openstackServer
+//                        .getAddresses()
+//                        .getNetworks()
+//                        .get(FunctionHelper.NETWORK_NAME_PUBLIC)
+//                        .get(0)
+//                        .getAddr(),
+//                FunctionHelper.getScriptsForFunction(
+//                        function,
+//                        openstackServer.getName()
+//                )
+//        );
+//        monitoringService.setUpMonitoring(openstackServer);
     }
 
 }

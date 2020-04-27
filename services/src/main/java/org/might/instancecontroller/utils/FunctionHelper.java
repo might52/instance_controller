@@ -32,6 +32,13 @@ public class FunctionHelper {
     private static final String FUNCTION_NAME_PATTERN = "(function_name)";
     private static FunctionService FUNCTION_SERVICE;
     private static ServerService SERVER_SERVICE;
+    private static final String FUNCTION_TEMPLATE = "Got function - " +
+            "Id: {}, " +
+            "Name: {}, " +
+            "Image: {}, " +
+            "Flavor: {}, " +
+            "Description: {}, " +
+            "Configuration: {}";
 
 
     /**
@@ -83,6 +90,35 @@ public class FunctionHelper {
 
         serverCreateModel.setNetworks(networkModelList);
         return serverCreateModel;
+    }
+
+    /**
+     * Return a Function from DB.
+     * @param id
+     * @return <{@link Function}>
+     */
+    public static Function getFunctionById(Long id){
+        Function function;
+        if (FUNCTION_SERVICE.getFunctionById(id).isPresent()) {
+            function = FUNCTION_SERVICE.getFunctionById(id).get();
+        } else {
+            LOGGER.error("Function with Id: {} did't find at DBs", id);
+            throw new RuntimeException(
+                    String.format(
+                            "Function with Id: %s did't find at DBs",
+                            id
+                    )
+            );
+        }
+        LOGGER.debug(FUNCTION_TEMPLATE,
+                function.getId(),
+                function.getName(),
+                function.getImage().getReference(),
+                function.getFlavor().getReference(),
+                function.getDescription(),
+                function.getConfiguration().getScript());
+
+        return function;
     }
 
     /**
