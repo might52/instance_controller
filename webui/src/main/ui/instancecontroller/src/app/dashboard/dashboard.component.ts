@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { InstanceService } from "../instance.service";
 import { Instance } from "../models/Instance";
+import {interval, Subscription} from "rxjs";
+import {log} from "util";
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +13,7 @@ export class DashboardComponent implements OnInit {
 
   title="Dashboard";
   instances: Array<Instance>;
-
+  private updateDashboard: Subscription;
   constructor(private instanceService: InstanceService) { }
 
   getInstances(): void {
@@ -28,7 +30,6 @@ export class DashboardComponent implements OnInit {
 
   createNewInstance(id: number): void {
     this.instanceService.createNewInstance(id);
-    this.getInstances();
   }
 
   deleteInstance(): void {
@@ -37,15 +38,18 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.getInstances();
+    this.updateDashboard = interval(10000).subscribe(
+      (val) => {
+        log("perform the refresh dashboard");
+        this.getInstances();
+      });
   }
 
   releaseInstance(serverId: number, functionId: number) {
     this.instanceService.releaseInstance(serverId, functionId);
-    this.getInstances();
   }
 
   releaseLastInstance(functionId: number) {
     this.instanceService.releaseLastInstance(functionId);
-    this.getInstances();
   }
 }

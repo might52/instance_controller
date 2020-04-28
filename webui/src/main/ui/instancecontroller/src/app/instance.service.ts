@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 import {Function, Instance} from "./models/Instance";
+import {log} from "util";
 
 
 @Injectable({
@@ -25,11 +26,11 @@ export class InstanceService {
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.log(`${operation} failed: ${error.message}`);
+      log(`${operation} failed: ${error.message}`);
       try {
         return JSON.parse(error)
       } catch (error) {
-        console.error("Response doesn't have JSON format");
+        error("Response doesn't have JSON format");
         return of(result as T);
       }
     };
@@ -47,7 +48,7 @@ export class InstanceService {
         map((res: any) => {
           return res;
         }),
-        tap(_ => console.log('Fetching instances')),
+        tap(_ => log('Fetching instances')),
         catchError(this.handleError<Array<Instance>>('getInstances', []))
       );
   }
@@ -65,14 +66,14 @@ export class InstanceService {
         map((res: any) => {
           return res;
         }),
-        tap(_ => console.log('Fetching instance by Id')),
+        tap(_ => log('Fetching instance by Id')),
         catchError(this.handleError<Array<Instance>>('getInstance by Id', []))
       )
   }
 
   saveInstance(func:Function): void {
     const url = `${this.compute_url}/`;
-    console.log(`FunctionID ${func.id} and url: ${url}`);
+    log(`FunctionID ${func.id} and url: ${url}`);
     this
       .httpClient
       .post(url, func)
@@ -81,7 +82,7 @@ export class InstanceService {
           return res;
         }),
         tap(_ =>
-          console.log(
+          log(
             `Save function, function id: ${func.id}`
           )
         ),
@@ -91,7 +92,7 @@ export class InstanceService {
 
   createNewInstance(functionId: number): void {
     const url = `${this.compute_url}/instantiate/${functionId}`;
-    console.log(`FunctionID ${functionId} and url: ${url}`);
+    log(`FunctionID ${functionId} and url: ${url}`);
     this
       .httpClient
       .post(url, "")
@@ -100,7 +101,7 @@ export class InstanceService {
           return res;
         }),
         tap(_ =>
-          console.log(
+          log(
             `Instantiate new instance of function, function id: ${functionId}`
           )
         ),
@@ -110,7 +111,7 @@ export class InstanceService {
 
   releaseInstance(serverId: number, functionId: number) {
     const url = `${this.compute_url}/instantiate/${functionId}/${serverId}`;
-    console.log(`ServerId ${serverId}, FunctionId ${functionId} and url: ${url}`);
+    log(`ServerId ${serverId}, FunctionId ${functionId} and url: ${url}`);
     this
       .httpClient
       .delete(url)
@@ -119,7 +120,7 @@ export class InstanceService {
           return res;
         }),
         tap(_ =>
-          console.log(
+          log(
             `Release instance(server id): ${serverId} of function: ${functionId}`
           )
         ),
@@ -129,7 +130,7 @@ export class InstanceService {
 
   releaseLastInstance(functionId: number) {
     const url = `${this.compute_url}/instantiate/${functionId}`;
-    console.log(`Release FunctionId ${functionId} and url: ${url}`);
+    log(`Release FunctionId ${functionId} and url: ${url}`);
     this
       .httpClient
       .delete(url)
@@ -138,7 +139,7 @@ export class InstanceService {
           return res;
         }),
         tap(_ =>
-          console.log(
+          log(
             `Release last instance of function: ${functionId}`
           )
         ),

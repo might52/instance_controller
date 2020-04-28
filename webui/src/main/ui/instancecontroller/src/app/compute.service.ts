@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { map, catchError, tap } from "rxjs/operators";
 import { Observable, of } from "rxjs";
 import { ServerJSON } from "./models/Server"
+import {log} from "util";
 
 
 @Injectable({
@@ -26,11 +27,11 @@ export class ComputeService {
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.log(`${operation} failed: ${error.message}`);
+      log(`${operation} failed: ${error.message}`);
       try {
         return JSON.parse(error)
       } catch (error) {
-        console.error("Response doesn't have JSON format");
+        error("Response doesn't have JSON format");
         return of(result as T);
       }
    };
@@ -45,14 +46,14 @@ export class ComputeService {
         map((res: any) => {
           return res;
         }),
-        tap(_ => console.log('Fetching servers')),
+        tap(_ => log('Fetching servers')),
         catchError(this.handleError<Array<ServerJSON>>('getServers', []))
       );
   }
 
   startServer(serverId): void {
     const url = `${this.compute_url}/${serverId}/start`;
-    console.log(`ServerID ${serverId} and url: ${url}`);
+    log(`ServerID ${serverId} and url: ${url}`);
     this
       .httpClient
       .post(url, null)
@@ -61,7 +62,7 @@ export class ComputeService {
           return res;
         }),
       tap(_ =>
-        console.log(
+        log(
           `Perform start action, server id: ${serverId}`
         )
       ),
@@ -71,13 +72,13 @@ export class ComputeService {
 
   stopServer(serverId): void {
     const url = `${this.compute_url}/${serverId}/stop`;
-    console.log(`ServerID ${serverId} and url: ${url}`);
+    log(`ServerID ${serverId} and url: ${url}`);
     this
       .httpClient
       .post<any>(url, "")
       .pipe(
         tap(_ =>
-          console.log(
+          log(
             `Perform stop action, server id: ${serverId}`
           )
         ),
@@ -87,13 +88,13 @@ export class ComputeService {
 
   pauseServer(serverId): void {
     const url = `${this.compute_url}/${serverId}/pause`;
-    console.log(`ServerID ${serverId} and url: ${url}`);
+    log(`ServerID ${serverId} and url: ${url}`);
     this
       .httpClient
       .post<any>(url, "")
       .pipe(
         tap(_ =>
-          console.log(
+          log(
             `Perform pause action, server id: ${serverId}`
           )
         ),
@@ -103,13 +104,13 @@ export class ComputeService {
 
   unPauseServer(serverId): void {
     const url = `${this.compute_url}/${serverId}/unpause`;
-    console.log(`ServerID ${serverId} and url: ${url}`);
+    log(`ServerID ${serverId} and url: ${url}`);
     this
       .httpClient
       .post<any>(url, "")
       .pipe(
         tap(_ =>
-          console.log(
+          log(
             `Perform unpause action, server id: ${serverId}`
           )
         ),
@@ -119,7 +120,7 @@ export class ComputeService {
 
   softRebootServer(serverId): void {
     const url = `${this.compute_url}/${serverId}/softreboot`;
-    console.log(`ServerID ${serverId} and url: ${url}`);
+    log(`ServerID ${serverId} and url: ${url}`);
     this
       .httpClient
       .post(url, null)
@@ -128,7 +129,7 @@ export class ComputeService {
           return res;
         }),
         tap(_ =>
-          console.log(
+          log(
             `Perform soft reboot action server id: ${serverId}`
           )
         ),
@@ -138,7 +139,7 @@ export class ComputeService {
 
   hardRebootServer(serverId): void {
     const url = `${this.compute_url}/${serverId}/hardreboot`;
-    console.log(`ServerID ${serverId} and url: ${url}`);
+    log(`ServerID ${serverId} and url: ${url}`);
     this
       .httpClient
       .post(url, null)
@@ -147,7 +148,7 @@ export class ComputeService {
           return res;
         }),
         tap(_ =>
-          console.log(
+          log(
             `Perform hard reboot action server id: ${serverId}`
           )
         ),
@@ -157,13 +158,13 @@ export class ComputeService {
 
   deleteServer(serverId): void {
     const url = `${this.compute_url}/${serverId}/delete`;
-    console.log(`ServerID ${serverId} and url: ${url}`);
+    log(`ServerID ${serverId} and url: ${url}`);
     this
       .httpClient
       .delete(url)
       .pipe(
         tap(_ =>
-          console.log(
+          log(
             `Perform delete action server id: ${serverId}`
           )
         )

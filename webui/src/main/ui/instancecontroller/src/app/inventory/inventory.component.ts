@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ComputeService} from "../compute.service";
 import {Server} from "../models/Server";
 import {ServerActions} from "../models/ServerActions";
+import {interval, Subscription} from "rxjs";
+import {log} from "util";
 
 @Component({
   selector: 'app-inventory',
@@ -13,6 +15,7 @@ export class InventoryComponent implements OnInit {
   title="Inventory";
   servers: Array<Server>;
   serverActions = ServerActions;
+  private updateInventory: Subscription;
 
   constructor(
     private computeService: ComputeService) {
@@ -38,42 +41,46 @@ export class InventoryComponent implements OnInit {
     console.log(`serverAction: ${serverActions}`);
     switch (serverActions) {
       case ServerActions.START:
-        console.log(`serverAction: ${ServerActions} from START case`);
+        log(`serverAction: ${ServerActions} from START case`);
         this.computeService.startServer(serverId);
         break;
       case ServerActions.STOP:
-        console.log(`serverAction: ${ServerActions} from STOP case`);
+        log(`serverAction: ${ServerActions} from STOP case`);
         this.computeService.stopServer(serverId);
         break;
       case ServerActions.PAUSE:
-        console.log(`serverAction: ${ServerActions} from PAUSE case`);
+        log(`serverAction: ${ServerActions} from PAUSE case`);
         this.computeService.pauseServer(serverId);
         break;
       case ServerActions.UNPAUSE:
-        console.log(`serverAction: ${ServerActions} from UNPAUSE case`);
+        log(`serverAction: ${ServerActions} from UNPAUSE case`);
         this.computeService.unPauseServer(serverId);
         break;
       case ServerActions.SOFT_REBOOT:
-        console.log(`serverAction: ${ServerActions} from SOFT_REBOOT case`);
+        log(`serverAction: ${ServerActions} from SOFT_REBOOT case`);
         this.computeService.softRebootServer(serverId);
         break;
       case ServerActions.HARD_REBOOT:
-        console.log(`serverAction: ${ServerActions} from HARD_REBOOT case`);
+        log(`serverAction: ${ServerActions} from HARD_REBOOT case`);
         this.computeService.hardRebootServer(serverId);
         break;
       case ServerActions.DELETE:
-        console.log(`serverAction: ${ServerActions} from Delete case`);
+        log(`serverAction: ${ServerActions} from Delete case`);
         this.computeService.deleteServer(serverId);
         break;
       default:
-        console.log(`serverAction: ${ServerActions} from default case`);
+        log(`serverAction: ${ServerActions} from default case`);
         break;
     }
-    this.getServers();
   }
 
   ngOnInit() {
     this.getServers();
+    this.updateInventory = interval(10000).subscribe(
+      (value) => {
+        log("perform update inventory");
+        this.getServers();
+      });
   }
 
 }
