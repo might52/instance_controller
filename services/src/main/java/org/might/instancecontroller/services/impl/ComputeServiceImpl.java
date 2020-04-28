@@ -207,6 +207,34 @@ public class ComputeServiceImpl implements ComputeService {
     }
 
     @Override
+    public void pauseServer(String serverId) {
+        LOGGER.debug(
+                SERVER_ACTION_TEMPLATE,
+                serverId,
+                ServerActions.Pause.class
+        );
+        restService.postRaw(settingsHelper.getServerUrlAction(serverId),
+                new ServerActions.Pause(),
+                RestUtils.getAuthHeaders(),
+                new TypeReference<>() {
+                });
+    }
+
+    @Override
+    public void unPauseServer(String serverId) {
+        LOGGER.debug(
+                SERVER_ACTION_TEMPLATE,
+                serverId,
+                ServerActions.UnPause.class
+        );
+        restService.postRaw(settingsHelper.getServerUrlAction(serverId),
+                new ServerActions.UnPause(),
+                RestUtils.getAuthHeaders(),
+                new TypeReference<>() {
+                });
+    }
+
+    @Override
     public OpenstackServer createServer(final ServerCreateModel serverCreateModel) {
         LOGGER.debug("Start creation server:");
         LOGGER.debug(

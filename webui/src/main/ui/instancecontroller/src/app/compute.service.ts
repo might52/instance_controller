@@ -85,6 +85,38 @@ export class ComputeService {
       ).subscribe();
   }
 
+  pauseServer(serverId): void {
+    const url = `${this.compute_url}/${serverId}/pause`;
+    console.log(`ServerID ${serverId} and url: ${url}`);
+    this
+      .httpClient
+      .post<any>(url, "")
+      .pipe(
+        tap(_ =>
+          console.log(
+            `Perform pause action, server id: ${serverId}`
+          )
+        ),
+        catchError(this.handleError<any>('pause action'))
+      ).subscribe();
+  }
+
+  unPauseServer(serverId): void {
+    const url = `${this.compute_url}/${serverId}/unpause`;
+    console.log(`ServerID ${serverId} and url: ${url}`);
+    this
+      .httpClient
+      .post<any>(url, "")
+      .pipe(
+        tap(_ =>
+          console.log(
+            `Perform unpause action, server id: ${serverId}`
+          )
+        ),
+        catchError(this.handleError<any>('unpause action'))
+      ).subscribe();
+  }
+
   softRebootServer(serverId): void {
     const url = `${this.compute_url}/${serverId}/softreboot`;
     console.log(`ServerID ${serverId} and url: ${url}`);

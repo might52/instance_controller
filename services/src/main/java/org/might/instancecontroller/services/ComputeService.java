@@ -70,6 +70,18 @@ public interface ComputeService {
     void deleteServer(String serverId);
 
     /**
+     * Perform Pause server action by server id.
+     * @param serverId
+     */
+    void pauseServer(String serverId);
+
+    /**
+     * Perform UnPause server action by server id.
+     * @param serverId
+     */
+    void unPauseServer(String serverId);
+
+    /**
      * Perform Create server action by server id.
      * @param serverCreateModel {@link ServerCreateModel}.
      * @return created {@link OpenstackServer}

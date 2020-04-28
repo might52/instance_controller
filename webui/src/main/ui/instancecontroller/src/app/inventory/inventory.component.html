@@ -147,6 +147,12 @@
             <button (click)="serverAction(serverActions.STOP, server.id)" type="button" class="btn btn-sm btn-outline-secondary">
               Stop
             </button>
+            <button (click)="serverAction(serverActions.PAUSE, server.id)" type="button" class="btn btn-sm btn-outline-info">
+              Pause
+            </button>
+            <button (click)="serverAction(serverActions.UNPAUSE, server.id)" type="button" class="btn btn-sm btn-outline-info">
+              Unpause
+            </button>
             <button (click)="serverAction(serverActions.SOFT_REBOOT, server.id)" type="button" class="btn btn-sm btn-outline-info">
               Soft reboot
             </button>

@@ -59,6 +59,22 @@ public class ServerActions implements Serializable {
     }
 
     /**
+     * Get Pause server action.
+     */
+    @JsonRootName(value = "pause")
+    public static class Pause implements Serializable {
+        private static final long serialVersionUID = -1258937008538157626L;
+    }
+
+    /**
+     * Get Unpause server action.
+     */
+    @JsonRootName(value = "unpause")
+    public static class UnPause implements Serializable {
+        private static final long serialVersionUID = -3084792697676427702L;
+    }
+
+    /**
      * Get Delete server action.
      */
     @JsonIgnoreType

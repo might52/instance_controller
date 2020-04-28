@@ -9,7 +9,7 @@ import { Instance } from "../models/Instance";
 })
 export class DashboardComponent implements OnInit {
 
-  title="Function state";
+  title="Dashboard";
   instances: Array<Instance>;
 
   constructor(private instanceService: InstanceService) { }

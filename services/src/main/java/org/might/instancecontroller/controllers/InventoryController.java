@@ -110,6 +110,20 @@ public class InventoryController {
     }
 
     @RequireConnection
+    @PostMapping("/{serverId}/pause")
+    public void pause(
+            @PathVariable String serverId) {
+        computeService.pauseServer(serverId);
+    }
+
+    @RequireConnection
+    @PostMapping("/{serverId}/unpause")
+    public void unPause(
+            @PathVariable String serverId) {
+        computeService.unPauseServer(serverId);
+    }
+
+    @RequireConnection
     @DeleteMapping("/{serverId}/delete")
     public void deleteServer(
             @PathVariable String serverId) {

@@ -45,6 +45,14 @@ export class InventoryComponent implements OnInit {
         console.log(`serverAction: ${ServerActions} from STOP case`);
         this.computeService.stopServer(serverId);
         break;
+      case ServerActions.PAUSE:
+        console.log(`serverAction: ${ServerActions} from PAUSE case`);
+        this.computeService.pauseServer(serverId);
+        break;
+      case ServerActions.UNPAUSE:
+        console.log(`serverAction: ${ServerActions} from UNPAUSE case`);
+        this.computeService.unPauseServer(serverId);
+        break;
       case ServerActions.SOFT_REBOOT:
         console.log(`serverAction: ${ServerActions} from SOFT_REBOOT case`);
         this.computeService.softRebootServer(serverId);
