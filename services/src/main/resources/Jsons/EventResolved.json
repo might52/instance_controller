@@ -1,0 +1,14 @@
+{
+  "status": "RESOLVED",
+  "name": "Unavailable by ICMP ping",
+  "time": "20:51:30",
+  "subject": "resolved|Unavailable by ICMP ping|192.168.20.107|RESOLVED|High",
+  "host_ip": "192.168.20.107",
+  "date": "2020.04.28",
+  "host_name": "webServerFunction_webserv_1",
+  "ack_status": "No",
+  "problemId": "569",
+  "active": false,
+  "host_desc": "c5d8e3dd-5ffa-4ffa-b15c-7b9683ff14e1",
+  "severity": "High"
+}

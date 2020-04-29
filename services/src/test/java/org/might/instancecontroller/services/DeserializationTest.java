@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.might.instancecontroller.models.monitoring.HostResponse;
 import org.might.instancecontroller.models.monitoring.HostResult;
+import org.might.instancecontroller.models.monitoring.NotificationModel;
 import org.might.instancecontroller.models.servers.*;
 import org.might.instancecontroller.services.transport.ObjectMapper;
 
@@ -14,6 +15,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +29,22 @@ public class DeserializationTest {
     private final String serverResponse;
     private final String creationResponse;
     private final String deletionResponse;
+    private final String eventRaised;
     private final ObjectMapper jsonSerializer;
+
+    private final static String STATUS_EVENT = "PROBLEM";
+    private static final String NAME_EVENT = "Unavailable by ICMP ping";
+    private static final Time TIME_EVENT = Time.valueOf("20:50:30");
+    private static final String SUBJECT_EVENT = "problem|Unavailable by ICMP ping|192.168.20.107|PROBLEM|High";
+    private static final String HOST_IP_EVENT = "192.168.20.107";
+    private static final Date DATE_EVENT = Date.valueOf("2020.04.28".replace(".", "-"));
+    private static final String HOST_NAME_EVENT = "webServerFunction_webserv_1";
+    private static final String ACK_STATUS_EVENT = "No";
+    private static final String PROBLEM_ID_EVENT = "569";
+    private static final boolean ACTIVE_EVENT = true;
+    private static final String HOST_DESC_EVENT = "c5d8e3dd-5ffa-4ffa-b15c-7b9683ff14e1";
+    private static final String SEVERITY_EVENT = "High";
+
 
     private final static String HOST_ID = "10275";
 
@@ -35,6 +53,7 @@ public class DeserializationTest {
         this.serversReponse = Files.readString(Paths.get("src/main/resources/Jsons/Servers.json"), StandardCharsets.UTF_8);
         this.creationResponse = Files.readString(Paths.get("src/main/resources/Jsons/MonitoringCreationResult.json"), StandardCharsets.UTF_8);
         this.deletionResponse = Files.readString(Paths.get("src/main/resources/Jsons/MonitoringDeletionResult.json"), StandardCharsets.UTF_8);
+        this.eventRaised = Files.readString(Paths.get("src/main/resources/Jsons/EventRaised.json"), StandardCharsets.UTF_8);
         this.jsonSerializer = new ObjectMapper();
         this.jsonSerializer.enable(SerializationFeature.WRAP_ROOT_VALUE);
         this.jsonSerializer.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
@@ -93,6 +112,140 @@ public class DeserializationTest {
                         }
                 );
         Assert.assertEquals(HOST_ID, hostResponse.getResult().getHostids().get(0));
+    }
+
+    @Test
+    public void canGetEventStatus() throws IOException {
+        NotificationModel notificationModel =
+                this.jsonSerializer.readValue(
+                        this.eventRaised,
+                        new TypeReference<NotificationModel>() {
+                        }
+                );
+        Assert.assertEquals(STATUS_EVENT, notificationModel.getStatus());
+    }
+
+
+    @Test
+    public void canGetEventName() throws IOException {
+        NotificationModel notificationModel =
+                this.jsonSerializer.readValue(
+                        this.eventRaised,
+                        new TypeReference<NotificationModel>() {
+                        }
+                );
+        Assert.assertEquals(NAME_EVENT, notificationModel.getName());
+    }
+
+    @Test
+    public void canGetEventTime() throws IOException {
+        NotificationModel notificationModel =
+                this.jsonSerializer.readValue(
+                        this.eventRaised,
+                        new TypeReference<NotificationModel>() {
+                        }
+                );
+        Assert.assertEquals(TIME_EVENT, notificationModel.getTime());
+    }
+
+    @Test
+    public void canGetEventSubjectEvent() throws IOException {
+        NotificationModel notificationModel =
+                this.jsonSerializer.readValue(
+                        this.eventRaised,
+                        new TypeReference<NotificationModel>() {
+                        }
+                );
+        Assert.assertEquals(SUBJECT_EVENT, notificationModel.getSubject());
+    }
+
+
+    @Test
+    public void canGetEventDate() throws IOException {
+        NotificationModel notificationModel =
+                this.jsonSerializer.readValue(
+                        this.eventRaised,
+                        new TypeReference<NotificationModel>() {
+                        }
+                );
+        Assert.assertEquals(DATE_EVENT, notificationModel.getDate());
+    }
+
+    @Test
+    public void canGetEventHostIp() throws IOException {
+        NotificationModel notificationModel =
+                this.jsonSerializer.readValue(
+                        this.eventRaised,
+                        new TypeReference<NotificationModel>() {
+                        }
+                );
+        Assert.assertEquals(HOST_IP_EVENT, notificationModel.getHostIp());
+    }
+
+    @Test
+    public void canGetEventHostName() throws IOException {
+        NotificationModel notificationModel =
+                this.jsonSerializer.readValue(
+                        this.eventRaised,
+                        new TypeReference<NotificationModel>() {
+                        }
+                );
+        Assert.assertEquals(HOST_NAME_EVENT, notificationModel.getHostName());
+    }
+
+    @Test
+    public void canGetEventAckStatus() throws IOException {
+        NotificationModel notificationModel =
+                this.jsonSerializer.readValue(
+                        this.eventRaised,
+                        new TypeReference<NotificationModel>() {
+                        }
+                );
+        Assert.assertEquals(ACK_STATUS_EVENT, notificationModel.getAckStatus());
+    }
+
+    @Test
+    public void canGetEventProblemId() throws IOException {
+        NotificationModel notificationModel =
+                this.jsonSerializer.readValue(
+                        this.eventRaised,
+                        new TypeReference<NotificationModel>() {
+                        }
+                );
+        Assert.assertEquals(PROBLEM_ID_EVENT, notificationModel.getProblemId());
+    }
+
+    @Test
+    public void canGetEventActive() throws IOException {
+        NotificationModel notificationModel =
+                this.jsonSerializer.readValue(
+                        this.eventRaised,
+                        new TypeReference<NotificationModel>() {
+                        }
+                );
+        Assert.assertEquals(ACTIVE_EVENT, notificationModel.getActive());
+    }
+
+    @Test
+    public void canGetEventHostDesc() throws IOException {
+        NotificationModel notificationModel =
+                this.jsonSerializer.readValue(
+                        this.eventRaised,
+                        new TypeReference<NotificationModel>() {
+                        }
+                );
+        Assert.assertEquals(HOST_DESC_EVENT, notificationModel.getHostDesc());
+    }
+
+    @Test
+    public void canGetEventSeverity() throws IOException {
+        NotificationModel notificationModel =
+                this.jsonSerializer.readValue(
+                        this.eventRaised,
+                        new TypeReference<NotificationModel>() {
+                        }
+                );
+        Assert.assertEquals(SEVERITY_EVENT, notificationModel.getSeverity());
     }
 
     /**
