@@ -1,5 +1,6 @@
 package org.might.instancecontroller.utils;
 
+import org.might.instancecontroller.dba.entity.Event;
 import org.might.instancecontroller.dba.entity.Server;
 import org.might.instancecontroller.models.monitoring.*;
 import org.might.instancecontroller.models.servers.OpenstackServer;
@@ -104,8 +105,74 @@ public class MonitoringHelper implements Serializable {
         return hostDeletionModel;
     }
 
+    /**
+     * Return event by {@link NotificationModel}.
+     * @param notificationModel
+     * @return {@link Event}
+     */
+    public static Event getEventByNotification(NotificationModel notificationModel) {
+        /**
+         *   "status": "PROBLEM",
+         *   "name": "Unavailable by ICMP ping",
+         *   "time": "20:50:30",
+         *   "subject": "problem|Unavailable by ICMP ping|192.168.20.107|PROBLEM|High",
+         *   "host_ip": "192.168.20.107",
+         *   "date": "2020.04.28",
+         *   "host_name": "webServerFunction_webserv_1",
+         *   "ack_status": "No",
+         *   "problemId": "569",
+         *   "active": true,
+         *   "host_desc": "c5d8e3dd-5ffa-4ffa-b15c-7b9683ff14e1",
+         *   "severity": "High"
+         */
+        Event event = new Event();
+        event.setStatus(notificationModel.getStatus());
+        event.setName(notificationModel.getName());
+        event.setTime(notificationModel.getTime());
+        event.setHostIp(notificationModel.getHostIp());
+        event.setDate(notificationModel.getDate());
+        event.setHostName(notificationModel.getHostName());
+        event.setAckStatus(notificationModel.getAckStatus());
+        event.setProblemId(notificationModel.getProblemId());
+        event.setActive(notificationModel.getActive());
+        event.setServerId(notificationModel.getHostDesc());
+        event.setSeverity(notificationModel.getSeverity());
+        return event;
+    }
+
+
+    /**
+     * Perform compare and update the events only equal by equals.
+     * @param dbEvent {@link Event} from DB.
+     * @param newEvent {@link Event} from {@link NotificationModel}.
+     * @return updated {@link Event}
+     */
+    public static Event compareAndUpdate(Event dbEvent, Event newEvent) {
+        if (!dbEvent.equals(newEvent)) {
+            return dbEvent;
+        }
+
+        if (!dbEvent.getAckStatus().equals(newEvent.getAckStatus())) {
+            dbEvent.setAckStatus(newEvent.getAckStatus());
+        }
+
+        if (!dbEvent.getActive() == (newEvent.getActive())) {
+            dbEvent.setActive(newEvent.getActive());
+            dbEvent.setRecoveryTime(newEvent.getTime());
+            dbEvent.setRecoveryDate(newEvent.getDate());
+        }
+
+        if (!dbEvent.getStatus().equals(newEvent.getStatus())) {
+            dbEvent.setStatus(newEvent.getStatus());
+        }
+
+        return dbEvent;
+    }
+
+
     @Autowired
     public MonitoringHelper(SettingsHelper settingsHelper) {
         MonitoringHelper.SETTING_HELPER = settingsHelper;
     }
+
 }

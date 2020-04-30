@@ -85,7 +85,7 @@ public class Event {
         this.problemId = problemId;
     }
 
-    public boolean isActive() {
+    public boolean getActive() {
         return active;
     }
 

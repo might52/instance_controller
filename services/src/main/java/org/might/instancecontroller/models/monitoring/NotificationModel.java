@@ -16,7 +16,7 @@ public class NotificationModel {
     private String subject;
     @JsonProperty("host_ip")
     private String hostIp;
-    @JsonProperty(value = "date")
+    @JsonProperty("date")
     private Date date;
     @JsonProperty("host_name")
     private String hostName;
@@ -141,4 +141,23 @@ public class NotificationModel {
     public void setSeverity(String severity) {
         this.severity = severity;
     }
+
+    @Override
+    public String toString() {
+        return "NotificationModel{" +
+                "status='" + status + '\'' +
+                ", name='" + name + '\'' +
+                ", time=" + time +
+                ", subject='" + subject + '\'' +
+                ", hostIp='" + hostIp + '\'' +
+                ", date=" + date +
+                ", hostName='" + hostName + '\'' +
+                ", ackStatus='" + ackStatus + '\'' +
+                ", problemId='" + problemId + '\'' +
+                ", active=" + active +
+                ", hostDesc='" + hostDesc + '\'' +
+                ", severity='" + severity + '\'' +
+                '}';
+    }
+
 }
