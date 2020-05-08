@@ -4,6 +4,7 @@ import org.might.instancecontroller.dba.entity.Function;
 import org.might.instancecontroller.dba.entity.Server;
 import org.might.instancecontroller.models.function.NetworkModel;
 import org.might.instancecontroller.models.function.ServerCreateModel;
+import org.might.instancecontroller.models.servers.OpenstackServer;
 import org.might.instancecontroller.services.FunctionService;
 import org.might.instancecontroller.services.ServerService;
 import org.slf4j.Logger;
@@ -95,6 +96,47 @@ public class FunctionHelper {
     }
 
     /**
+     * Return server create model.
+     * @param server
+     * @return
+     */
+    public static ServerCreateModel getServerCreateModelWithParticularNetwork(
+            Server server,
+            OpenstackServer openstackServer) {
+        ServerCreateModel serverCreateModel = new ServerCreateModel();
+        serverCreateModel.setName(server.getName());
+        serverCreateModel.setDiskConfig(DISK_CONFIG);
+        serverCreateModel.setFlavorRef(server.getFunction().getFlavor().getReference());
+        serverCreateModel.setImageRef(server.getFunction().getImage().getReference());
+        serverCreateModel.setZone(ZONA);
+        List<NetworkModel> networkModelList = new ArrayList<>() {{
+            add(new NetworkModel(
+                    UUID_PRIVATE,
+                    openstackServer
+                            .getAddresses()
+                            .getNetworks()
+                            .get(FunctionHelper.NETWORK_NAME_PRIVATE)
+                            .get(0)
+                            .getAddr()
+                    )
+            );
+            add(new NetworkModel(
+                    UUID_PUBLIC,
+                    openstackServer
+                            .getAddresses()
+                            .getNetworks()
+                            .get(FunctionHelper.NETWORK_NAME_PUBLIC)
+                            .get(0)
+                            .getAddr()
+                    )
+            );
+        }};
+        serverCreateModel.setNetworks(networkModelList);
+        return serverCreateModel;
+    }
+
+
+    /**
      * Return a Function from DB.
      * @param id
      * @return <{@link Function}>
@@ -184,6 +226,8 @@ public class FunctionHelper {
         LOGGER.debug("Prepared server name: {}", serverName);
         return serverName;
     }
+
+
 
     @Autowired
     private FunctionHelper(FunctionService FUNCTION_SERVICE,

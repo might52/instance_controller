@@ -109,6 +109,25 @@ export class InstanceService {
       ).subscribe();
   }
 
+  reInstantiateInstance(serverId: number) {
+    const url = `${this.compute_url}/instantiate/reinstantiate/${serverId}`;
+    log(`ReInstantiate instance(server id): ${serverId} and url: ${url}`);
+    this
+      .httpClient
+      .post(url, "")
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        tap(_ =>
+          log(
+            `ReInstantiate instance(server id): ${serverId}`
+          )
+        ),
+        catchError(this.handleError<any>('ReInstantiate'))
+      ).subscribe();
+  }
+
   releaseInstance(serverId: number, functionId: number) {
     const url = `${this.compute_url}/instantiate/${functionId}/${serverId}`;
     log(`ServerId ${serverId}, FunctionId ${functionId} and url: ${url}`);
@@ -147,7 +166,6 @@ export class InstanceService {
       ).subscribe();
 
   }
-
 }
 
 

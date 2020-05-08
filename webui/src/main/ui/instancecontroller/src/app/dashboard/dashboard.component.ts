@@ -16,6 +16,22 @@ export class DashboardComponent implements OnInit {
   private updateDashboard: Subscription;
   constructor(private instanceService: InstanceService) { }
 
+  createNewInstance(id: number): void {
+    this.instanceService.createNewInstance(id);
+  }
+
+  releaseInstance(serverId: number, functionId: number) {
+    this.instanceService.releaseInstance(serverId, functionId);
+  }
+
+  releaseLastInstance(functionId: number) {
+    this.instanceService.releaseLastInstance(functionId);
+  }
+
+  reInstantiateInstance(serverId: number) {
+    this.instanceService.reInstantiateInstance(serverId);
+  }
+
   getInstances(): void {
     this.instanceService.getInstances()
       .subscribe(data => {
@@ -28,14 +44,6 @@ export class DashboardComponent implements OnInit {
       });
   }
 
-  createNewInstance(id: number): void {
-    this.instanceService.createNewInstance(id);
-  }
-
-  deleteInstance(): void {
-    this.getInstances();
-  }
-
   ngOnInit() {
     this.getInstances();
     this.updateDashboard = interval(10000).subscribe(
@@ -43,13 +51,5 @@ export class DashboardComponent implements OnInit {
         log("perform the refresh dashboard");
         this.getInstances();
       });
-  }
-
-  releaseInstance(serverId: number, functionId: number) {
-    this.instanceService.releaseInstance(serverId, functionId);
-  }
-
-  releaseLastInstance(functionId: number) {
-    this.instanceService.releaseLastInstance(functionId);
   }
 }

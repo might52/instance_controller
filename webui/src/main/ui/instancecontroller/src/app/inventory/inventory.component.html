@@ -137,32 +137,76 @@
           </p>
         </td>
         <td class="text-break">
-          <p class="container btn-group-vertical">
-            <button (click)="refresh()" type="button" class="btn btn-sm btn-outline-dark">
-              Refresh
-            </button>
-            <button (click)="serverAction(serverActions.START, server.id)" type="button" class="btn btn-sm btn-outline-primary">
-              Start
-            </button>
-            <button (click)="serverAction(serverActions.STOP, server.id)" type="button" class="btn btn-sm btn-outline-secondary">
-              Stop
-            </button>
-            <button (click)="serverAction(serverActions.PAUSE, server.id)" type="button" class="btn btn-sm btn-outline-info">
-              Pause
-            </button>
-            <button (click)="serverAction(serverActions.UNPAUSE, server.id)" type="button" class="btn btn-sm btn-outline-info">
-              Unpause
-            </button>
-            <button (click)="serverAction(serverActions.SOFT_REBOOT, server.id)" type="button" class="btn btn-sm btn-outline-info">
-              Soft reboot
-            </button>
-            <button (click)="serverAction(serverActions.HARD_REBOOT, server.id)" type="button" class="btn btn-sm btn-outline-danger">
-              Hard reboot
-            </button>
-            <button (click)="serverAction(serverActions.DELETE, server.id)" type="button" class="btn btn-sm btn-outline-dark">
-              Delete
-            </button>
-          </p>
+          <div class="container btn-group-vertical">
+            <div class="btn-block">
+              <button
+                (click)="refresh()"
+                type="button"
+                class="btn btn-sm btn-dark m-1 small-text"
+              >
+                Refresh
+              </button>
+              <button
+                (click)="serverAction(serverActions.DELETE, server.id)"
+                type="button"
+                class="btn btn-sm btn-danger m-1 small-text"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+          <hr>
+          <div class="container btn-group-vertical">
+            <div class="btn-block">
+              <button
+                (click)="serverAction(serverActions.START, server.id)"
+                type="button"
+                class="btn btn-sm btn-success m-1 small-text"
+              >
+                Start
+              </button>
+              <button
+                (click)="serverAction(serverActions.STOP, server.id)"
+                type="button"
+                class="btn btn-sm btn-info m-1 small-text"
+              >
+                Stop
+              </button>
+              <button
+                (click)="serverAction(serverActions.PAUSE, server.id)"
+                type="button"
+                class="btn btn-sm btn-secondary m-1 small-text"
+              >
+                Pause
+              </button>
+              <button
+                (click)="serverAction(serverActions.UNPAUSE, server.id)"
+                type="button"
+                class="btn btn-sm btn-secondary m-1 small-text"
+              >
+                Unpause
+              </button>
+            </div>
+          </div>
+          <hr>
+          <div class="container btn-group-vertical">
+            <div class="btn-block">
+              <button
+                (click)="serverAction(serverActions.SOFT_REBOOT, server.id)"
+                type="button"
+                class="btn btn-sm btn-warning m-1 small-text"
+              >
+                Soft reboot
+              </button>
+              <button
+                (click)="serverAction(serverActions.HARD_REBOOT, server.id)"
+                type="button"
+                class="btn btn-sm btn-danger m-1 small-text"
+              >
+                Hard reboot
+              </button>
+            </div>
+          </div>
         </td>
       </tr>
     </tbody>

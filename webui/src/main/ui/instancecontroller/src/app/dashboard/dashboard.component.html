@@ -33,7 +33,7 @@
           </p>
         </td>
         <td>
-          <p class="text-monospace m-0">
+          <p class="text-monospace m-0 small-text">
             here will be the summary status of the servers.
           </p>
         </td>
@@ -65,10 +65,18 @@
                   <button
                     *ngIf="server"
                     type="button"
-                    class="btn btn-sm btn-dark"
+                    class="btn btn-sm btn-danger ml-1"
                     (click)="releaseInstance(server.id, instance.function.id)"
                   >
                     Release
+                  </button>
+                  <button
+                    *ngIf="server"
+                    type="button"
+                    class="btn btn-sm btn-secondary"
+                    (click)="reInstantiateInstance(server.id)"
+                  >
+                    Recreate
                   </button>
                 </div>
                 <hr>
@@ -81,7 +89,7 @@
             <button
               *ngIf="instance.function"
               type="button"
-              class="btn btn-sm btn-outline-success"
+              class="btn btn-sm btn-success"
               (click)="createNewInstance(instance.function.id)"
             >
               Instantiate
@@ -89,7 +97,7 @@
             <button
               *ngIf="instance.servers.length > 0"
               type="button"
-              class="btn btn-sm btn-outline-danger"
+              class="btn btn-sm btn-danger mt-1"
               (click)="releaseLastInstance(instance.function.id)"
             >
               Release
