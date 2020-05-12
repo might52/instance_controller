@@ -59,15 +59,21 @@ export class DashboardComponent implements OnInit {
       case "IN_PROGRESS":
         return "bg-second text-white";
       case "UNKNOWN":
-        return "bg-primary text-white";
+        return "bg-info text-white";
     }
   }
 
   getEventColor(event: Event): string {
     switch (event.severity) {
       case "Critical":
+        if (event.status == "RESOLVED") {
+          return "border border-info p-1 text-black";
+        }
         return "bg-danger text-white";
       case "High":
+        if (event.status == "RESOLVED") {
+          return "border border-info p-1 text-black";
+        }
         return "bg-warning text-black";
     }
   }

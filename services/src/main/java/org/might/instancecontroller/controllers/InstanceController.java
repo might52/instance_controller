@@ -65,7 +65,7 @@ public class InstanceController {
                             function,
                             FunctionHelper.getFunctionServers(function),
                             FunctionHelper.getFunctionStatusByFunction(function),
-                            FunctionHelper.getActiveEventsByFunction(function))
+                            FunctionHelper.getActiveEventsByFunctionWithLag(function))
             );
         }
 
@@ -84,7 +84,7 @@ public class InstanceController {
                 function,
                 FunctionHelper.getFunctionServers(function),
                 FunctionHelper.getFunctionStatusByFunction(function),
-                FunctionHelper.getActiveEventsByFunction(function));
+                FunctionHelper.getActiveEventsByFunctionWithLag(function));
     }
 
     @PostMapping("/")

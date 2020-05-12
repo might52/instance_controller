@@ -15,6 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -51,7 +54,7 @@ public class FunctionHelper {
 
     /**
      * Compare the functions.
-     * @param function
+     * @param function function.
      * @return Boolean
      */
     public static boolean compareWithDBFunction(Function function) {
@@ -67,8 +70,8 @@ public class FunctionHelper {
 
     /**
      * Return server list for particular function.
-     * @param function
-     * @return
+     * @param function function.
+     * @return {@link List<Server>}
      */
     public static List<Server> getFunctionServers(Function function) {
         return SERVER_SERVICE
@@ -80,8 +83,8 @@ public class FunctionHelper {
 
     /**
      * Return server create model.
-     * @param function
-     * @return
+     * @param function function.
+     * @return {@link ServerCreateModel}
      */
     public static ServerCreateModel getServerCreateModelAutoNetwork(Function function) {
         ServerCreateModel serverCreateModel = new ServerCreateModel();
@@ -101,8 +104,9 @@ public class FunctionHelper {
 
     /**
      * Return server create model.
-     * @param server
-     * @return
+     * @param server {@link Server}
+     * @param openstackServer {@link OpenstackServer}
+     * @return {@link ServerCreateModel}
      */
     public static ServerCreateModel getServerCreateModelWithParticularNetwork(
             Server server,
@@ -183,7 +187,7 @@ public class FunctionHelper {
 
     /**
      * Return {@link Server} server to release.
-     * @param function
+     * @param function {@link Function}
      * @return
      */
     public static Server getServerToRelease(Function function) {
@@ -231,15 +235,65 @@ public class FunctionHelper {
 
     }
 
+    /**
+     * Return list of only active events for function.
+     * @param function function.
+     * @return {@link List<Event>}
+     */
     public static List<Event> getActiveEventsByFunction(Function function) {
+        return getEventsByFunction(function,false);
+    }
+
+    public static List<Event> getActiveEventsByFunctionWithLag(Function function) {
+        return getEventsByFunction(function,true);
+    }
+
+    /**
+     * Return list of only active events for function.
+     * @param function function.
+     * @return {@link List<Event>}
+     */
+    private static List<Event> getEventsByFunction(Function function,
+                                                  boolean loadWithLag) {
         List<Server> servers = FunctionHelper.getFunctionServers(function);
-        List<Event> activeEvents = EVENT_SERVICE.getAll().stream()
-                .filter(Event::getActive)
-                .collect(Collectors.toList());
+        List<Event> events = EVENT_SERVICE.getAll().stream()
+                    .filter(Event::getActive)
+                    .collect(Collectors.toList());
+
+        if (loadWithLag) {
+            events.addAll(
+                    EVENT_SERVICE.getAll().stream()
+                            .filter(event -> !event.getActive())
+                            .collect(Collectors.toList())
+                            .stream()
+                            .filter(event -> {
+                        if (event.getRecoveryDate().toString()
+                                .equals(new Date(System.currentTimeMillis()).toString())) {
+                            LocalTime localTime = new Time(System.currentTimeMillis() - 5 * 60 * 1000).toLocalTime();
+                            LocalTime localTime1 = event.getRecoveryTime().toLocalTime();
+                            if (localTime.getHour() == localTime1.getHour()) {
+                                return localTime.getMinute() <= localTime1.getMinute();
+                            }
+                            return false;
+                        }
+                        return false;
+                    }).collect(Collectors.toList())
+            );
+        }
+
         List<Event> result = new ArrayList<>();
         servers.forEach(server -> {
-            for (Event event: activeEvents) {
-                if (Objects.nonNull(server) && Objects.nonNull(event) && server.getServerId().equals(event.getServerId())) {
+            for (Event event: events.stream().distinct().collect(Collectors.toList())) {
+                if (Objects.isNull(server) || Objects.isNull(event)) {
+                    return;
+                }
+
+                if (loadWithLag && server.getName().equals(event.getHostName())) {
+                    result.add(event);
+                    return;
+                }
+
+                if (server.getServerId().equals(event.getServerId())) {
                     result.add(event);
                 }
             }
@@ -250,7 +304,7 @@ public class FunctionHelper {
 
     /**
      * Return name for new Instance of the function.
-     * @param function
+     * @param function function.
      * @return
      */
     private static String getNewServerName(Function function) {
