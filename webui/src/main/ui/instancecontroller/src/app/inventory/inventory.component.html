@@ -15,7 +15,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let server of servers">
-        <td scope="row" class="text-break">
+        <td scope="row" class="middle-text text-break">
           <h6>Id</h6>
           <div class="ml-2">
             <p class="text-monospace">
@@ -35,7 +35,7 @@
             </p>
           </div>
         </td>
-        <td class="text-break">
+        <td class="middle-text text-break">
           <div class="container-sm" *ngIf="server.image">
             <h6>Id</h6>
             <div class="ml-2">
@@ -54,7 +54,7 @@
             </div>
           </div>
         </td>
-        <td>
+        <td class="middle-text ">
           <div class="container-md">
             <div *ngIf="server.addresses.networks.internal_network">
               <h6>Internal network</h6>
@@ -80,7 +80,7 @@
             </div>
           </div>
         </td>
-        <td class="text-break">
+        <td class="middle-text text-break">
           <div class="container-sm" *ngIf="server.flavor">
               <h6>Id</h6>
               <div class="ml-2">
@@ -99,7 +99,7 @@
               </div>
           </div>
         </td>
-        <td class="text-break">
+        <td class="middle-text text-break">
           <p class="text-monospace m-0">
             <small>
               Status:
@@ -131,12 +131,12 @@
             </small>
           </p>
         </td>
-        <td class="text-break">
+        <td class="middle-text text-break">
           <p class="text-monospace m-0">
             <small>{{ server.created }}</small>
           </p>
         </td>
-        <td class="text-break">
+        <td class="middle-text text-break">
           <div class="container btn-group-vertical">
             <div class="btn-block">
               <button

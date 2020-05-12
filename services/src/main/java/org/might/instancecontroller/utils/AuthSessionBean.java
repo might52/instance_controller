@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
 @Component
-// FIXME: each request shouldn't call auth requiest.
+// FIXME: each request shouldn't call auth requiest
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class AuthSessionBean {
     private String token;

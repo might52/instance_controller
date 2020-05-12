@@ -2,6 +2,8 @@ export class Instance {
   function: Function;
   servers: Array<FunctionServer>;
   isEnableEdit: Boolean;
+  functionStatus: string;
+  events: Array<Event>;
   /*
     static fromJSON(json: InstanceJSON): Instance {
       let server = Object.create(Server.prototype);
@@ -15,6 +17,23 @@ export class Instance {
       );
     }
   */
+}
+
+export class Event {
+  id: number;
+  name: string;
+  hostIp: string;
+  hostName: string;
+  ackStatus: string;
+  problemId: string;
+  active: string;
+  serverId: string;
+  severity: string;
+  status: string;
+  time: string;
+  recoveryTime: string;
+  date: string;
+  recoveryDate: string;
 }
 
 export interface Function {

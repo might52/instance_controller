@@ -4,6 +4,7 @@ package org.might.instancecontroller.annotations.impl;
 import org.might.instancecontroller.annotations.RequireConnection;
 import org.might.instancecontroller.services.KeystoneService;
 import org.might.instancecontroller.utils.AuthSessionBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -18,6 +19,7 @@ public class RequireConnectionHandlerInterceptorAdapter extends HandlerIntercept
     private AuthSessionBean authSessionBean;
     private KeystoneService keystoneService;
 
+    @Autowired
     public RequireConnectionHandlerInterceptorAdapter(
             AuthSessionBean authSessionBean,
             KeystoneService keystoneService) {

@@ -115,7 +115,7 @@ public class InstanceServiceImpl implements InstanceService {
             );
             computeService.deleteServer(server.getServerId());
         }
-        Thread.sleep(7000);
+        Thread.sleep(15000);
 
         LOGGER.debug(
                 "Deletion the server: {} and Openstack Id: {} in DB",

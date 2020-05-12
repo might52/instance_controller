@@ -12,7 +12,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let instance of instances">
-        <td scope="row" class="text-break">
+        <td scope="row" class="text-break middle-text">
           <div class="text-monospace m-0">
               <small>
                 Name:
@@ -33,12 +33,37 @@
           </p>
         </td>
         <td>
-          <p class="text-monospace m-0 small-text">
-            here will be the summary status of the servers.
-          </p>
+          <div class="container-fluid">
+            <div *ngIf="instance.functionStatus">
+              <div class="ml-0 p-1 {{ getFunctionColor(instance) }}">
+                <div class="ml-1">
+                  Function status: {{ instance.functionStatus }}
+                </div>
+              </div>
+              <hr class="mb-3 mt-2">
+            </div>
+            <div class="m-2" *ngIf="instance.events">
+              <div class="middle-text" *ngFor="let event of instance.events">
+                <div class="{{ getEventColor(event) }} row-cols-sm m-1 shadow-sm">
+                  <small class="col-1">Name: {{ event.name }} </small>
+                  <small class="col-2">HostIp: {{ event.hostIp }} </small>
+                  <small class="col-3">HostName: {{ event.hostName }} </small>
+                  <small class="col-4">problemId: {{ event.problemId }} </small>
+                  <small class="col-5">serverId: {{ event.serverId }} </small>
+                  <small class="col-6">severity: {{ event.severity }} </small>
+                  <small class="col-7">status: {{ event.status }} </small>
+                  <small class="col-8">time: {{ event.time }} </small>
+                  <small class="col-9">date: {{ event.date }} </small>
+                  <small class="col-10">recoveryTime: {{ event.recoveryTime }} </small>
+                  <small class="col-11">recoveryDate: {{ event.recoveryDate }} </small>
+                </div>
+                <hr class="mt-2 mb-1">
+              </div>
+            </div>
+          </div>
         </td>
         <td>
-          <div class="container-md">
+          <div class="container-md middle-text">
             <div *ngIf="instance.servers">
               <div class=ml-0 *ngFor="let server of instance.servers">
                 <div class="container">
@@ -56,11 +81,6 @@
                     <small>MonitoringId: {{ server.monitoringId }}</small>
                   </p>
                 </div>
-                <div class="container">
-                  <p class="text-monospace m-0">
-                    <small>Status: {{ server }}</small>
-                  </p>
-                </div>
                 <div class="d-flex flex-row-reverse">
                   <button
                     *ngIf="server"
@@ -73,10 +93,18 @@
                   <button
                     *ngIf="server"
                     type="button"
-                    class="btn btn-sm btn-secondary"
+                    class="btn btn-sm btn-secondary ml-1 "
                     (click)="reInstantiateInstance(server.id)"
                   >
                     Recreate
+                  </button>
+                  <button
+                    *ngIf="server"
+                    type="button"
+                    class="btn btn-sm btn-info"
+                    (click)="reInitMonitoring(server.id)"
+                  >
+                    Resetup monitoring
                   </button>
                 </div>
                 <hr>

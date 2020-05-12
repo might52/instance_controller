@@ -1,11 +1,14 @@
 package org.might.instancecontroller.utils;
 
+import org.might.instancecontroller.dba.entity.Event;
 import org.might.instancecontroller.dba.entity.Function;
 import org.might.instancecontroller.dba.entity.Server;
 import org.might.instancecontroller.models.function.NetworkModel;
 import org.might.instancecontroller.models.function.ServerCreateModel;
 import org.might.instancecontroller.models.servers.OpenstackServer;
+import org.might.instancecontroller.services.EventService;
 import org.might.instancecontroller.services.FunctionService;
+import org.might.instancecontroller.services.FunctionStatus;
 import org.might.instancecontroller.services.ServerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -31,6 +35,7 @@ public class FunctionHelper {
     public static final String UUID_PRIVATE = "cb9cb58f-40a5-48dd-817e-b97730dd7f27";
     public static final String UUID_PUBLIC = "df1fa7d3-3cee-4f95-9590-cef671fab31f";
     private static final String FUNCTION_NAME_PATTERN = "(function_name)";
+    private static EventService EVENT_SERVICE;
     private static FunctionService FUNCTION_SERVICE;
     private static ServerService SERVER_SERVICE;
     private static final String FUNCTION_TEMPLATE = "Got function - " +
@@ -59,7 +64,6 @@ public class FunctionHelper {
 
         return function.equals(functionFromDB);
     }
-
 
     /**
      * Return server list for particular function.
@@ -135,7 +139,6 @@ public class FunctionHelper {
         return serverCreateModel;
     }
 
-
     /**
      * Return a Function from DB.
      * @param id
@@ -201,6 +204,50 @@ public class FunctionHelper {
         return server;
     }
 
+    public static FunctionStatus getFunctionStatusByFunction(Function function) {
+        List<Server> servers = FunctionHelper.getFunctionServers(function);
+        servers = servers.stream().filter(server ->
+                server.getMonitoringId() != null
+        ).collect(Collectors.toList());
+//        servers = servers
+//                .stream()
+//                .filter(server -> server.getMonitoringId() != null)
+//                .collect(Collectors.toList());
+        List<Event> activeEvents = FunctionHelper.getActiveEventsByFunction(function);
+
+        if (activeEvents.size() > 0 && servers.size() > 0 && activeEvents.size() == servers.size()) {
+            return FunctionStatus.CRITICAL;
+        }
+
+        if (activeEvents.size() == 0 && servers.size() != 0) {
+            return FunctionStatus.ACTIVE;
+        }
+
+        if (activeEvents.size() > 0) {
+            return FunctionStatus.HAS_PROBLEM;
+        }
+
+        return FunctionStatus.UNKNOWN;
+
+    }
+
+    public static List<Event> getActiveEventsByFunction(Function function) {
+        List<Server> servers = FunctionHelper.getFunctionServers(function);
+        List<Event> activeEvents = EVENT_SERVICE.getAll().stream()
+                .filter(Event::getActive)
+                .collect(Collectors.toList());
+        List<Event> result = new ArrayList<>();
+        servers.forEach(server -> {
+            for (Event event: activeEvents) {
+                if (Objects.nonNull(server) && Objects.nonNull(event) && server.getServerId().equals(event.getServerId())) {
+                    result.add(event);
+                }
+            }
+        });
+
+        return result;
+    }
+
     /**
      * Return name for new Instance of the function.
      * @param function
@@ -228,12 +275,13 @@ public class FunctionHelper {
     }
 
 
-
     @Autowired
     private FunctionHelper(FunctionService FUNCTION_SERVICE,
-                           ServerService SERVER_SERVICE) {
+                           ServerService SERVER_SERVICE,
+                           EventService EVENT_SERVICE) {
         FunctionHelper.FUNCTION_SERVICE = FUNCTION_SERVICE;
         FunctionHelper.SERVER_SERVICE = SERVER_SERVICE;
+        FunctionHelper.EVENT_SERVICE = EVENT_SERVICE;
     }
 
 }

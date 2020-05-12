@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { InstanceService } from "../instance.service";
-import { Instance } from "../models/Instance";
+import {Component, OnInit} from '@angular/core';
+import {InstanceService} from "../instance.service";
+import {Event, Instance} from "../models/Instance";
 import {interval, Subscription} from "rxjs";
 import {log} from "util";
 
@@ -32,6 +32,10 @@ export class DashboardComponent implements OnInit {
     this.instanceService.reInstantiateInstance(serverId);
   }
 
+  reInitMonitoring(serverId: number) {
+    this.instanceService.reInitMonitoring(serverId);
+  }
+
   getInstances(): void {
     this.instanceService.getInstances()
       .subscribe(data => {
@@ -44,6 +48,30 @@ export class DashboardComponent implements OnInit {
       });
   }
 
+  getFunctionColor(instance: Instance): string {
+    switch (instance.functionStatus) {
+      case "ACTIVE":
+        return "text-success";
+      case "CRITICAL":
+        return "bg-danger text-white";
+      case "HAS_PROBLEM":
+        return "bg-warning";
+      case "IN_PROGRESS":
+        return "bg-second text-white";
+      case "UNKNOWN":
+        return "bg-primary text-white";
+    }
+  }
+
+  getEventColor(event: Event): string {
+    switch (event.severity) {
+      case "Critical":
+        return "bg-danger text-white";
+      case "High":
+        return "bg-warning text-black";
+    }
+  }
+
   ngOnInit() {
     this.getInstances();
     this.updateDashboard = interval(10000).subscribe(
@@ -52,4 +80,6 @@ export class DashboardComponent implements OnInit {
         this.getInstances();
       });
   }
+
+
 }

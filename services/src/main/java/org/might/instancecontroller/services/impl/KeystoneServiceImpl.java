@@ -2,9 +2,9 @@ package org.might.instancecontroller.services.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.might.instancecontroller.models.auth.*;
+import org.might.instancecontroller.services.KeystoneService;
 import org.might.instancecontroller.services.transport.RESTService;
 import org.might.instancecontroller.services.transport.impl.RestResponse;
-import org.might.instancecontroller.services.KeystoneService;
 import org.might.instancecontroller.utils.AuthSessionBean;
 import org.might.instancecontroller.utils.SettingsHelper;
 import org.slf4j.Logger;
@@ -15,8 +15,8 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 
-import static org.might.instancecontroller.utils.SettingsHelper.TIMEOUT;
 import static org.might.instancecontroller.utils.SettingsHelper.OS_TOKEN;
+import static org.might.instancecontroller.utils.SettingsHelper.TIMEOUT;
 
 @Service
 public class KeystoneServiceImpl implements KeystoneService {

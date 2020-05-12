@@ -128,6 +128,25 @@ export class InstanceService {
       ).subscribe();
   }
 
+  reInitMonitoring(serverId: number) {
+    const url = `${this.compute_url}/instantiate/monitoring/${serverId}`;
+    log(`ResetUp monitoring for instance(server id): ${serverId} and url: ${url}`);
+    this
+      .httpClient
+      .put(url, "")
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        tap(_ =>
+          log(
+            `ResetUp monitoring  instance(server id): ${serverId}`
+          )
+        ),
+        catchError(this.handleError<any>('ResetUpMonitoring'))
+      ).subscribe();
+  }
+
   releaseInstance(serverId: number, functionId: number) {
     const url = `${this.compute_url}/instantiate/${functionId}/${serverId}`;
     log(`ServerId ${serverId}, FunctionId ${functionId} and url: ${url}`);
@@ -166,6 +185,8 @@ export class InstanceService {
       ).subscribe();
 
   }
+
+
 }
 
 

@@ -4,6 +4,8 @@ import org.might.instancecontroller.annotations.RequireConnection;
 import org.might.instancecontroller.dba.entity.Function;
 import org.might.instancecontroller.dba.entity.Server;
 import org.might.instancecontroller.models.function.FunctionModel;
+import org.might.instancecontroller.models.monitoring.HostResponse;
+import org.might.instancecontroller.models.servers.OpenstackServer;
 import org.might.instancecontroller.services.*;
 import org.might.instancecontroller.utils.FunctionHelper;
 import org.slf4j.Logger;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("api/v1/function")
@@ -24,6 +27,8 @@ public class InstanceController {
     private final FunctionService functionService;
     private final ServerService serverService;
     private final InstanceService instanceService;
+    private final MonitoringService monitoringService;
+    private final ComputeService computeService;
 
     private static final String FUNCTION_HAS_SERVER =
             "Function contains the instantiated servers or " +
@@ -37,13 +42,17 @@ public class InstanceController {
                               ConfigurationService configurationService,
                               FunctionService functionService,
                               ServerService serverService,
-                              InstanceService instanceService) {
+                              InstanceService instanceService,
+                              MonitoringService monitoringService,
+                              ComputeService computeService) {
         this.imageService = imageService;
         this.flavorService = flavorService;
         this.configurationService = configurationService;
         this.functionService = functionService;
         this.serverService = serverService;
         this.instanceService = instanceService;
+        this.monitoringService = monitoringService;
+        this.computeService = computeService;
     }
 
     @GetMapping("/all")
@@ -51,7 +60,13 @@ public class InstanceController {
         List<FunctionModel> functionModelList = new ArrayList<>();
         for (Function function :
                 functionService.getAll()) {
-            functionModelList.add(new FunctionModel(function, serverService.getAll()));
+            functionModelList.add(
+                    new FunctionModel(
+                            function,
+                            FunctionHelper.getFunctionServers(function),
+                            FunctionHelper.getFunctionStatusByFunction(function),
+                            FunctionHelper.getActiveEventsByFunction(function))
+            );
         }
 
         return functionModelList;
@@ -65,7 +80,11 @@ public class InstanceController {
             function = functionService.getFunctionById(id).get();
         }
 
-        return new FunctionModel(function, FunctionHelper.getFunctionServers(function));
+        return new FunctionModel(
+                function,
+                FunctionHelper.getFunctionServers(function),
+                FunctionHelper.getFunctionStatusByFunction(function),
+                FunctionHelper.getActiveEventsByFunction(function));
     }
 
     @PostMapping("/")
@@ -108,6 +127,26 @@ public class InstanceController {
         }
 
         instanceService.reInstantiateByServerId(server.getId());
+    }
+
+    @RequireConnection
+    @PutMapping("/instantiate/monitoring/{serverId}")
+    public void reSetupMonitoring(@PathVariable Long serverId) {
+        Server server = serverService.getServerById(serverId).isPresent() ?
+                serverService.getServerById(serverId).get() :
+                null;
+        if (Objects.isNull(server)) {
+            return;
+        }
+
+        if (Objects.nonNull(server.getMonitoringId())) {
+            monitoringService.removeMonitoring(server);
+        }
+
+        OpenstackServer openstackServer = computeService.getServer(server.getServerId());
+        HostResponse hostResponse = monitoringService.setUpMonitoring(openstackServer);
+        server.setMonitoringId(Long.parseLong(hostResponse.getResult().getHostids().get(0)));
+        serverService.saveServer(server);
     }
 
     @RequireConnection
