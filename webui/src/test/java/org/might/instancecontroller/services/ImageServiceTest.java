@@ -6,12 +6,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.might.instancecontroller.dba.entity.*;
-import org.might.instancecontroller.services.impl.ComputeServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
@@ -42,7 +40,7 @@ public class ImageServiceTest {
             ImageServiceTest.class
     );
 
-    private Image prepateTestImage() {
+    private Image prepareTestImage() {
         Image image = new Image();
         image.setReference(TEST_REF);
         return image;
@@ -79,7 +77,7 @@ public class ImageServiceTest {
 
     @Test
     public void canAddNewImage() {
-        Image image = prepateTestImage();
+        Image image = prepareTestImage();
         imageService.saveImage(image);
         LOGGER.debug(
                 CRE_IMG_TEMPLATE,
@@ -87,12 +85,12 @@ public class ImageServiceTest {
                 image.getReference()
         );
 
-        Assert.assertEquals(prepateTestImage(), image);
+        Assert.assertEquals(prepareTestImage(), image);
     }
 
     @Test
     public void canRemoveTestImage() {
-        Image image = prepateTestImage();
+        Image image = prepareTestImage();
         imageService.saveImage(image);
         LOGGER.debug(
                 CRE_IMG_TEMPLATE,
@@ -107,7 +105,7 @@ public class ImageServiceTest {
 
     @Test
     public void canUpdateImage() {
-        Image image = prepateTestImage();
+        Image image = prepareTestImage();
         imageService.saveImage(image);
         LOGGER.debug(
                 CRE_IMG_TEMPLATE,
@@ -128,7 +126,7 @@ public class ImageServiceTest {
 
     @Test
     public void canGetWholeImages() {
-        Image image = prepateTestImage();
+        Image image = prepareTestImage();
         imageService.saveImage(image);
         LOGGER.debug(
                 CRE_IMG_TEMPLATE,
@@ -141,7 +139,7 @@ public class ImageServiceTest {
 
     @Test
     public void canGetTestImage() {
-        Image image = prepateTestImage();
+        Image image = prepareTestImage();
         imageService.saveImage(image);
         Image receivedImage = new Image();
         if (imageService.getImageById(image.getId()).isPresent()) {

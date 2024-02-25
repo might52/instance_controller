@@ -10,7 +10,7 @@
 
     <groupId>org.might</groupId>
     <artifactId>instance_controller</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.0.1</version>
 
     <modules>
         <module>dba</module>
@@ -24,7 +24,6 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <checkstyle.plugin.version>2.17</checkstyle.plugin.version>
-        <!-- Use the latest version whenever possible. -->
         <jackson.version>2.9.8</jackson.version>
     </properties>
 
@@ -71,55 +70,6 @@
         </dependency>
 
     </dependencies>
-
-
-    <!--
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>org.might.instancecontroller.InstanceControllerApplication</mainClass>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-    -->
-
-    <!--
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-data-rest</artifactId>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-devtools</artifactId>
-                <scope>runtime</scope>
-                <optional>true</optional>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.restdocs</groupId>
-                <artifactId>spring-restdocs-mockmvc</artifactId>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>3.9</version>
-            </dependency>
-        </dependencies>
-    -->
 
     <build>
         <plugins>

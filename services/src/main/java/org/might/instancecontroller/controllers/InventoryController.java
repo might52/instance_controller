@@ -1,8 +1,5 @@
 package org.might.instancecontroller.controllers;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.might.instancecontroller.annotations.RequireConnection;
 import org.might.instancecontroller.models.servers.OpenstackServer;
 import org.might.instancecontroller.services.ComputeService;
@@ -12,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -24,22 +20,23 @@ public class InventoryController {
 
     private final ComputeService computeService;
     private final String serversResponse;
-    private final ObjectMapper jsonSerializer;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InventoryController.class);
 
     @Autowired
-    public InventoryController(ComputeService computeService) throws IOException {
+    public InventoryController(ComputeService computeService) {
         this.computeService = computeService;
-        this.serversResponse = Files.readString(
-                Paths.get(
-                        "D:\\repos\\instance_controller\\services\\src" +
-                                "\\main\\resources\\Jsons\\servers_response.json"),
-                StandardCharsets.UTF_8
-        );
-        this.jsonSerializer = new ObjectMapper();
-        this.jsonSerializer.enable(SerializationFeature.WRAP_ROOT_VALUE);
-        this.jsonSerializer.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+        String stubServerResponse = "";
+        try {
+            stubServerResponse = Files.readString(
+                    Paths.get(
+                            Paths.get("").toAbsolutePath() +
+                                    "/services/src/main/resources/Jsons/servers_response.json"
+                    ), StandardCharsets.UTF_8
+            );
+        } catch (Exception ignoredException) {
+        }
+        this.serversResponse = stubServerResponse;
     }
 
     @RequireConnection

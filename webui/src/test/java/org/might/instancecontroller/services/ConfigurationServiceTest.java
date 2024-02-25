@@ -69,7 +69,7 @@ public class ConfigurationServiceTest {
         }
     }
 
-    private Configuration prepateTestConfiguration() {
+    private Configuration prepareTestConfiguration() {
         Configuration configuration = new Configuration();
         configuration.setScript(TEST_SCRIPTS);
         return configuration;
@@ -77,7 +77,7 @@ public class ConfigurationServiceTest {
 
     @Test
     public void canAddNewConfiguration() {
-        Configuration configuration = prepateTestConfiguration();
+        Configuration configuration = prepareTestConfiguration();
         configurationService.saveConfiguration(configuration);
         LOGGER.debug(
                 CRE_CONF_TEMPLATE,
@@ -85,12 +85,12 @@ public class ConfigurationServiceTest {
                 configuration.getScript()
         );
 
-        Assert.assertEquals(prepateTestConfiguration(), configuration);
+        Assert.assertEquals(prepareTestConfiguration(), configuration);
     }
 
     @Test
     public void canRemoveTestConfiguration() {
-        Configuration configuration = prepateTestConfiguration();
+        Configuration configuration = prepareTestConfiguration();
         configurationService.saveConfiguration(configuration);
         LOGGER.debug(
                 CRE_CONF_TEMPLATE,
@@ -105,7 +105,7 @@ public class ConfigurationServiceTest {
 
     @Test
     public void canUpdateConfiguration() {
-        Configuration configuration = prepateTestConfiguration();
+        Configuration configuration = prepareTestConfiguration();
         configurationService.saveConfiguration(configuration);
         LOGGER.debug(
                 CRE_CONF_TEMPLATE,
@@ -126,7 +126,7 @@ public class ConfigurationServiceTest {
 
     @Test
     public void canGetWholeConfiguration() {
-        Configuration configuration = prepateTestConfiguration();
+        Configuration configuration = prepareTestConfiguration();
         configurationService.saveConfiguration(configuration);
         LOGGER.debug(
                 CRE_CONF_TEMPLATE,
@@ -139,7 +139,7 @@ public class ConfigurationServiceTest {
 
     @Test
     public void canGetTestConfiguration() {
-        Configuration configuration = prepateTestConfiguration();
+        Configuration configuration = prepareTestConfiguration();
         configurationService.saveConfiguration(configuration);
         Configuration receivedImage = new Configuration();
         if (configurationService.getConfigurationById(configuration.getId()).isPresent()) {

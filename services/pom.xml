@@ -5,7 +5,7 @@
     <parent>
         <artifactId>instance_controller</artifactId>
         <groupId>org.might</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.0.1</version>
     </parent>
 
     <packaging>jar</packaging>
@@ -16,7 +16,7 @@
         <dependency>
             <groupId>org.might</groupId>
             <artifactId>dba</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- rest client -->
@@ -32,7 +32,6 @@
             <version>2.29</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
         <!-- Shell ssh tunnel -->
         <dependency>
             <groupId>com.jcraft</groupId>
@@ -40,18 +39,5 @@
             <version>0.1.55</version>
         </dependency>
 
-        <!--
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>${jackson.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        -->
     </dependencies>
 </project>

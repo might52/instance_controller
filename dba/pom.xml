@@ -5,7 +5,7 @@
     <parent>
         <artifactId>instance_controller</artifactId>
         <groupId>org.might</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.0.1</version>
     </parent>
 
     <packaging>jar</packaging>

@@ -1,7 +1,6 @@
 insert into IMAGE (ID, REFERENCE) values (1, '1884fe82-552b-4053-a3f6-111f969407b9' );
 insert into FLAVOR (ID, REFERENCE) values (1, '0b239a96-de37-4123-8839-62d7e585098f' );
 insert into CONFIGURATION (ID, SCRIPT) values (1, 'systemctl stop zabbix-agent && cat /etc/zabbix/zabbix_agentd.conf | sed -r "s;Hostname=(.)*;Hostname=function_name;g" > /etc/zabbix/zabbix_agentd.conf_b && mv /etc/zabbix/zabbix_agentd.conf_b /etc/zabbix/zabbix_agentd.conf -f && systemctl start zabbix-agent');
--- insert into CONFIGURATION (ID, SCRIPT) values (1, 'systemctl stop zabbix-agent && cat /etc/zabbix/zabbix_agentd.conf | sed -r "s;Hostname=(.)*;Hostname=function_name;g" > /etc/zabbix/zabbix_agentd.conf_b && mv /etc/zabbix/zabbix_agentd.conf_b /etc/zabbix/zabbix_agentd.conf -f && systemctl start zabbix-agent && sudo yum install httpd -y && sudo systemctl enable httpd && sudo systemctl start httpd');
 INSERT INTO FUNCTION (ID,
                       NAME,
                       DESCRIPTION,
@@ -22,22 +21,3 @@ INSERT INTO FUNCTION (ID,
                                 FALSE,
                                 TRUE
                                );
-
--- insert into SERVER (ID, NAME, SERVER_ID, FUNCTION_ID) values (
---                                                               1,
---                                                               'webserv:webserv1',
---                                                               'webserv:webserv1fromOpenstack',
---                                                               1
---                                                              );
--- insert into SERVER (ID, NAME, SERVER_ID, FUNCTION_ID) values (
---                                                                  2,
---                                                                  'webserv:webserv2',
---                                                                  'webserv:webserv2fromOpenstack',
---                                                                  1
---                                                              );
-
--- SELECT * from IMAGE;
--- SELECT * from FLAVOR;
--- SELECT * from CONFIGURATION;
--- SELECT * from FUNCTION;
--- select * from SERVER;

@@ -40,7 +40,7 @@ public class FlavorServiceTest {
             FlavorServiceTest.class
     );
 
-    private Flavor prepateTestFlavor() {
+    private Flavor prepareTestFlavor() {
         Flavor flavor = new Flavor();
         flavor.setReference(TEST_REF);
         return flavor;
@@ -77,7 +77,7 @@ public class FlavorServiceTest {
 
     @Test
     public void canAddNewFlavor() {
-        Flavor flavor = prepateTestFlavor();
+        Flavor flavor = prepareTestFlavor();
         flavorService.saveFlavor(flavor);
         LOGGER.debug(
                 CRE_FLAVOR_TEMPLATE,
@@ -85,12 +85,12 @@ public class FlavorServiceTest {
                 flavor.getReference()
         );
 
-        Assert.assertEquals(prepateTestFlavor(), flavor);
+        Assert.assertEquals(prepareTestFlavor(), flavor);
     }
 
     @Test
     public void canRemoveTestFlavor() {
-        Flavor flavor = prepateTestFlavor();
+        Flavor flavor = prepareTestFlavor();
         flavorService.saveFlavor(flavor);
         LOGGER.debug(
                 CRE_FLAVOR_TEMPLATE,
@@ -105,7 +105,7 @@ public class FlavorServiceTest {
 
     @Test
     public void canUpdateFlavor() {
-        Flavor flavor = prepateTestFlavor();
+        Flavor flavor = prepareTestFlavor();
         flavorService.saveFlavor(flavor);
         LOGGER.debug(
                 CRE_FLAVOR_TEMPLATE,
@@ -126,7 +126,7 @@ public class FlavorServiceTest {
 
     @Test
     public void canGetWholeFlavors() {
-        Flavor image = prepateTestFlavor();
+        Flavor image = prepareTestFlavor();
         flavorService.saveFlavor(image);
         LOGGER.debug(
                 CRE_FLAVOR_TEMPLATE,
@@ -139,7 +139,7 @@ public class FlavorServiceTest {
 
     @Test
     public void canGetTestFlavor() {
-        Flavor image = prepateTestFlavor();
+        Flavor image = prepareTestFlavor();
         flavorService.saveFlavor(image);
         Flavor receivedImage = new Flavor();
         if (flavorService.getFlavorById(image.getId()).isPresent()) {

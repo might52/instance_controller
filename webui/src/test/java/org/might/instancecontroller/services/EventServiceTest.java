@@ -6,8 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.might.instancecontroller.dba.entity.Event;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -22,10 +20,6 @@ public class EventServiceTest {
     @Autowired
     private EventService eventService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(
-            EventServiceTest.class
-    );
-
     @After
     @Before
     public void cleanUpTable() {
@@ -34,7 +28,6 @@ public class EventServiceTest {
             eventService.deleteEvent(event);
         }
     }
-
 
     private static final String NAME = "Unavailable by ICMP ping";
     private static final String HOST_IP = "192.168.20.107";
@@ -92,7 +85,7 @@ public class EventServiceTest {
         Event event = getTemplateEvent(false);
         eventService.saveEvent(event);
         eventService.saveEvent(getTemplateEvent(true));
-        eventService.deleteEvent(eventService.getEventById(event.getId()).get());
+        eventService.deleteEvent(eventService.getEventById(event.getId()).orElse(null));
         Assert.assertEquals(getTemplateEvent(true), eventService.getAll().get(0));
     }
 
