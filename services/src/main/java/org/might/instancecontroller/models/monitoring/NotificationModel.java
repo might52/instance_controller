@@ -1,3 +1,26 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2024 Andrei F._
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package org.might.instancecontroller.models.monitoring;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -30,21 +53,6 @@ public class NotificationModel {
     private String hostDesc;
     @JsonProperty("severity")
     private String severity;
-
-    /**
-     *   "status": "PROBLEM",
-     *   "name": "Unavailable by ICMP ping",
-     *   "time": "20:50:30",
-     *   "subject": "problem|Unavailable by ICMP ping|192.168.20.107|PROBLEM|High",
-     *   "host_ip": "192.168.20.107",
-     *   "date": "2020.04.28",
-     *   "host_name": "webServerFunction_webserv_1",
-     *   "ack_status": "No",
-     *   "problemId": "569",
-     *   "active": true,
-     *   "host_desc": "c5d8e3dd-5ffa-4ffa-b15c-7b9683ff14e1",
-     *   "severity": "High"
-     */
 
     public String getStatus() {
         return status;

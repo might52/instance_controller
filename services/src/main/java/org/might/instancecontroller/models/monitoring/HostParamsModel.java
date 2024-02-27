@@ -1,3 +1,26 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2024 Andrei F._
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package org.might.instancecontroller.models.monitoring;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,51 +30,13 @@ import java.util.List;
 
 @JsonRootName("params")
 public class HostParamsModel {
-    /**
-     * "host": "webServerFunction_webserv_1"
-     */
     @JsonProperty("host")
     private String host;
-    /**
-     * "description": "webServerFunction_webserv_1webServerFunction_webserv_1webServerFunction_webserv_1webServerFunction_webserv_1",
-     */
     @JsonProperty("description")
     private String description;
-    /**
-     * "interfaces": [
-     *      {
-     *          "type": 1,
-     *          "main": 1,
-     *          "useip": 1,
-     *          "ip": "192.168.20.101",
-     *          "dns": "",
-     *          "port": "10050"
-     *      }
-     * ],
-     */
     private List<HostInterfaceModel> interfaces;
-    /**
-     * "groups": [
-     *   {
-     *      "groupid": "2"
-     *   },
-     *   {
-     *      "groupid": "12"
-     *   }
-     * ],
-     */
     @JsonProperty("groups")
     private List<HostGroupModel> groups;
-    /**
-     * "templates": [
-     *     {
-     *         "templateid": "10001"
-     *     },
-     *     {
-     *         "templateid": "10186"
-     *     }
-     * ]
-     */
     @JsonProperty("templates")
     private List<HostTemplateModel> templates;
 

@@ -1,17 +1,43 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2024 Andrei F._
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package org.might.instancecontroller.services.transport.impl;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.*;
-import org.might.instancecontroller.services.transport.ObjectMapper;
-import org.might.instancecontroller.services.transport.RESTService;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import org.might.instancecontroller.services.transport.ObjectMapper;
+import org.might.instancecontroller.services.transport.RESTService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +75,6 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     //region Init
 
-    @Autowired
     public RESTServiceImpl() {
         initSerializer();
         initClient();
@@ -82,8 +107,10 @@ public class RESTServiceImpl implements RESTService, Serializable {
     //region Requests
 
     //region GET
+
     /**
      * Perform get request to the destination endpoint.
+     *
      * @param endpointUrl target url endpoint.
      * @param headers     headers for request.
      * @param <T>         hz wtf eto.
@@ -101,10 +128,11 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     /**
      * Return the RestResponse on get method.
+     *
      * @param endpointUrl target url endpoint.
-     * @param headers headers for request.
-     * @param type type of required object.
-     * @param <T> should be empty.
+     * @param headers     headers for request.
+     * @param type        type of required object.
+     * @param <T>         should be empty.
      * @return <RestResponse>
      */
     public <T> RestResponse getRaw(String endpointUrl,
@@ -118,8 +146,9 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     /**
      * Perform get request to the destination endpoint.
+     *
      * @param endpointUrl target url endpoint.
-     * @param headers headers for request.
+     * @param headers     headers for request.
      * @return - rest response object.
      */
     private RestResponse getRequest(String endpointUrl,
@@ -152,11 +181,12 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     /**
      * Perform post request to the destination endpoint.
+     *
      * @param endpointUrl target url endpoint.
-     * @param data request body.
-     * @param headers headers for request.
-     * @param type type of required object.
-     * @param <T> return object type.
+     * @param data        request body.
+     * @param headers     headers for request.
+     * @param type        type of required object.
+     * @param <T>         return object type.
      * @return required object.
      */
     public <T> T post(String endpointUrl,
@@ -175,11 +205,12 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     /**
      * Return the RestResponse on post method.
+     *
      * @param endpointUrl target url endpoint.
-     * @param data request body.
-     * @param headers headers for request.
-     * @param type type of required object.
-     * @param <T> should be empty.
+     * @param data        request body.
+     * @param headers     headers for request.
+     * @param type        type of required object.
+     * @param <T>         should be empty.
      * @return <RestResponse>
      */
     public <T> RestResponse postRaw(String endpointUrl,
@@ -196,10 +227,11 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     /**
      * Perform post request to the destination endpoint.
+     *
      * @param endpointUrl target url endpoint.
-     * @param data request body.
-     * @param headers headers for request.
-     * @param type type of required object.
+     * @param data        request body.
+     * @param headers     headers for request.
+     * @param type        type of required object.
      * @return RestResponse.
      */
     private RestResponse postRequest(String endpointUrl,
@@ -242,11 +274,12 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     /**
      * Perform DELETE request to the destination endpoint.
+     *
      * @param endpointUrl target url endpoint.
-     * @param data request body.
-     * @param headers headers for request.
-     * @param type type of required object.
-     * @param <T> type of returned object.
+     * @param data        request body.
+     * @param headers     headers for request.
+     * @param type        type of required object.
+     * @param <T>         type of returned object.
      * @return return required object.
      */
     public <T> T delete(String endpointUrl,
@@ -265,11 +298,12 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     /**
      * Return the RestResponse on post method.
+     *
      * @param endpointUrl target url endpoint.
-     * @param data request body.
-     * @param headers headers for request.
-     * @param type type of required object.
-     * @param <T> type of returned object.
+     * @param data        request body.
+     * @param headers     headers for request.
+     * @param type        type of required object.
+     * @param <T>         type of returned object.
      * @return RestResponse.
      */
     public <T> RestResponse deleteRaw(String endpointUrl,
@@ -286,16 +320,17 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     /**
      * Perform DELETE request to the destination endpoint.
+     *
      * @param endpointUrl target url endpoint.
-     * @param data request body.
-     * @param headers headers for request.
-     * @param type type of required object.
+     * @param data        request body.
+     * @param headers     headers for request.
+     * @param type        type of required object.
      * @return RestResponse.
      */
     private RestResponse deleteRequest(String endpointUrl,
-                                     Object data,
-                                     MultivaluedMap<String, String> headers,
-                                     TypeReference type) {
+                                       Object data,
+                                       MultivaluedMap<String, String> headers,
+                                       TypeReference type) {
         ClientResponse clientResponse;
         RestResponse restResponse;
         try {
@@ -326,9 +361,10 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     /**
      * Parsed the response and return the object.
+     *
      * @param restResponse result of request.
-     * @param type type required object.
-     * @param <T> reference to type.
+     * @param type         type required object.
+     * @param <T>          reference to type.
      * @return required object.
      */
     private <T> T parseResponse(RestResponse restResponse,
@@ -386,6 +422,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     /**
      * Convert object to string JSON.
+     *
      * @param object POJO for serialization.
      * @return string representation of object.
      */
@@ -405,6 +442,7 @@ public class RESTServiceImpl implements RESTService, Serializable {
 
     /**
      * Add headers to the response.
+     *
      * @param builder - builder of the request.
      * @param headers - map of headers.
      * @return - builder with headers.
